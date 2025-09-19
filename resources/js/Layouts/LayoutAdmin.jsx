@@ -1,13 +1,13 @@
 import { Link, router } from "@inertiajs/react"
 
 const menus = [
-    { href: "/", label: "Beranda" },
-    { href: "/profilsekolah", label: "Profil Sekolah" },
+    { href: "/admin/dashboard", label: "Dashboard" },
+    { href: "/admin/daftar/guru", label: "Daftar Guru" },
     { href: "/ekstrakurikuler", label: "Ekstrakulikuler" },
     { href: "#", label: "Dll" },
 ];
 
-export default function Layout({children}){
+export default function LayoutAdmin({children}){
 
     const ukuranNavbtn =`
         flex font-light items-center border-black/20 border-r

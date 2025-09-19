@@ -11,7 +11,7 @@ class ViewController extends Controller
         return Inertia::render("Beranda");
     }
 
-    public function profilsekolah(){
+    public function profilSekolah(){
         return Inertia::render("ProfilSekolah");
     }
 

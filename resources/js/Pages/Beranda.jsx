@@ -74,7 +74,7 @@ export default function Beranda(){
                     flex justify-center gap-4
                 ">
                     <div className="
-                        flex justify-start items-center w-1/2 
+                        flex justify-start items-center w-1/2
                         p-3 gap-1.5 border border-black rounded
                         sm:p-4 sm:gap-2
                         md:p-5 md:gap-2.5
@@ -103,7 +103,7 @@ export default function Beranda(){
                         </div>
                     </div>
                     <div className="
-                        flex justify-start items-center w-1/2 
+                        flex justify-start items-center w-1/2
                         p-3 gap-1.5 border border-black rounded
                         sm:p-4 sm:gap-2
                         md:p-5 md:gap-2.5
@@ -133,11 +133,12 @@ export default function Beranda(){
                     </div>
                 </div>
             </div>
+            {/* Untuk Galeri */}
             <div className={bungkus}>
                 <div className={judul}>Galeri</div>
                 <div className="
                     grid grid-cols-1 gap-1.5
-                    sm:gap-2 md:grid-cols-2 
+                    sm:gap-2 md:grid-cols-2
                     md:gap-2.5 xl:grid-cols-3
                     xl:gap-3
                     2xl:gap-3.5
