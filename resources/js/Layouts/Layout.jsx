@@ -21,7 +21,7 @@ export default function Layout({children}){
 
     return (
         <>
-            <header className="flex flex-col border-b border-black fixed top-0 bg-white w-full">
+            <header className="flex flex-col border-b border-black fixed top-0 bg-white max-w-[1920px] w-full z-10">
                 <div className="flex border-b border-black/20">
                     <div className="
                         flex items-center font-bold

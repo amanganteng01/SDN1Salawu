@@ -3,7 +3,8 @@ import Layout from "../Layouts/Layout";
 export default function ProfilSekolah(){
     return (
         <>
-            <h1>Profil Sekolah</h1>
+            <div className="flex w-full bg-red-500">p</div>
+            <h1 >Profil Sekolah</h1>
             <h1>Profil Sekolah</h1>
         </>
     )

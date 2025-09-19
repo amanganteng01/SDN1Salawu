@@ -9,7 +9,9 @@
     @vite('resources/js/app.jsx')
     @inertiaHead
 </head>
-<body>
-    @inertia
+<body class="max-w-[1920px] mx-auto flex justify-center items-start pt-5">
+    <div class="max-w-[1920px] w-full">
+        @inertia
+    </div>
 </body>
 </html>
