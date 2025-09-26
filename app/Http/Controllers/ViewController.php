@@ -18,4 +18,8 @@ class ViewController extends Controller
     public function ekstrakurikuler(){
         return Inertia::render("Ekstrakurikuler");
     }
+
+    public function berandaAdmin() {
+        return Inertia::render("Dashboard");
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AuthLogin;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -12,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->appendToGroup('petugas', AuthLogin::class);
         $middleware->web(append: [
             HandleInertiaRequests::class
         ]);

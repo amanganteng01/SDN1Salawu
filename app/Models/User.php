@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Supaya Auth::attempt() pakai 'username' bukan 'email'
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'username';
+    }
 }
