@@ -1,10 +1,11 @@
-import { useForm } from "@inertiajs/react";
+import { useForm, Link } from "@inertiajs/react";
 
 export default function TambahGuru(){
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: '',
         nip: '',
         mapel: '',
+        foto: null,
     })
 
     const submit = (e) => {
@@ -17,38 +18,94 @@ export default function TambahGuru(){
 
     return(
         <>
-            <form onSubmit={submit}>
-                <div className="">
-                    <label htmlFor="">Nama : </label>
+            <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+            <h1 className="text-xl font-bold mb-4">Tambah Guru</h1>
+
+            <form onSubmit={submit} className="space-y-4">
+                {/* Nama */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Nama Guru
+                    </label>
                     <input
                         type="text"
                         value={data.nama}
-                        onChange={ (e) => setData("nama", e.target.value)
-                        } />
-                        {errors.nama && <div>Error : {errors.nama}</div>}
+                        onChange={(e) => setData("nama", e.target.value)}
+                        className="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-blue-200"
+                        placeholder="Masukkan nama guru"
+                    />
+                    {errors.nama && (
+                        <div className="text-red-500 text-xs mt-1">{errors.nama}</div>
+                    )}
                 </div>
-                <div className="">
-                    <label htmlFor="">nip : </label>
+
+                {/* NIP */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        NIP
+                    </label>
                     <input
                         type="text"
                         value={data.nip}
-                        onChange={ (e) => setData("nip", e.target.value) }
+                        onChange={(e) => setData("nip", e.target.value)}
+                        className="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-blue-200"
+                        placeholder="Masukkan NIP"
                     />
-                    {errors.nip && <div>Error : {errors.nip}</div>}
+                    {errors.nip && (
+                        <div className="text-red-500 text-xs mt-1">{errors.nip}</div>
+                    )}
                 </div>
-                <div className="">
-                    <label htmlFor="">Mapel : </label>
+
+                {/* Mapel */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Mata Pelajaran
+                    </label>
                     <input
                         type="text"
                         value={data.mapel}
-                        onChange={ (e) => setData("mapel", e.target.value)}
+                        onChange={(e) => setData("mapel", e.target.value)}
+                        className="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-blue-200"
+                        placeholder="Contoh: Matematika"
                     />
-                    {errors.mapel && <div>Error : {errors.mapel}</div>}
+                    {errors.mapel && (
+                        <div className="text-red-500 text-xs mt-1">{errors.mapel}</div>
+                    )}
                 </div>
-                <button type="Submit" disabled={processing}>
-                    Simpan
-                </button>
+
+                {/* Foto */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Foto
+                    </label>
+                    <input
+                        type="file"
+                        onChange={(e) => setData("foto", e.target.files[0])}
+                        className="w-full border rounded px-3 py-2 text-sm"
+                    />
+                    {errors.foto && (
+                        <div className="text-red-500 text-xs mt-1">{errors.foto}</div>
+                    )}
+                </div>
+
+                {/* Tombol */}
+                <div className="flex items-center justify-between">
+                    <Link
+                        href="/admin/daftar/guru"
+                        className="text-sm text-gray-600 hover:text-gray-800"
+                    >
+                        ← Kembali
+                    </Link>
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                    >
+                        {processing ? "Menyimpan..." : "Simpan"}
+                    </button>
+                </div>
             </form>
+        </div>
         </>
     )
 }

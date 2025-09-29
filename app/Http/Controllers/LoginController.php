@@ -21,7 +21,7 @@ class LoginController extends Controller
             'password' => $request->password
         ])){
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'))->with('success', 'Login successful');
+            return redirect('/admin/beranda')->with('success', 'Login successful');
         } else {
             return back()->withErrors([ 'login' => 'Can not Login, please check your username and password again' ]);
         }

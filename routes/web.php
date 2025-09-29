@@ -16,9 +16,14 @@ Route::post('/login/auth', [LoginController::class, 'authLogin']);
 Route::middleware(['petugas'])->group(function() {
     Route::get('/admin/beranda', [ViewController::class, 'berandaAdmin'])->name('dashboard');
     
+    // Route Guru
     Route::get('/admin/daftar/guru', [GuruController::class, 'daftarGuru']);
+    Route::get('/admin/show/guru/{id}', [GuruController::class, 'showGuru']);
     Route::get('/admin/tambah/guru', [GuruController::class, 'tambahGuru']);
     Route::post('/admin/simpan/guru', [GuruController::class, 'simpanGuru']);
+    Route::get('/admin/edit/guru/{id}', [GuruController::class, 'editGuru']);
+    Route::post('/admin/update/guru/{id}', [GuruController::class, 'updateGuru']);
+    Route::delete('/admin/hapus/guru/{id}', [GuruController::class, 'hapusGuru']);
 
     Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');
 });

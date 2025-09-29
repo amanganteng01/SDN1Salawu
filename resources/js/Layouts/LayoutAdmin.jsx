@@ -1,13 +1,16 @@
-import { Link, router } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 
 const menus = [
-    { href: "/admin/dashboard", label: "Dashboard" },
+    { href: "/admin/beranda", label: "Dashboard" },
     { href: "/admin/daftar/guru", label: "Daftar Guru" },
     { href: "/ekstrakurikuler", label: "Ekstrakulikuler" },
     { href: "#", label: "Dll" },
 ];
 
 export default function LayoutAdmin({children}){
+    const { props } = usePage();
+    const user = props.auth?.user;
+
 
     const ukuranNavbtn =`
         flex font-light items-center border-black/20 border-r
@@ -36,11 +39,28 @@ export default function LayoutAdmin({children}){
                     </div>
                 </div>
                 <div className="flex">
-                    { menus.map((menu, i) => (
-                        <Link className={ukuranNavbtn} href={menu.href}>
-                            {menu.label}
+                    {user ? (
+                        <>
+                            { menus.map((menu, i) => (
+                                <Link className={ukuranNavbtn} href={menu.href}>
+                                    {menu.label}
+                                </Link>
+                            ))}
+                            <Link
+                                href="/logout"
+                                method="post"
+                                as="button"
+                                className={ukuranNavbtn}
+                            >
+                                Logout
+                            </Link>
+                        </>
+                    ) : (
+                        <Link className={ukuranNavbtn} href="/login"> 
+                            Login
                         </Link>
-                    ))}
+                    )
+                }
                 </div>
             </header>
 
