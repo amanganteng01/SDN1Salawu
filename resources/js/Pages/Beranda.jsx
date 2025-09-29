@@ -2,14 +2,22 @@ import Layout from "../Layouts/Layout";
 import { User, GraduationCap } from "lucide-react";
 
 export default function BerandaFull() {
+    const gradient = `
+        bg-gradient-to-r
+        from-[#E52020]/90
+        to-[#FBA518]/90
+        text-white
+    `
+
     return (
         <>
             {/* Hero */}
-            <section className="bg-[url('/assets/image/sd.png')] bg-cover bg-center h-[500px] flex items-center justify-center relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700/70 to-green-700/70"></div>
+            <section className="bg-cover bg-center h-[500px] flex items-center justify-center relative">
+                <img src={`assets/image/sd.png`} alt="" className="absolute inset-0 w-full h-full object-cover"/>
+                <div className={`${gradient} absolute inset-0 z-0`}></div>
                 <div className="relative z-10 text-center">
                     <h2 className="text-white text-4xl md:text-6xl font-extrabold drop-shadow-lg">
-                        Selamat Datang di SD Negeri Contoh
+                        Selamat Datang di SDN 1 SALAWU
                     </h2>
                     <p className="text-white/90 mt-3 md:text-lg">
                         Mencetak Generasi Unggul, Berprestasi, dan Berkarakter
@@ -22,7 +30,7 @@ export default function BerandaFull() {
                 <div className="max-w-5xl mx-auto text-center px-6">
                     <h3 className="text-3xl font-extrabold mb-6 text-blue-700">Tentang Kami</h3>
                     <p className="text-gray-700 leading-relaxed text-lg">
-                        SD Negeri Contoh adalah sekolah dasar yang berkomitmen untuk memberikan
+                        SDN 1 Salawu adalah sekolah dasar yang berkomitmen untuk memberikan
                         pendidikan terbaik dengan lingkungan yang aman, kreatif, dan inspiratif.
                         Kami mendidik siswa agar memiliki karakter yang kuat, cerdas, dan siap
                         menghadapi tantangan masa depan.
@@ -31,7 +39,7 @@ export default function BerandaFull() {
             </section>
 
             {/* Statistik */}
-            <section className="py-16 bg-gradient-to-r from-indigo-500 via-blue-500 to-green-500 text-white">
+            <section className={`py-16 ${gradient} text-white`}>
                 <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10 text-center px-6">
                     <div className="p-8 bg-white/20 rounded-xl shadow-lg backdrop-blur-md">
                         <GraduationCap className="mx-auto w-12 h-12 mb-3" />

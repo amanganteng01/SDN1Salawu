@@ -23,9 +23,9 @@ export default function Layout({children}){
     return (
         <>
             {/* Header */}
-            <header className={`${gradient} shadow-md fixed w-full max-w-[1920px] top-0`}>
+            <header className={`${gradient} shadow-md fixed w-full max-w-[1920px] top-0 z-50`}>
                 <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <h1 className="text-xl md:text-2xl font-extrabold">SD Negeri Contoh</h1>
+                    <h1 className="text-xl md:text-2xl font-extrabold">SDN 1 Salawu</h1>
                     <nav className="space-x-6 hidden md:flex">
                         <a href="" className={ukuranNavbtn}>Beranda</a>
                         <a href="" className={ukuranNavbtn}>Profil</a>
@@ -51,9 +51,9 @@ export default function Layout({children}){
                 <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Info */}
                     <div>
-                        <h4 className="text-xl font-bold mb-3">SD Negeri Contoh</h4>
+                        <h4 className="text-xl font-bold mb-3">SDN 1 Salawu</h4>
                         <p className="text-sm text-gray-100">
-                            Jalan Pendidikan No. 123, Salawu, Indonesia
+                            Jalan Raya Salawu No. 123, Salawu, Indonesia
                         </p>
                     </div>
 
@@ -82,7 +82,7 @@ export default function Layout({children}){
 
                 {/* Sub Footer */}
                 <div className="bg-black/30 text-center text-sm py-4">
-                    © {new Date().getFullYear()} SD Negeri Contoh. Semua Hak Dilindungi.
+                    © {new Date().getFullYear()} SDN 1 Salawu. Semua Hak Dilindungi.
                 </div>
             </footer>
         </>
