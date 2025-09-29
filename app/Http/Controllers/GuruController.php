@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class GuruController extends Controller
 {
     public function daftarGuru(){
         $guru = Guru::all();
-        return Inertia::render('DaftarGuru', [ 'guru' => $guru ]);
-    }
-
-    public function tambahGuru(){
-        return Inertia::render('TambahGuru');
+        return Inertia::render('Guru/DaftarGuru', [ 'guru' => $guru ]);
     }
 
     public function simpanGuru(Request $request){
@@ -35,8 +32,26 @@ class GuruController extends Controller
         return redirect('/admin/daftar/guru');
     }
 
+    public function updateGuru(Request $request, String $id){
+        $validasi = $request->validate([
+            'nama' => 'nullable|string|max:40',
+            'nip' => 'nullable|string|max:20',
+            'mapel' => 'nullable|string|max:30',
+            'foto' => 'nullable|image|mimes:png,jpg,jpeg|max:5120'
+        ]);
+
+        $guru = Guru::findOrFail($id);
+
+        //upload foto baru jika ada
+        if ($validasi) {
+            # code...
+        }
+    }
+
     public function hapusGuru(String $id){
         Guru::find($id)->delete();
         return redirect('/admin/daftar/guru');
     }
+
+
 }

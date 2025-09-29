@@ -1,156 +1,74 @@
 import Layout from "../Layouts/Layout";
 import { User, GraduationCap } from "lucide-react";
 
-export default function Beranda(){
-
-    const bungkus = `
-        flex flex-col bg-white rounded
-        p-3 gap-1
-        sm:p-4 sm:gap-2
-        md:p-5 md:gap-3
-        lg:p-6 lg:gap-4
-        xl:p-7 xl:gap-5
-        2xl:p-8 2xl:gap-6
-    `
-
-    const judul = `
-        font-bold
-        text-sm
-        sm:text-base
-        md:text-lg
-        lg:text-xl
-        xl:text-2xl
-        2xl:text-3xl
-    `
-
-    const galeri = `
-        w-full bg-red-200 h-[200px] rounded
-    `
-
+export default function BerandaFull() {
     return (
         <>
-            {/* Hero Section */}
-            <div className={bungkus}>
-                <img src="assets/image/sd.png" alt="" className="
-                    w-full object-fill rounded
-                    h-[200px]
-                    sm:h-[300px]
-                    md:h-[350px]
-                    lg:h-[400px]
-                    xl:h-[500px]
-                    2xl:h-[600px]
-                " />
-            </div>
-            {/* Tentang Sekolah */}
-            <div className={bungkus}>
-                <div className={judul}>Tentang Sekolah Ini</div>
-                <div className="flex">
-                    <img src="assets\image\tutwurihandayani.png" alt="" className="
-                        object-fill rounded
-                        w-[100px] h-auto
-                        sm:w-[150px]
-                        md:w-[200px]
-                        lg:w-[250px]
-                        xl:w-[300px]
-                        2xl:w-[350px]
-                    "/>
-                    <div className="
-                        flex items-center font-normal
-                        text-xs text-justify pl-1 h-auto
-                        sm:text-sm sm:pl-2
-                        md:text-base md:pl-3
-                        lg:text-lg lg:pl-4
-                        xl:text-xl xl:pl-5
-                        2xl:text-2xl 2xl:pl-6
-                    ">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi ab quae molestiae illo quos necessitatibus ratione consequuntur nesciunt, perspiciatis iure officiis numquam dolore velit eius laborum natus sequi molestias error iusto quia labore minima veritatis! Optio aliquid ex animi dolorum necessitatibus asperiores repudiandae omnis obcaecati architecto facere nostrum, ullam accusantium?
+            {/* Hero */}
+            <section className="bg-[url('/assets/image/sd.png')] bg-cover bg-center h-[500px] flex items-center justify-center relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-700/70 to-green-700/70"></div>
+                <div className="relative z-10 text-center">
+                    <h2 className="text-white text-4xl md:text-6xl font-extrabold drop-shadow-lg">
+                        Selamat Datang di SD Negeri Contoh
+                    </h2>
+                    <p className="text-white/90 mt-3 md:text-lg">
+                        Mencetak Generasi Unggul, Berprestasi, dan Berkarakter
+                    </p>
+                </div>
+            </section>
+
+            {/* Tentang */}
+            <section className="py-16 bg-gray-50">
+                <div className="max-w-5xl mx-auto text-center px-6">
+                    <h3 className="text-3xl font-extrabold mb-6 text-blue-700">Tentang Kami</h3>
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        SD Negeri Contoh adalah sekolah dasar yang berkomitmen untuk memberikan
+                        pendidikan terbaik dengan lingkungan yang aman, kreatif, dan inspiratif.
+                        Kami mendidik siswa agar memiliki karakter yang kuat, cerdas, dan siap
+                        menghadapi tantangan masa depan.
+                    </p>
+                </div>
+            </section>
+
+            {/* Statistik */}
+            <section className="py-16 bg-gradient-to-r from-indigo-500 via-blue-500 to-green-500 text-white">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10 text-center px-6">
+                    <div className="p-8 bg-white/20 rounded-xl shadow-lg backdrop-blur-md">
+                        <GraduationCap className="mx-auto w-12 h-12 mb-3" />
+                        <div className="text-5xl font-bold">10</div>
+                        <div className="text-lg">Guru</div>
+                    </div>
+                    <div className="p-8 bg-white/20 rounded-xl shadow-lg backdrop-blur-md">
+                        <User className="mx-auto w-12 h-12 mb-3" />
+                        <div className="text-5xl font-bold">250</div>
+                        <div className="text-lg">Siswa</div>
                     </div>
                 </div>
-            </div>
-            {/* Jumlah Guru dan Siswa */}
-            <div className={bungkus}>
-                <div className={judul}>Jumlah Guru Dan Siswa</div>
-                <div className="
-                    flex justify-center gap-4
-                ">
-                    <div className="
-                        flex justify-start items-center w-1/2
-                        p-3 gap-1.5 border border-black rounded
-                        sm:p-4 sm:gap-2
-                        md:p-5 md:gap-2.5
-                        lg:p-6 lg:gap-3
-                        xl:p-7 xl:gap-3.5
-                        2xl:p-8 2xl:gap-4
-                    ">
-                        <GraduationCap className="
-                            w-10 h-10
-                            sm:w-12 sm:h-12
-                            md:w-14 md:h-14
-                            lg:w-16 lg:h-16
-                            xl:w-18 xl:h-18
-                            2xl:w-20 2xl:h-20
-                        "/>
-                        <div className="
-                            font-bold
-                            text-sm
-                            sm:text-base
-                            md:text-lg
-                            lg:text-xl
-                            xl:text-2xl
-                            2xl:text-3xl
-                        ">
-                            Jumlah Guru : 10
-                        </div>
-                    </div>
-                    <div className="
-                        flex justify-start items-center w-1/2
-                        p-3 gap-1.5 border border-black rounded
-                        sm:p-4 sm:gap-2
-                        md:p-5 md:gap-2.5
-                        lg:p-6 lg:gap-3
-                        xl:p-7 xl:gap-3.5
-                        2xl:p-8 2xl:gap-4
-                    ">
-                        <User className="
-                            w-10 h-10
-                            sm:w-12 sm:h-12
-                            md:w-14 md:h-14
-                            lg:w-16 lg:h-16
-                            xl:w-18 xl:h-18
-                            2xl:w-20 2xl:h-20
-                        "/>
-                        <div className="
-                            font-bold
-                            text-sm
-                            sm:text-base
-                            md:text-lg
-                            lg:text-xl
-                            xl:text-2xl
-                            2xl:text-3xl
-                        ">
-                            Jumlah Siswa : 10
-                        </div>
+            </section>
+
+            {/* Galeri */}
+            <section className="py-16 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
+                    <h3 className="text-3xl font-extrabold mb-8 text-center text-green-600">Galeri</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {["1", "2", "3", "4", "5", "6"].map((g) => (
+                            <div
+                                key={g}
+                                className="relative overflow-hidden rounded-lg shadow-lg group"
+                            >
+                                <img
+                                    src={`/assets/image/galeri${g}.jpg`}
+                                    alt={`Galeri ${g}`}
+                                    className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white font-bold text-lg transition">
+                                    Gambar {g}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div>
-            {/* Untuk Galeri */}
-            <div className={bungkus}>
-                <div className={judul}>Galeri</div>
-                <div className="
-                    grid grid-cols-1 gap-1.5
-                    sm:gap-2 md:grid-cols-2
-                    md:gap-2.5 xl:grid-cols-3
-                    xl:gap-3
-                    2xl:gap-3.5
-                ">
-                    <div class={galeri}>Gambar1</div>
-                    <div class={galeri}>Gambar2</div>
-                    <div class={galeri}>Gambar3</div>
-                    <div class={galeri}>Gambar4</div>
-                    <div class={galeri}>Gambar5</div>
-                    <div class={galeri}>Gambar6</div>
-                </div>
-            </div>
+            </section>
         </>
-    )
+    );
 }

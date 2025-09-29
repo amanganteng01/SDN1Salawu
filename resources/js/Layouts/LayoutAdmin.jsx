@@ -56,7 +56,7 @@ export default function LayoutAdmin({children}){
                             </Link>
                         </>
                     ) : (
-                        <Link className={ukuranNavbtn} href="/login"> 
+                        <Link className={ukuranNavbtn} href="/login">
                             Login
                         </Link>
                     )

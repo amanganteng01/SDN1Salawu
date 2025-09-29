@@ -1,6 +1,14 @@
 import { Link } from "@inertiajs/react";
+import { use, useState } from "react";
+import Modal from "../Modal";
+import TambahGuru from "./TambahGuru";
+import EditGuru from "./EditGuru";
 
 export default function DaftarGuru({ guru }) {
+    const [openTambah, setOpenTambah] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [selectedGuru, setSelectedGuru] = useState(null);
+
 
     const border = `
         border
@@ -19,17 +27,25 @@ export default function DaftarGuru({ guru }) {
         xl:text-xl
         2xl:text-2xl
     `
+    const ukuranTextBtn = `
+        text-xs
+        sm:text-xs
+        md:text-sm
+        lg:text-sm
+        xl:text-base
+        2xl:text-base
+    `
 
     return (
         <div className="p-4">
             <div className="flex justify-between items-center mb-0.5 sm:mb-1 md:mb-1.5 lg:mb-2 xl:mb-2.5 2xl:mb-3">
-                <h1 className="text-xl font-bold mb-4">Daftar Guru</h1>
-                <Link
-                    href="/admin/tambah/guru"
-                    className={`${border} bg-blue-500 text-white border  rounded-xl hover:bg-blue-600`}
+                <h1 className="font-bold mb-4 text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl">Daftar Guru</h1>
+                <button
+                    onClick={() => setOpenTambah(true)}
+                    className={`${border} bg-blue-500 text-white border hover:bg-blue-600 rounded-lg sm:rounded-lg lg:rounded-lg xl:rounded-lg 2xl:rounded-xl text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl`}
                 >
                     Tambah Guru
-                </Link>
+                </button>
             </div>
 
             <div className="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -51,7 +67,7 @@ export default function DaftarGuru({ guru }) {
                                     key={item.id}
                                     className="hover:bg-gray-50 transition"
                                 >
-                                    <td className="border text-center">
+                                    <td className={`${ukuranText} border text-center`}>
                                         {i + 1}
                                     </td>
                                     {/* <td className="border flex justify-center">
@@ -62,29 +78,32 @@ export default function DaftarGuru({ guru }) {
                                         />
                                     </td>
                                     <td className="border">{item.nip}</td> */}
-                                    <td className={border} >{item.nama}</td>
-                                    <td className={border} >{item.mapel}</td>
-                                    <td className={`${border} text-center space-x-2`}>
+                                    <td className={[border, ukuranText]} >{item.nama}</td>
+                                    <td className={[border, ukuranText]} >{item.mapel}</td>
+                                    <td className={`${border} ${ukuranText} text-center space-x-2`}>
                                         <Link
                                             href={`/admin/show/guru/${item.id}`}
-                                            className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600"
+                                            className={`${border} ${ukuranTextBtn} text-xs bg-blue-500 text-white rounded hover:bg-blue-600`}
                                         >
                                             Detail
                                         </Link>
-                                        <Link
-                                            href={`/admin/edit/guru/${item.id}`}
-                                            className="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600"
+                                        <button
+                                            onClick={() => {
+                                                setSelectedGuru(item);
+                                                setOpenEdit(true);
+                                            }}
+                                            className={`${border} ${ukuranTextBtn} text-xs bg-green-500 text-white rounded hover:bg-green-600`}
                                         >
                                             Edit
-                                        </Link>
-                                        <Link
+                                        </button>
+                                        <button
                                             href={`/admin/hapus/guru/${item.id}`}
                                             method="delete"
                                             as="button"
-                                            className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600"
+                                            className={`${border} ${ukuranTextBtn} text-xs bg-red-500 text-white rounded hover:bg-red-600`}
                                         >
                                             Hapus
-                                        </Link>
+                                        </button>
                                     </td>
                                 </tr>
                             ))
@@ -101,6 +120,21 @@ export default function DaftarGuru({ guru }) {
                     </tbody>
                 </table>
             </div>
+            <Modal
+                isOpen={openTambah}
+                onClose={() => setOpenTambah(false)}
+                title="Tambah Guru"
+            >
+                <TambahGuru onClose={() => setOpenTambah(false)} />
+            </Modal>
+
+            <Modal
+                isOpen={openEdit}
+                onClose={() => setOpenEdit(false)}
+                title="EditGuru"
+            >
+                <EditGuru guru={selectedGuru} onClose={() => setOpenEdit(false)}/>
+            </Modal>
         </div>
     );
 }

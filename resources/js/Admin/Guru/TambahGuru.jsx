@@ -1,6 +1,6 @@
 import { useForm, Link } from "@inertiajs/react";
 
-export default function TambahGuru(){
+export default function TambahGuru({ onClose }){
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: '',
         nip: '',
@@ -11,15 +11,17 @@ export default function TambahGuru(){
     const submit = (e) => {
         e.preventDefault();
         post('/admin/simpan/guru', {
-            onSuccess: () => reset()
+            onSuccess: () => {
+                reset();
+                onClose();
+            }
         }
         );
     }
 
     return(
         <>
-            <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
-            <h1 className="text-xl font-bold mb-4">Tambah Guru</h1>
+            {/* <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg"> */}
 
             <form onSubmit={submit} className="space-y-4">
                 {/* Nama */}
@@ -90,12 +92,13 @@ export default function TambahGuru(){
 
                 {/* Tombol */}
                 <div className="flex items-center justify-between">
-                    <Link
-                        href="/admin/daftar/guru"
+                    <button
+                        type="button"
+                        onClick={onClose}
                         className="text-sm text-gray-600 hover:text-gray-800"
                     >
                         ← Kembali
-                    </Link>
+                    </button>
                     <button
                         type="submit"
                         disabled={processing}
@@ -105,7 +108,7 @@ export default function TambahGuru(){
                     </button>
                 </div>
             </form>
-        </div>
+        {/* </div> */}
         </>
     )
 }
