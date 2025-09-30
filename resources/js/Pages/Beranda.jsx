@@ -1,20 +1,27 @@
 import Layout from "../Layouts/Layout";
 import { User, GraduationCap } from "lucide-react";
 
-export default function BerandaFull() {
+export default function Beranda() {
+    const gradienthiro = `
+        bg-gradient-to-r
+        from-[#E52020]/20
+        to-[#FBA518]/20
+        text-white
+    `
+
     const gradient = `
         bg-gradient-to-r
-        from-[#E52020]/90
-        to-[#FBA518]/90
+        from-[#E52020]/70
+        to-[#FBA518]/70
         text-white
     `
 
     return (
         <>
             {/* Hero */}
-            <section className="bg-cover bg-center h-[500px] flex items-center justify-center relative">
+            <section className="bg-center h-[500px] flex items-center justify-center relative">
                 <img src={`assets/image/sd.png`} alt="" className="absolute inset-0 w-full h-full object-cover"/>
-                <div className={`${gradient} absolute inset-0 z-0`}></div>
+                <div className={`${gradienthiro} absolute inset-0 z-0`}></div>
                 <div className="relative z-10 text-center">
                     <h2 className="text-white text-4xl md:text-6xl font-extrabold drop-shadow-lg">
                         Selamat Datang di SDN 1 SALAWU

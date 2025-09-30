@@ -1,98 +1,96 @@
-import { Link, usePage } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react";
 
 const menus = [
     { href: "/admin/beranda", label: "Dashboard" },
-    { href: "/admin/daftar/guru", label: "Daftar Guru" },
-    { href: "/ekstrakurikuler", label: "Ekstrakulikuler" },
-    { href: "#", label: "Dll" },
+    { href: "/admin/daftar/guru", label: "Guru" },
+    { href: "/admin/daftar/siswa", label: "Siswa" },
+    { href: "/admin/daftar/ekstrakurikuler", label: "Ekstrakurikuler" },
+    { href: "/admin/daftar/berita", label: "Berita" },
+    { href: "/admin/daftar/galeri", label: "Galeri" },
+    { href: "/admin/daftar/profil/sekolah", label: "Profil Sekolah" },
 ];
 
-export default function LayoutAdmin({children}){
+export default function LayoutAdmin({ children }) {
     const { props } = usePage();
     const user = props.auth?.user;
 
+    const gradient = `
+        bg-gradient-to-r
+        from-[#E52020]
+        to-[#FBA518]
+        text-white
+    `;
 
-    const ukuranNavbtn =`
-        flex font-light items-center border-black/20 border-r
-        h-[15px] text-xs px-3
-        sm:h-[17px] sm:text-sm sm:px-4
-        md:h-[22px] md:text-base md:px-5
-        lg:h-[27px] lg:text-lg lg:plx-6
-        xl:h-[32px] xl:text-xl xl:px-7
-        2xl:h-[37px] 2xl:text-2xl 2xl:px-8
-    `
+    const gradientmain = `
+        bg-gradient-to-r
+        from-[#E52020]/30
+        to-[#FBA518]/30
+    `;
 
     return (
         <>
-            <header className="flex flex-col border-b border-black fixed top-0 bg-white max-w-[1920px] w-full z-10">
-                <div className="flex border-b border-black/20">
-                    <div className="
-                        flex items-center font-bold
-                        h-[24px] text-sm pl-3
-                        sm:h-[24px] sm:text-lg sm:pl-4
-                        md:h-[32px] md:text-xl md:pl-5
-                        lg:h-[40px] lg:text-2xl lg:pl-6
-                        xl:h-[48px] xl:text-3xl xl:pl-7
-                        2xl:h-[56px] 2xl:text-4xl 2xl:pl-8
-                        ">
-                        SDN 1 Salawu
-                    </div>
-                </div>
-                <div className="flex">
-                    {user ? (
-                        <>
-                            { menus.map((menu, i) => (
-                                <Link className={ukuranNavbtn} href={menu.href}>
-                                    {menu.label}
+            {/* Header */}
+            <header className={`${gradient} shadow-md fixed w-full top-0 z-50`}>
+                <div className="max-w-7xl mx-auto px-6 py-3">
+                    {/* Top Bar */}
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-xl md:text-2xl font-extrabold">
+                            Admin SDN 1 Salawu
+                        </h1>
+
+                        <div>
+                            {user ? (
+                                <Link
+                                    href="/logout"
+                                    method="post"
+                                    as="button"
+                                    className="hover:underline text-sm md:text-base"
+                                >
+                                    Logout
                                 </Link>
+                            ) : (
+                                <Link
+                                    href="/login"
+                                    className="hover:underline text-sm md:text-base"
+                                >
+                                    Login
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Navbar di bawah judul */}
+                    <nav className="mt-2">
+                        <ul className="flex border-t gap-4 text-sm md:text-base">
+                            {menus.map((menu, i) => (
+                                <li key={i}>
+                                    <Link
+                                        href={menu.href}
+                                        className="hover:underline border-r border-white/40 pr-4"
+                                    >
+                                        {menu.label}
+                                    </Link>
+                                </li>
                             ))}
-                            <Link
-                                href="/logout"
-                                method="post"
-                                as="button"
-                                className={ukuranNavbtn}
-                            >
-                                Logout
-                            </Link>
-                        </>
-                    ) : (
-                        <Link className={ukuranNavbtn} href="/login">
-                            Login
-                        </Link>
-                    )
-                }
+                        </ul>
+                    </nav>
                 </div>
             </header>
 
-            <main className="
-                flex flex-col
-                px-3 py-1 gap-1 mt-5
-                sm:px-4 sm:py-2 sm:gap-2 sm:mt-5.5
-                md:px-5 md:py-3 md:gap-3 md:mt-9
-                lg:px-6 lg:py-4 lg:gap-4 lg:mt-12
-                xl:px-7 xl:py-5 xl:gap-5 xl:mt-15
-                2xl:px-8 2xl:py-6 2xl:gap-6 2xl:mt-18
-            " style={{ backgroundColor: "#FAF6E9" }}>{children}</main>
 
-            <footer className="flex justify-center items-center border-t border-black p-3
-                sm:p-4
-                md:p-5
-                lg:p-6
-                xl:p-7
-                2xl:p-8
-            ">
-                <div className="
-                    font-light text-center
-                    text-xs
-                    sm:text-sm
-                    md:text-base
-                    lg:text-lg
-                    xl:text-xl
-                    2xl:text-2xl
-                ">
-                    &copy; 2025 SDN 1 Salawu. All rights reserved.
+            {/* Main */}
+            <main
+                className={`${gradientmain} max-w-[1920px] mx-auto px-6 py-6 min-h-screen mt-15 md:mt-17`}
+            >
+                {children}
+            </main>
+
+            {/* Footer */}
+            <footer className={`${gradient} text-center py-4`}>
+                <div className="text-xs sm:text-sm md:text-base">
+                    &copy; {new Date().getFullYear()} SDN 1 Salawu. Admin Panel.
                 </div>
             </footer>
         </>
-    )
+    );
 }

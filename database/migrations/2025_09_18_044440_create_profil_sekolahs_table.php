@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('profil_sekolahs', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_sekolah');
+            $table->string('kepala_sekolah');
+            $table->string('foto');
+            $table->string('logo');
+            $table->string('npsn');
+            $table->string('alamat');
+            $table->string('kontak');
+            $table->text('visi_misi');
+            $table->year('tahun_berdiri');
+            $table->text('deskripsi');
             $table->timestamps();
         });
     }
