@@ -20,8 +20,8 @@ Route::middleware(['petugas'])->group(function() {
     Route::get('/admin/daftar/guru', [GuruController::class, 'daftarGuru']);
     Route::get('/admin/show/guru/{id}', [GuruController::class, 'showGuru']);
     Route::post('/admin/simpan/guru', [GuruController::class, 'simpanGuru']);
-    Route::post('/admin/update/guru/{id}', [GuruController::class, 'updateGuru']);
+    Route::put('/admin/update/guru/{id}', [GuruController::class, 'updateGuru']);
     Route::delete('/admin/hapus/guru/{id}', [GuruController::class, 'hapusGuru']);
 
-    Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

@@ -1,14 +1,25 @@
 import { Link } from "@inertiajs/react";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Modal from "../Modal";
 import TambahGuru from "./TambahGuru";
 import EditGuru from "./EditGuru";
+import GunakanWidthWindows from "../GunakanWidthWindows";
 
 export default function DaftarGuru({ guru }) {
+    const width = GunakanWidthWindows();
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [selectedGuru, setSelectedGuru] = useState(null);
+    const [openAksi, setAksi] = useState(null);
+    const [widthmd, setWidthmd] = useState(false);
 
+    useEffect(() => {
+        if (width < 1000){
+            setWidthmd(true);
+        }else{
+            setWidthmd(false);
+        }
+    }, [width]);
 
     const border = `
         border
@@ -19,107 +30,150 @@ export default function DaftarGuru({ guru }) {
         xl:px-3 xl:py-2
         2xl:px-3.5 2xl:py-2.5
     `
-    const ukuranText = `
-        text-xs
-        sm:text-sm
-        md:text-base
-        lg:text-lg
-        xl:text-xl
-        2xl:text-2xl
-    `
+
     const ukuranTextBtn = `
-        text-xs
-        sm:text-xs
-        md:text-sm
-        lg:text-sm
-        xl:text-base
-        2xl:text-base
+        text-sm
+        md:text-base
+    `
+
+    const gradient = `
+        bg-gradient-to-r
+        from-[#E52020]
+        to-[#FBA518]
+        text-white
+    `
+
+    const gradientHover = `
+        hover:from-[#E52020]/70
+        hover:to-[#FBA518]/70
+        transition
     `
 
     return (
         <div className="p-4">
-            <div className="flex justify-between items-center mb-0.5 sm:mb-1 md:mb-1.5 lg:mb-2 xl:mb-2.5 2xl:mb-3">
-                <h1 className="font-bold mb-4 text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl">Daftar Guru</h1>
+            <div className="flex justify-between items-center mb-4">
+                <h1 className="font-bold text-xl md:text-2xl">Daftar Guru</h1>
                 <button
                     onClick={() => setOpenTambah(true)}
-                    className={`${border} bg-blue-500 text-white border hover:bg-blue-600 rounded-lg sm:rounded-lg lg:rounded-lg xl:rounded-lg 2xl:rounded-xl text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl`}
+                    className={`${border} ${gradient} ${gradientHover} rounded-md md:rounded-lg`}
                 >
                     Tambah Guru
                 </button>
             </div>
 
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table className={`w-full text-left border border-gray-200 ${ukuranText}`}>
-                    <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
-                        <tr>
-                            <th className={`${border} text-center`} >No</th>
-                            {/* <th className={`${border} text-center`} >Foto</th>
-                            <th className={`${border} text-center`} >NIP</th> */}
-                            <th className={`${border} text-center`} >Nama Guru</th>
-                            <th className={`${border} text-center`} >Mata Pelajaran</th>
-                            <th className={`${border} text-center`} >Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {guru.length > 0 ? (
-                            guru.map((item, i) => (
-                                <tr
-                                    key={item.id}
-                                    className="hover:bg-gray-50 transition"
+            <div className="overflow-x-auto relative">
+            <table className="min-w-full bg-white rounded-lg shadow-lg text-sm md:text-base">
+                <thead className="bg-gradient-to-r from-[#E52020]/70 to-[#FBA518]/70 text-white">
+                <tr>
+                    <th className="px-4 py-3 text-left">No</th>
+                    <th className="px-4 py-3 text-left">{widthmd ? 'Nama' : 'Nama Guru'}</th>
+                    <th className="px-4 py-3 text-left">{widthmd ? 'Mapel' : 'Mata Pelajaran'}</th>
+                    <th className="px-4 py-3 text-center">Aksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                {guru.length > 0 ? (
+                    guru.map((item, i) => (
+                    <tr
+                        key={item.id}
+                        className="border-b last:border-none hover:bg-gray-50 transition"
+                    >
+                        <td className="px-4 py-3">{i + 1}</td>
+                        <td className="px-4 py-3">{item.nama}</td>
+                        <td className="px-4 py-3">{item.mapel}</td>
+                        <td className="px-4 py-3 text-center space-x-2 relative">
+                            {widthmd ? (
+                                <div className="relative inline-block text-left">
+                                {/* Tombol Trigger */}
+                                <button
+                                    onClick={() => setAksi(openAksi === item.id ? null : item.id)}
+                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
+                                            bg-gradient-to-r from-[#E52020]/20 to-[#FBA518]/20
+                                            hover:from-[#E52020]/30 hover:to-[#FBA518]/30
+                                            text-sm md:text-base font-medium text-gray-800
+                                            shadow-sm transition"
                                 >
-                                    <td className={`${ukuranText} border text-center`}>
-                                        {i + 1}
-                                    </td>
-                                    {/* <td className="border flex justify-center">
-                                        <img
-                                            src={`/storage/guru/${item.foto}`}
-                                            alt={item.nama}
-                                            className="w-12 h-12 rounded-full object-cover"
-                                        />
-                                    </td>
-                                    <td className="border">{item.nip}</td> */}
-                                    <td className={[border, ukuranText]} >{item.nama}</td>
-                                    <td className={[border, ukuranText]} >{item.mapel}</td>
-                                    <td className={`${border} ${ukuranText} text-center space-x-2`}>
+                                    Aksi
+                                    <span className="text-xs">{openAksi === item.id ? "▲" : "▼"}</span>
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                {openAksi === item.id && (
+                                    <div
+                                    className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg
+                                                ring-1 ring-black/5 z-50 bg-white"
+                                    >
+                                    <div className="py-1">
                                         <Link
-                                            href={`/admin/show/guru/${item.id}`}
-                                            className={`${border} ${ukuranTextBtn} text-xs bg-blue-500 text-white rounded hover:bg-blue-600`}
+                                        href={`/admin/show/guru/${item.id}`}
+                                        className="block px-4 py-2 text-sm text-gray-700
+                                                    hover:bg-[#E52020]/10 hover:text-[#E52020]
+                                                    rounded transition"
                                         >
-                                            Detail
+                                        Detail
                                         </Link>
                                         <button
-                                            onClick={() => {
-                                                setSelectedGuru(item);
-                                                setOpenEdit(true);
-                                            }}
-                                            className={`${border} ${ukuranTextBtn} text-xs bg-green-500 text-white rounded hover:bg-green-600`}
+                                        onClick={() => {
+                                            setSelectedGuru(item);
+                                            setOpenEdit(true);
+                                            setAksi(null);
+                                        }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700
+                                                    hover:bg-[#FBA518]/10 hover:text-[#FBA518]
+                                                    rounded transition"
                                         >
-                                            Edit
+                                        Edit
                                         </button>
                                         <button
-                                            href={`/admin/hapus/guru/${item.id}`}
-                                            method="delete"
-                                            as="button"
-                                            className={`${border} ${ukuranTextBtn} text-xs bg-red-500 text-white rounded hover:bg-red-600`}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700
+                                                    hover:bg-red-100 hover:text-red-600
+                                                    rounded transition"
                                         >
-                                            Hapus
+                                        Hapus
                                         </button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td
-                                    colSpan="6"
-                                    className="px-4 py-3 text-center text-gray-500"
-                                >
-                                    Tidak ada data guru
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                                    </div>
+                                    </div>
+                                )}
+                                </div>
+
+                            ):(
+                                <>
+                                    <Link
+                                        href={`/admin/show/guru/${item.id}`}
+                                        className={`${ukuranTextBtn} bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition`}
+                                    >
+                                        Detail
+                                    </Link>
+                                    <button
+                                        onClick={() => {
+                                        setSelectedGuru(item);
+                                        setOpenEdit(true);
+                                        }}
+                                        className={` ${ukuranTextBtn} bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition`}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
+                                    >
+                                        Hapus
+                                    </button>
+                                </>
+                            )}
+                        </td>
+                    </tr>
+                    ))
+                ) : (
+                    <tr>
+                    <td colSpan="4" className="px-4 py-6 text-center text-gray-500">
+                        Tidak ada data guru
+                    </td>
+                    </tr>
+                )}
+                </tbody>
+            </table>
             </div>
+
             <Modal
                 isOpen={openTambah}
                 onClose={() => setOpenTambah(false)}

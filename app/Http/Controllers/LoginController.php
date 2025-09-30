@@ -16,16 +16,16 @@ class LoginController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
-        if (Auth::attempt([
-            'username' => $request->username,
-            'password' => $request->password
-        ])){
+        if (Auth::attempt($validasi)){
             $request->session()->regenerate();
             return redirect('/admin/beranda')->with('success', 'Login successful');
         } else {
-            return back()->withErrors([ 'login' => 'Can not Login, please check your username and password again' ]);
+            return back()->withErrors([ 'login' => 'Tidak bisa login, cek kembali username dan password anda' ]);
         }
     }
 
-
+    public function logout(){
+        Auth::logout();
+        return redirect('/login')->with('success','Logout Berhasil');
+    }
 }

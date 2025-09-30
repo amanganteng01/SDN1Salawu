@@ -1,96 +1,104 @@
 import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
 
 const menus = [
-    { href: "/admin/beranda", label: "Dashboard" },
-    { href: "/admin/daftar/guru", label: "Guru" },
-    { href: "/admin/daftar/siswa", label: "Siswa" },
-    { href: "/admin/daftar/ekstrakurikuler", label: "Ekstrakurikuler" },
-    { href: "/admin/daftar/berita", label: "Berita" },
-    { href: "/admin/daftar/galeri", label: "Galeri" },
-    { href: "/admin/daftar/profil/sekolah", label: "Profil Sekolah" },
+  { href: "/admin/beranda", label: "Dashboard" },
+  { href: "/admin/daftar/guru", label: "Guru" },
+  { href: "/admin/daftar/siswa", label: "Siswa" },
+  { href: "/admin/daftar/ekstrakurikuler", label: "Ekstrakurikuler" },
+  { href: "/admin/daftar/berita", label: "Berita" },
+  { href: "/admin/daftar/galeri", label: "Galeri" },
+  { href: "/admin/daftar/profil/sekolah", label: "Profil Sekolah" },
 ];
 
 export default function LayoutAdmin({ children }) {
-    const { props } = usePage();
-    const user = props.auth?.user;
+  const { props } = usePage();
+  const user = props.auth?.user;
 
-    const gradient = `
-        bg-gradient-to-r
-        from-[#E52020]
-        to-[#FBA518]
-        text-white
-    `;
+  const [sidebarOpen, setsidebarOpen] = useState(false);
 
-    const gradientmain = `
-        bg-gradient-to-r
-        from-[#E52020]/30
-        to-[#FBA518]/30
-    `;
+  const gradient = `bg-gradient-to-r from-[#E52020] to-[#FBA518] text-white`;
+  const gradientMain = `bg-gradient-to-r from-[#E52020]/30 to-[#FBA518]/30`;
 
-    return (
-        <>
-            {/* Header */}
-            <header className={`${gradient} shadow-md fixed w-full top-0 z-50`}>
-                <div className="max-w-7xl mx-auto px-6 py-3">
-                    {/* Top Bar */}
-                    <div className="flex justify-between items-center">
-                        <h1 className="text-xl md:text-2xl font-extrabold">
-                            Admin SDN 1 Salawu
-                        </h1>
-
-                        <div>
-                            {user ? (
-                                <Link
-                                    href="/logout"
-                                    method="post"
-                                    as="button"
-                                    className="hover:underline text-sm md:text-base"
-                                >
-                                    Logout
-                                </Link>
-                            ) : (
-                                <Link
-                                    href="/login"
-                                    className="hover:underline text-sm md:text-base"
-                                >
-                                    Login
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Navbar di bawah judul */}
-                    <nav className="mt-2">
-                        <ul className="flex border-t gap-4 text-sm md:text-base">
-                            {menus.map((menu, i) => (
-                                <li key={i}>
-                                    <Link
-                                        href={menu.href}
-                                        className="hover:underline border-r border-white/40 pr-4"
-                                    >
-                                        {menu.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                </div>
-            </header>
-
-
-            {/* Main */}
-            <main
-                className={`${gradientmain} max-w-[1920px] mx-auto px-6 py-6 min-h-screen mt-15 md:mt-17`}
+  return (
+    <div>
+        {/* Header atas */}
+        <header className={`${gradient} fixed top-0 left-0 w-full z-200 h-16 flex items-center px-6 shadow-md`}>
+        <h1 className="text-xl md:text-2xl font-extrabold flex-1">
+          Admin SDN 1 Salawu
+        </h1>
+        {user ? (
+            <Link
+            href="/logout"
+            method="post"
+            as="button"
+            className="hover:underline text-sm md:text-base"
             >
-                {children}
-            </main>
+                Logout
+            </Link>
+        ) : (
+            <Link
+                href="/login"
+                className="hover:underline text-sm md:text-base"
+            >
+                Login
+            </Link>
+        )}
+        <button
+            className="md:hidden p-2 rounded hover:bg-white/20 ml-3"
+            onClick={() => setsidebarOpen(!sidebarOpen)}
+        >
+            ☰
+        </button>
+        </header>
 
-            {/* Footer */}
-            <footer className={`${gradient} text-center py-4`}>
-                <div className="text-xs sm:text-sm md:text-base">
-                    &copy; {new Date().getFullYear()} SDN 1 Salawu. Admin Panel.
-                </div>
-            </footer>
-        </>
-    );
+        {user ? (
+            <>
+                {/* Sidebar kiri */}
+                <aside className={`z-100 fixed top-11 left-0 w-64 h-full ${gradient} transform transition-transform duration-300 md:translate-x-0
+                    ${sidebarOpen ? "translate-0" : "-translate-x-full"}
+                `}>
+                    {/* Menu */}
+                    <nav className="mt-6 flex-1">
+                    <ul className="flex flex-col gap-2 px-6 text-sm md:text-base">
+                        {menus.map((menu, i) => (
+                        <li key={i}>
+                            <Link
+                            href={menu.href}
+                            className="block py-2 px-3 rounded hover:bg-white/20"
+                            >
+                            {menu.label}
+                            </Link>
+                        </li>
+                        ))}
+                    </ul>
+                    </nav>
+                </aside>
+
+                {/* Main content */}
+                <main
+                    className={`${gradientMain} ml-0 md:ml-64 mt-11 p-6 min-h-screen`}
+                >
+                    {children}
+                </main>
+            </>
+        ):(
+            <>
+                {/* Main content */}
+                <main
+                    className={`${gradientMain} p-6 min-h-screen`}
+                >
+                    {children}
+                </main>
+            </>
+        )}
+
+      {/* Footer */}
+      <footer className={`${gradient} text-center py-4 ml-0 md:ml-64`}>
+        <div className="text-xs sm:text-sm md:text-base">
+          &copy; {new Date().getFullYear()} SDN 1 Salawu. Admin Panel.
+        </div>
+      </footer>
+    </div>
+  );
 }

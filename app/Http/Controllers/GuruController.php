@@ -43,9 +43,20 @@ class GuruController extends Controller
         $guru = Guru::findOrFail($id);
 
         //upload foto baru jika ada
-        if ($validasi) {
-            # code...
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+            if ($guru->foto && Storage::exists('guru/'.$guru->foto)) {
+                Storage::delete('guru/'.$guru->foto);
+            }
+            $foto = $request->file('foto');
+            $filename = time().".".$foto->getClientOriginalExtension();
+            $foto->storeAs('guru', $filename);
+            $validasi['foto'] = $filename;
+        }else{
+            $validasi['foto'] = $guru->foto;
         }
+
+        $guru->update($validasi);
+        return redirect('/admin/daftar/guru')->with('success', 'Data guru berhasil diperbarui.');
     }
 
     public function hapusGuru(String $id){

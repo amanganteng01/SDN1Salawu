@@ -20,6 +20,9 @@ export default function Layout({children}){
         text-white
     `
 
+    const gradientMain = `bg-gradient-to-r from-[#E52020]/30 to-[#FBA518]/30`;
+
+
     return (
         <>
             {/* Header */}
@@ -36,15 +39,7 @@ export default function Layout({children}){
                 </div>
             </header>
 
-            <main className="
-                flex flex-col
-                gap-1 mt-10
-                sm:gap-2 sm:mt-11
-                md:gap-3 md:mt-11
-                lg:gap-4 lg:mt-11
-                xl:gap-5 xl:mt-11
-                2xl:gap-6 2xl:mt-11
-            " style={{ backgroundColor: "#FAF6E9" }}>{children}</main>
+            <main className={`${gradientMain} ml-0 mt-11 min-h-screen`} >{children}</main>
 
             {/* Footer */}
             <footer className={`${gradient} mt-10`}>
