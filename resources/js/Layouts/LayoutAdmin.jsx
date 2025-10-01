@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const menus = [
   { href: "/admin/beranda", label: "Dashboard" },
+  { href: "/admin/daftar/user", label: "User" },
   { href: "/admin/daftar/guru", label: "Guru" },
   { href: "/admin/daftar/siswa", label: "Siswa" },
   { href: "/admin/daftar/ekstrakurikuler", label: "Ekstrakurikuler" },

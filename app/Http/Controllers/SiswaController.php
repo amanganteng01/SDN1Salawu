@@ -9,11 +9,14 @@ use Inertia\Inertia;
 class SiswaController extends Controller
 {
     public function daftarSiswa(){
+        // Menampilkan semua data siswa
         $siswa = Siswa::all();
+        // Menampilkan halaman daftar siswa dengan data yang telah diambil
         return Inertia::render('Siswa/DaftarSiswa', [ 'siswa' => $siswa ]);
     }
 
     public function simpanSiswa(Request $request){
+        // Validasi inputan dari form tambah siswa
         $validasi = $request->validate([
             'nisn' => 'required|string|max:20',
             'nama_siswa' => 'required|string|max:40',
@@ -22,12 +25,15 @@ class SiswaController extends Controller
 
         ]);
 
+        // Menyimpan data siswa ke database
         Siswa::create($validasi);
 
+        // Mengembalikan ke halaman daftar siswa dengan pesan sukses
         return redirect('/admin/daftar/siswa')->with('success', 'Data siswa berhasil ditambahkan.');
     }
 
     public function updateSiswa(Request $request, String $id){
+        // Validasi inputan dari form edit siswa
         $validasi = $request->validate([
             'nisn' => 'nullable|string|max:20',
             'nama_siswa' => 'nullable|string|max:40',
@@ -36,14 +42,20 @@ class SiswaController extends Controller
 
         ]);
 
+        // Mendapatkan data siswa berdasarkan id
         $siswa = Siswa::findOrFail($id);
+        // Memperbarui data siswa
         $siswa->update($validasi);
+        // Mengembalikan ke halaman daftar siswa dengan pesan sukses
         return redirect('/admin/daftar/siswa')->with('success', 'Data siswa berhasil diperbarui.');
     }
 
     public function hapusSiswa(String $id){
+        // Mendapatkan data siswa berdasarkan id
         $siswa = Siswa::findOrFail($id);
+        // Menghapus data siswa dari database
         $siswa->delete();
+        // Mengembalikan ke halaman daftar siswa dengan pesan sukses
         return redirect('/admin/daftar/siswa')->with('success', 'Data siswa berhasil dihapus.');
     }
 }

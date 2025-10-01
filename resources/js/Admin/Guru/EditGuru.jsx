@@ -1,7 +1,9 @@
 import { useForm, Link } from "@inertiajs/react";
 import { useEffect } from "react";
 
+// Komponen untuk mengedit data guru
 export default function EditGuru({ guru, onClose }){
+    // useForm digunakan untuk mengelola state form, error, dan submit
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: '',
         nip: '',
@@ -9,6 +11,7 @@ export default function EditGuru({ guru, onClose }){
         foto: null,
     })
 
+    // useEffect untuk mengisi form ketika data guru tersedia
     useEffect(() => {
         if (guru) {
             setData({
@@ -20,12 +23,13 @@ export default function EditGuru({ guru, onClose }){
         }
     }, [guru]);
 
+    // Fungsi submit untuk mengirim data update guru
     const submit = (e) => {
         e.preventDefault();
         post(`/admin/update/guru/${guru.id}`, {
             onSuccess: () => {
-                reset();
-                onClose();
+                reset();     // reset form setelah berhasil
+                onClose();   // menutup modal setelah update
             }
         }
         );
@@ -33,7 +37,7 @@ export default function EditGuru({ guru, onClose }){
 
     return(
         <form onSubmit={submit} className="space-y-5">
-            {/* Nama */}
+            {/* Input Nama Guru */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Nama Guru
@@ -50,7 +54,7 @@ export default function EditGuru({ guru, onClose }){
                 )}
             </div>
 
-            {/* NIP */}
+            {/* Input NIP */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                 NIP
@@ -67,7 +71,7 @@ export default function EditGuru({ guru, onClose }){
                 )}
             </div>
 
-            {/* Mapel */}
+            {/* Input Mata Pelajaran */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Mata Pelajaran
@@ -84,7 +88,7 @@ export default function EditGuru({ guru, onClose }){
                 )}
             </div>
 
-            {/* Foto */}
+            {/* Input Foto */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Foto
@@ -99,8 +103,9 @@ export default function EditGuru({ guru, onClose }){
                 )}
             </div>
 
-            {/* Tombol */}
+            {/* Tombol Aksi */}
             <div className="flex items-center justify-end gap-3 pt-2">
+                {/* Tombol batal untuk menutup form */}
                 <button
                 type="button"
                 onClick={onClose}
@@ -108,6 +113,7 @@ export default function EditGuru({ guru, onClose }){
                 >
                 Batal
                 </button>
+                {/* Tombol submit untuk menyimpan perubahan */}
                 <button
                 type="submit"
                 disabled={processing}

@@ -1,6 +1,9 @@
+
 import { useForm } from "@inertiajs/react";
 
+// Komponen untuk menambahkan data galeri baru
 export default function TambahGaleri({ onClose }) {
+    // State form menggunakan Inertia useForm
     const { data, setData, post, processing, errors, reset } = useForm({
         judul: "",
         keterangan: "",
@@ -9,19 +12,21 @@ export default function TambahGaleri({ onClose }) {
         tanggal: "",
     });
 
+    // Fungsi submit untuk kirim data galeri ke server
     const submit = (e) => {
         e.preventDefault();
         post("/admin/simpan/galeri", {
             onSuccess: () => {
-                reset();
-                onClose();
+                reset(); // reset form
+                onClose(); // tutup modal
             },
         });
     };
 
     return (
+        // Form input galeri
         <form onSubmit={submit} className="space-y-5">
-            {/* Judul */}
+            {/* Input Judul */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Judul</label>
                 <input
@@ -33,7 +38,7 @@ export default function TambahGaleri({ onClose }) {
                 {errors.judul && <div className="text-red-500 text-xs">{errors.judul}</div>}
             </div>
 
-            {/* Keterangan */}
+            {/* Input Keterangan */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Keterangan</label>
                 <textarea
@@ -44,7 +49,7 @@ export default function TambahGaleri({ onClose }) {
                 {errors.keterangan && <div className="text-red-500 text-xs">{errors.keterangan}</div>}
             </div>
 
-            {/* File */}
+            {/* Input File (Foto/Video) */}
             <div>
                 <label className="block text-sm font-semibold mb-1">File</label>
                 <input
@@ -55,7 +60,7 @@ export default function TambahGaleri({ onClose }) {
                 {errors.file && <div className="text-red-500 text-xs">{errors.file}</div>}
             </div>
 
-            {/* Kategori */}
+            {/* Pilihan Kategori */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Kategori</label>
                 <select
@@ -68,7 +73,7 @@ export default function TambahGaleri({ onClose }) {
                 </select>
             </div>
 
-            {/* Tanggal */}
+            {/* Input Tanggal */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Tanggal</label>
                 <input
@@ -79,21 +84,21 @@ export default function TambahGaleri({ onClose }) {
                 />
             </div>
 
-            {/* Tombol */}
+            {/* Tombol Aksi */}
             <div className="flex justify-end gap-3 pt-2">
                 <button
                     type="button"
-                    onClick={onClose}
+                    onClick={onClose} // tombol batal
                     className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition"
                 >
                     Batal
                 </button>
                 <button
-                    type="submit"
+                    type="submit" // tombol simpan
                     disabled={processing}
-                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white 
-                               bg-gradient-to-r from-[#E52020] to-[#FBA518] 
-                               hover:from-[#E52020]/80 hover:to-[#FBA518]/80 
+                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                               bg-gradient-to-r from-[#E52020] to-[#FBA518]
+                               hover:from-[#E52020]/80 hover:to-[#FBA518]/80
                                shadow-md transition"
                 >
                     {processing ? "Menyimpan..." : "Simpan"}

@@ -7,6 +7,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfilSekolahController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,12 @@ Route::post('/login/auth', [LoginController::class, 'authLogin']);
 
 Route::middleware(['petugas'])->group(function() {
     Route::get('/admin/beranda', [ViewController::class, 'berandaAdmin'])->name('dashboard');
+
+    // Route User
+    Route::get('/admin/daftar/user', [UserController::class, 'daftarUser']);
+    Route::post('/admin/simpan/user', [UserController::class, 'simpanUser']);
+    Route::post('/admin/update/user/{id}', [UserController::class, 'updateUser']);
+    Route::delete('/admin/hapus/user/{id}', [UserController::class, 'hapusUser']);
 
     //Route Guru
     Route::get('/admin/daftar/guru', [GuruController::class, 'daftarGuru']);

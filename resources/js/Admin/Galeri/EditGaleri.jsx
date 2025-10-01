@@ -1,6 +1,7 @@
 import { useForm } from "@inertiajs/react";
 
 export default function EditGaleri({ galeri, onClose }) {
+    // Inisialisasi form dengan data galeri yang ada (untuk edit)
     const { data, setData, post, processing, errors } = useForm({
         judul: galeri.judul || "",
         keterangan: galeri.keterangan || "",
@@ -9,10 +10,12 @@ export default function EditGaleri({ galeri, onClose }) {
         tanggal: galeri.tanggal || "",
     });
 
+    // Fungsi untuk handle submit form
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // cegah reload halaman
         post(`/admin/update/galeri/${galeri.id}`, {
             onSuccess: () => {
+                // jika sukses, tutup modal
                 onClose();
             },
         });
@@ -20,50 +23,50 @@ export default function EditGaleri({ galeri, onClose }) {
 
     return (
         <form onSubmit={submit} className="space-y-5">
-            {/* Judul */}
+            {/* Input Judul */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Judul</label>
                 <input
                     type="text"
                     value={data.judul}
                     onChange={(e) => setData("judul", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
+                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                 />
                 {errors.judul && <div className="text-red-500 text-xs">{errors.judul}</div>}
             </div>
 
-            {/* Keterangan */}
+            {/* Input Keterangan */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Keterangan</label>
                 <textarea
                     value={data.keterangan}
                     onChange={(e) => setData("keterangan", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
+                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                 />
                 {errors.keterangan && <div className="text-red-500 text-xs">{errors.keterangan}</div>}
             </div>
 
-            {/* File */}
+            {/* Input File (opsional, bisa upload foto/video baru) */}
             <div>
                 <label className="block text-sm font-semibold mb-1">File (opsional)</label>
                 <input
                     type="file"
                     onChange={(e) => setData("file", e.target.files[0])}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
+                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                 />
                 {errors.file && <div className="text-red-500 text-xs">{errors.file}</div>}
             </div>
 
-            {/* Kategori */}
+            {/* Pilihan Kategori (foto atau video) */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Kategori</label>
                 <select
                     value={data.kategori}
                     onChange={(e) => setData("kategori", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
+                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                 >
                     <option value="foto">Foto</option>
@@ -71,20 +74,21 @@ export default function EditGaleri({ galeri, onClose }) {
                 </select>
             </div>
 
-            {/* Tanggal */}
+            {/* Input Tanggal */}
             <div>
                 <label className="block text-sm font-semibold mb-1">Tanggal</label>
                 <input
                     type="date"
                     value={data.tanggal}
                     onChange={(e) => setData("tanggal", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
+                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                 />
             </div>
 
-            {/* Tombol */}
+            {/* Tombol Aksi */}
             <div className="flex justify-end gap-3 pt-2">
+                {/* Tombol batal: menutup modal */}
                 <button
                     type="button"
                     onClick={onClose}
@@ -92,15 +96,17 @@ export default function EditGaleri({ galeri, onClose }) {
                 >
                     Batal
                 </button>
+
+                {/* Tombol submit: mengirim form update */}
                 <button
                     type="submit"
                     disabled={processing}
-                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white 
-                               bg-gradient-to-r from-[#E52020] to-[#FBA518] 
-                               hover:from-[#E52020]/80 hover:to-[#FBA518]/80 
+                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                               bg-gradient-to-r from-[#E52020] to-[#FBA518]
+                               hover:from-[#E52020]/80 hover:to-[#FBA518]/80
                                shadow-md transition"
                 >
-                    {processing ? "Menyimpan..." : "Update"}
+                    {processing ? "Memperbarui..." : "Perbarui"}
                 </button>
             </div>
         </form>

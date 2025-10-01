@@ -4,12 +4,14 @@ import { useState } from "react";
 import Modal from "../Modal";
 import EditEkstrakurikuler from "./EditEkstrakurikuler";
 
+// Komponen utama untuk menampilkan detail ekstrakurikuler
 export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
+    // State untuk mengatur apakah modal edit terbuka atau tidak
     const [openEdit, setOpenEdit] = useState(false);
 
     return (
         <div className="max-w-3xl mx-auto">
-            {/* Header */}
+            {/* Header judul halaman */}
             <div className="text-center mb-10">
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Detail Ekstrakurikuler
@@ -17,10 +19,11 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                 <p className="text-gray-500 mt-2">Informasi lengkap {ekstrakurikuler.nama}</p>
             </div>
 
-            {/* Card */}
+            {/* Card utama berisi gambar dan informasi ekstrakurikuler */}
             <div className="bg-white rounded-2xl shadow p-8">
                 <div className="flex flex-col md:flex-row items-center gap-8">
-                    {/* Gambar */}
+
+                    {/* Bagian Gambar Ekstrakurikuler */}
                     <div className="flex-shrink-0">
                         {ekstrakurikuler.gambar ? (
                             <img
@@ -29,14 +32,16 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                                 className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-xl border"
                             />
                         ) : (
+                            // Jika tidak ada gambar
                             <div className="w-40 h-40 flex items-center justify-center rounded-xl bg-gray-200 text-gray-500">
                                 Tidak ada gambar
                             </div>
                         )}
                     </div>
 
-                    {/* Info */}
+                    {/* Bagian Informasi */}
                     <div className="flex-1 space-y-5">
+                        {/* Nama Ekstrakurikuler */}
                         <div className="flex items-start gap-3">
                             <Users className="w-6 h-6 text-gray-600" />
                             <div>
@@ -45,6 +50,7 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                             </div>
                         </div>
 
+                        {/* Pembina Ekstrakurikuler */}
                         <div className="flex items-start gap-3">
                             <User className="w-6 h-6 text-gray-600" />
                             <div>
@@ -53,6 +59,7 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                             </div>
                         </div>
 
+                        {/* Jadwal Latihan */}
                         <div className="flex items-start gap-3">
                             <Calendar className="w-6 h-6 text-gray-600" />
                             <div>
@@ -61,6 +68,7 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                             </div>
                         </div>
 
+                        {/* Deskripsi */}
                         <div className="flex items-start gap-3">
                             <FileText className="w-6 h-6 text-gray-600" />
                             <div>
@@ -72,14 +80,17 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                 </div>
             </div>
 
-            {/* Tombol */}
+            {/* Tombol Aksi */}
             <div className="flex gap-4 mt-8 justify-center">
+                {/* Tombol untuk membuka modal edit */}
                 <button
                     onClick={() => setOpenEdit(true)}
                     className="px-6 py-3 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition"
                 >
                     Edit
                 </button>
+
+                {/* Tombol kembali ke daftar ekstrakurikuler */}
                 <Link
                     href="/admin/daftar/ekstrakurikuler"
                     className="px-6 py-3 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
@@ -88,7 +99,7 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                 </Link>
             </div>
 
-            {/* Modal Edit */}
+            {/* Modal Edit (hanya muncul saat openEdit = true) */}
             <Modal isOpen={openEdit} onClose={() => setOpenEdit(false)} title="Edit Ekstrakurikuler">
                 <EditEkstrakurikuler ekstrakurikuler={ekstrakurikuler} onClose={() => setOpenEdit(false)} />
             </Modal>

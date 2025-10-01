@@ -17,6 +17,8 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    // Menentukan tabel yang tidak digunakan
     protected $fillable = [
         'name',
         'username',
@@ -50,8 +52,11 @@ class User extends Authenticatable
     /**
      * Supaya Auth::attempt() pakai 'username' bukan 'email'
      */
+
+    // Menentukan tabel yang tidak digunakan
     public function getAuthIdentifierName()
     {
+        // Mengembalikan nama kolom yang digunakan untuk autentikasi
         return 'username';
     }
 }

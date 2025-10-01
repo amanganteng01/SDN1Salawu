@@ -5,14 +5,19 @@ import TambahGuru from "./TambahGuru";
 import EditGuru from "./EditGuru";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 
+// Komponen daftar guru (tabel + aksi CRUD)
 export default function DaftarGuru({ guru }) {
+    // Ambil lebar window dengan custom hook
     const width = GunakanWidthWindows();
+
+    // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [selectedGuru, setSelectedGuru] = useState(null);
     const [openAksi, setAksi] = useState(null);
     const [widthmd, setWidthmd] = useState(false);
 
+    // Deteksi perubahan lebar layar
     useEffect(() => {
         if (width < 1000){
             setWidthmd(true);
@@ -21,6 +26,7 @@ export default function DaftarGuru({ guru }) {
         }
     }, [width]);
 
+    // Class utilitas
     const border = `
         border
         px-1 py-0.25
@@ -30,19 +36,16 @@ export default function DaftarGuru({ guru }) {
         xl:px-3 xl:py-2
         2xl:px-3.5 2xl:py-2.5
     `
-
     const ukuranTextBtn = `
         text-sm
         md:text-base
     `
-
     const gradient = `
         bg-gradient-to-r
         from-[#E52020]
         to-[#FBA518]
         text-white
     `
-
     const gradientHover = `
         hover:from-[#E52020]/70
         hover:to-[#FBA518]/70
@@ -51,6 +54,7 @@ export default function DaftarGuru({ guru }) {
 
     return (
         <div className="p-4">
+            {/* Header + Tombol Tambah */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="font-bold text-xl md:text-2xl">Daftar Guru</h1>
                 <button
@@ -61,6 +65,7 @@ export default function DaftarGuru({ guru }) {
                 </button>
             </div>
 
+            {/* Tabel Guru */}
             <div className="overflow-x-auto relative">
             <table className="min-w-full bg-white rounded-lg shadow-lg text-sm md:text-base">
                 <thead className="bg-gradient-to-r from-[#E52020]/70 to-[#FBA518]/70 text-white">
@@ -73,6 +78,7 @@ export default function DaftarGuru({ guru }) {
                 </thead>
                 <tbody>
                 {guru.length > 0 ? (
+                    // Loop data guru
                     guru.map((item, i) => (
                     <tr
                         key={item.id}
@@ -82,9 +88,10 @@ export default function DaftarGuru({ guru }) {
                         <td className="px-4 py-3">{item.nama}</td>
                         <td className="px-4 py-3">{item.mapel}</td>
                         <td className="px-4 py-3 text-center space-x-2 relative">
+                            {/* Jika layar kecil tampil dropdown aksi */}
                             {widthmd ? (
                                 <div className="relative inline-block text-left">
-                                {/* Tombol Trigger */}
+                                {/* Tombol Aksi */}
                                 <button
                                     onClick={() => setAksi(openAksi === item.id ? null : item.id)}
                                     className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
@@ -104,6 +111,7 @@ export default function DaftarGuru({ guru }) {
                                                 ring-1 ring-black/5 z-50 bg-white"
                                     >
                                     <div className="py-1">
+                                        {/* Detail */}
                                         <Link
                                         href={`/admin/show/guru/${item.id}`}
                                         className="block px-4 py-2 text-sm text-gray-700
@@ -112,6 +120,7 @@ export default function DaftarGuru({ guru }) {
                                         >
                                         Detail
                                         </Link>
+                                        {/* Edit */}
                                         <button
                                         onClick={() => {
                                             setSelectedGuru(item);
@@ -124,6 +133,7 @@ export default function DaftarGuru({ guru }) {
                                         >
                                         Edit
                                         </button>
+                                        {/* Hapus */}
                                         <button
                                         onClick={() => {
                                         if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
@@ -142,6 +152,7 @@ export default function DaftarGuru({ guru }) {
                                 </div>
 
                             ):(
+                                // Jika layar besar tampil tombol langsung
                                 <>
                                     <Link
                                         href={`/admin/show/guru/${item.id}`}
@@ -173,6 +184,7 @@ export default function DaftarGuru({ guru }) {
                     </tr>
                     ))
                 ) : (
+                    // Jika tidak ada data
                     <tr>
                     <td colSpan="4" className="px-4 py-6 text-center text-gray-500">
                         Tidak ada data guru
@@ -183,6 +195,7 @@ export default function DaftarGuru({ guru }) {
             </table>
             </div>
 
+            {/* Modal Tambah Guru */}
             <Modal
                 isOpen={openTambah}
                 onClose={() => setOpenTambah(false)}
@@ -191,6 +204,7 @@ export default function DaftarGuru({ guru }) {
                 <TambahGuru onClose={() => setOpenTambah(false)} />
             </Modal>
 
+            {/* Modal Edit Guru */}
             <Modal
                 isOpen={openEdit}
                 onClose={() => setOpenEdit(false)}

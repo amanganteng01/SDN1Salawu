@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
+    // Menentukan tabel yang tidak digunakan
     protected $guarded = [];
 }

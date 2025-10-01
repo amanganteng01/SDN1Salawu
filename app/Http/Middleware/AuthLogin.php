@@ -16,9 +16,12 @@ class AuthLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Cek apakah user sudah login
         if (Auth::check()){
+            // Jika sudah login, lanjutkan ke request berikutnya
             return $next($request);
         }else {
+            // Jika belum login, redirect ke halaman login
             return redirect()->route('login');
         }
     }

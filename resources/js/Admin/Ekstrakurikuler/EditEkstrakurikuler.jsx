@@ -1,7 +1,9 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
+// Komponen untuk mengedit data ekstrakurikuler
 export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
+    // useForm digunakan untuk mengatur state form dan validasi error
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         pembina: "",
@@ -10,6 +12,8 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
         gambar: null,
     });
 
+    // useEffect akan dijalankan saat data ekstrakurikuler berubah
+    // Fungsinya: mengisi form dengan data awal dari ekstrakurikuler yang sedang diedit
     useEffect(() => {
         if (ekstrakurikuler) {
             setData({
@@ -17,17 +21,18 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 pembina: ekstrakurikuler.pembina || "",
                 jadwal_latihan: ekstrakurikuler.jadwal_latihan || "",
                 deskripsi: ekstrakurikuler.deskripsi || "",
-                gambar: null,
+                gambar: null, // gambar diset null agar bisa diganti saat upload baru
             });
         }
     }, [ekstrakurikuler]);
 
+    // Fungsi submit untuk mengirim data form ke server
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // mencegah reload halaman
         post(`/admin/update/ekstrakurikuler/${ekstrakurikuler.id}`, {
             onSuccess: () => {
-                reset();
-                onClose();
+                reset();   // reset form setelah berhasil update
+                onClose(); // menutup modal
             },
         });
     };
@@ -42,7 +47,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 <input
                     type="text"
                     value={data.nama}
-                    onChange={(e) => setData("nama", e.target.value)}
+                    onChange={(e) => setData("nama", e.target.value)} // update state form
                     className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                     placeholder="Masukkan nama ekstrakurikuler"
@@ -112,7 +117,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 </label>
                 <input
                     type="file"
-                    onChange={(e) => setData("gambar", e.target.files[0])}
+                    onChange={(e) => setData("gambar", e.target.files[0])} // ambil file pertama
                     className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
                 />
@@ -121,8 +126,9 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 )}
             </div>
 
-            {/* Tombol */}
+            {/* Tombol Aksi */}
             <div className="flex items-center justify-end gap-3 pt-2">
+                {/* Tombol batal menutup modal tanpa menyimpan */}
                 <button
                     type="button"
                     onClick={onClose}
@@ -130,9 +136,10 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 >
                     Batal
                 </button>
+                {/* Tombol submit untuk update data */}
                 <button
                     type="submit"
-                    disabled={processing}
+                    disabled={processing} // disable saat sedang proses submit
                     className="px-4 py-2 rounded-lg text-sm font-semibold text-white
                                bg-gradient-to-r from-[#E52020] to-[#FBA518]
                                hover:from-[#E52020]/80 hover:to-[#FBA518]/80 shadow-md transition"

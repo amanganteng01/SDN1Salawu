@@ -4,7 +4,9 @@ import { useState } from "react";
 import Modal from "../Modal";
 import EditGuru from "./EditGuru";
 
+// Komponen untuk menampilkan detail data guru
 export default function DetailGuru({ guru }) {
+    // State untuk membuka/menutup modal edit
     const [openEdit, setOpenEdit] = useState(false);
 
     return (
@@ -21,7 +23,7 @@ export default function DetailGuru({ guru }) {
                 {/* Card info guru */}
                 <div className="bg-white rounded-2xl shadow p-8">
                     <div className="flex flex-col md:flex-row items-center gap-8">
-                        {/* Foto */}
+                        {/* Foto guru (atau placeholder jika tidak ada) */}
                         <div className="flex-shrink-0">
                             {guru.foto ? (
                                 <img
@@ -36,8 +38,9 @@ export default function DetailGuru({ guru }) {
                             )}
                         </div>
 
-                        {/* Info */}
+                        {/* Informasi detail guru */}
                         <div className="flex-1 space-y-5">
+                            {/* Nama */}
                             <div className="flex items-start gap-3">
                                 <User className="w-6 h-6 text-gray-600" />
                                 <div>
@@ -46,6 +49,7 @@ export default function DetailGuru({ guru }) {
                                 </div>
                             </div>
 
+                            {/* NIP */}
                             <div className="flex items-start gap-3">
                                 <IdCard className="w-6 h-6 text-gray-600" />
                                 <div>
@@ -54,6 +58,7 @@ export default function DetailGuru({ guru }) {
                                 </div>
                             </div>
 
+                            {/* Mata Pelajaran */}
                             <div className="flex items-start gap-3">
                                 <BookOpen className="w-6 h-6 text-gray-600" />
                                 <div>
@@ -65,16 +70,19 @@ export default function DetailGuru({ guru }) {
                     </div>
                 </div>
 
-                {/* Tombol */}
+                {/* Tombol aksi (Edit & Kembali) */}
                 <div className="flex gap-4 mt-8 justify-center">
+                    {/* Tombol Edit membuka modal */}
                     <button
-                        onClick={() => { 
+                        onClick={() => {
                             setOpenEdit(true);
                         }}
                         className="px-6 py-3 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition"
                     >
                         Edit
                     </button>
+
+                    {/* Tombol kembali ke daftar guru */}
                     <Link
                         href="/admin/daftar/guru"
                         className="px-6 py-3 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
@@ -82,6 +90,8 @@ export default function DetailGuru({ guru }) {
                         Kembali
                     </Link>
                 </div>
+
+                {/* Modal untuk edit data guru */}
                 <Modal
                     isOpen={openEdit}
                     onClose={() => setOpenEdit(false)}

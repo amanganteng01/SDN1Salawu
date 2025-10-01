@@ -2,6 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
 export default function EditSiswa({ siswa, onClose }) {
+  // Inisialisasi form menggunakan Inertia useForm
   const { data, setData, post, processing, errors, reset } = useForm({
     nisn: "",
     nama_siswa: "",
@@ -9,6 +10,7 @@ export default function EditSiswa({ siswa, onClose }) {
     tahun_masuk: "",
   });
 
+  // Saat komponen menerima data siswa, isi form otomatis
   useEffect(() => {
     if (siswa) {
       setData({
@@ -20,19 +22,21 @@ export default function EditSiswa({ siswa, onClose }) {
     }
   }, [siswa]);
 
+  // Fungsi submit untuk update data siswa
   const submit = (e) => {
     e.preventDefault();
     post(`/admin/update/siswa/${siswa.id}`, {
       onSuccess: () => {
-        reset();
-        onClose();
+        reset();     // reset form setelah berhasil
+        onClose();   // tutup modal
       },
     });
   };
 
   return (
+    // Form edit siswa
     <form onSubmit={submit} className="space-y-5">
-      {/* NISN */}
+      {/* Input NISN */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           NISN
@@ -41,8 +45,8 @@ export default function EditSiswa({ siswa, onClose }) {
           type="text"
           value={data.nisn}
           onChange={(e) => setData("nisn", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 
+          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
                      focus:border-[#E52020]"
           placeholder="Masukkan NISN"
         />
@@ -51,7 +55,7 @@ export default function EditSiswa({ siswa, onClose }) {
         )}
       </div>
 
-      {/* Nama Siswa */}
+      {/* Input Nama Siswa */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           Nama Siswa
@@ -60,8 +64,8 @@ export default function EditSiswa({ siswa, onClose }) {
           type="text"
           value={data.nama_siswa}
           onChange={(e) => setData("nama_siswa", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 
+          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
                      focus:border-[#E52020]"
           placeholder="Masukkan nama siswa"
         />
@@ -70,7 +74,7 @@ export default function EditSiswa({ siswa, onClose }) {
         )}
       </div>
 
-      {/* Jenis Kelamin */}
+      {/* Pilih Jenis Kelamin */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           Jenis Kelamin
@@ -78,8 +82,8 @@ export default function EditSiswa({ siswa, onClose }) {
         <select
           value={data.jenis_kelamin}
           onChange={(e) => setData("jenis_kelamin", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 
+          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
                      focus:border-[#E52020]"
         >
           <option value="L">Laki-laki</option>
@@ -92,7 +96,7 @@ export default function EditSiswa({ siswa, onClose }) {
         )}
       </div>
 
-      {/* Tahun Masuk */}
+      {/* Input Tahun Masuk */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           Tahun Masuk
@@ -101,8 +105,8 @@ export default function EditSiswa({ siswa, onClose }) {
           type="number"
           value={data.tahun_masuk}
           onChange={(e) => setData("tahun_masuk", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm 
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 
+          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
                      focus:border-[#E52020]"
           placeholder="Contoh: 2023"
         />
@@ -111,11 +115,11 @@ export default function EditSiswa({ siswa, onClose }) {
         )}
       </div>
 
-      {/* Tombol */}
+      {/* Tombol Aksi */}
       <div className="flex items-center justify-end gap-3 pt-2">
         <button
           type="button"
-          onClick={onClose}
+          onClick={onClose} // tombol batal menutup modal
           className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition"
         >
           Batal
@@ -123,9 +127,9 @@ export default function EditSiswa({ siswa, onClose }) {
         <button
           type="submit"
           disabled={processing}
-          className="px-4 py-2 rounded-lg text-sm font-semibold text-white 
-                     bg-gradient-to-r from-[#E52020] to-[#FBA518] 
-                     hover:from-[#E52020]/80 hover:to-[#FBA518]/80 
+          className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                     bg-gradient-to-r from-[#E52020] to-[#FBA518]
+                     hover:from-[#E52020]/80 hover:to-[#FBA518]/80
                      shadow-md transition"
         >
           {processing ? "Memperbarui..." : "Perbarui"}

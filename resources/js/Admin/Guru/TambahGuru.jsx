@@ -1,6 +1,8 @@
 import { useForm } from "@inertiajs/react";
 
+// Komponen untuk menambahkan data guru baru
 export default function TambahGuru({ onClose }) {
+  // useForm untuk handle state form, validasi, dan submit
   const { data, setData, post, processing, errors, reset } = useForm({
     nama: "",
     nip: "",
@@ -8,19 +10,20 @@ export default function TambahGuru({ onClose }) {
     foto: null,
   });
 
+  // Fungsi submit untuk kirim data ke server
   const submit = (e) => {
     e.preventDefault();
     post("/admin/simpan/guru", {
       onSuccess: () => {
-        reset();
-        onClose();
+        reset();     // reset form setelah berhasil
+        onClose();   // tutup modal setelah simpan
       },
     });
   };
 
   return (
     <form onSubmit={submit} className="space-y-5">
-      {/* Nama */}
+      {/* Input Nama */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           Nama Guru
@@ -37,7 +40,7 @@ export default function TambahGuru({ onClose }) {
         )}
       </div>
 
-      {/* NIP */}
+      {/* Input NIP */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           NIP
@@ -54,7 +57,7 @@ export default function TambahGuru({ onClose }) {
         )}
       </div>
 
-      {/* Mapel */}
+      {/* Input Mata Pelajaran */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           Mata Pelajaran
@@ -71,7 +74,7 @@ export default function TambahGuru({ onClose }) {
         )}
       </div>
 
-      {/* Foto */}
+      {/* Input Foto */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1">
           Foto
@@ -86,8 +89,9 @@ export default function TambahGuru({ onClose }) {
         )}
       </div>
 
-      {/* Tombol */}
+      {/* Tombol Aksi */}
       <div className="flex items-center justify-end gap-3 pt-2">
+        {/* Tombol batal menutup modal */}
         <button
           type="button"
           onClick={onClose}
@@ -95,6 +99,7 @@ export default function TambahGuru({ onClose }) {
         >
           Batal
         </button>
+        {/* Tombol submit untuk simpan data */}
         <button
           type="submit"
           disabled={processing}

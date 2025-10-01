@@ -1,6 +1,8 @@
 import { useForm } from "@inertiajs/react";
 
+// Komponen untuk menambahkan data ekstrakurikuler baru
 export default function TambahEkstrakurikuler({ onClose }) {
+    // useForm dari inertia-react digunakan untuk mengelola state form, validasi error, dan pengiriman data
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         pembina: "",
@@ -9,32 +11,34 @@ export default function TambahEkstrakurikuler({ onClose }) {
         gambar: null,
     });
 
+    // Fungsi submit dipanggil saat form disubmit
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // mencegah reload halaman default form
         post("/admin/simpan/ekstrakurikuler", {
             onSuccess: () => {
-                reset();
-                onClose();
+                reset();   // reset form setelah berhasil simpan
+                onClose(); // menutup modal/form
             },
         });
     };
 
     return (
         <form onSubmit={submit} className="space-y-5">
-            {/* Nama */}
+            {/* Input Nama Ekstrakurikuler */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Nama</label>
                 <input
                     type="text"
                     value={data.nama}
-                    onChange={(e) => setData("nama", e.target.value)}
+                    onChange={(e) => setData("nama", e.target.value)} // update state form untuk field nama
                     className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                     placeholder="Masukkan nama ekstrakurikuler"
                 />
+                {/* Menampilkan pesan error jika ada kesalahan pada field nama */}
                 {errors.nama && <div className="text-red-500 text-xs mt-1">{errors.nama}</div>}
             </div>
 
-            {/* Pembina */}
+            {/* Input Pembina */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Pembina</label>
                 <input
@@ -47,7 +51,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 {errors.pembina && <div className="text-red-500 text-xs mt-1">{errors.pembina}</div>}
             </div>
 
-            {/* Jadwal Latihan */}
+            {/* Input Jadwal Latihan */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Jadwal Latihan</label>
                 <input
@@ -60,7 +64,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 {errors.jadwal_latihan && <div className="text-red-500 text-xs mt-1">{errors.jadwal_latihan}</div>}
             </div>
 
-            {/* Deskripsi */}
+            {/* Input Deskripsi */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label>
                 <textarea
@@ -72,19 +76,20 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 {errors.deskripsi && <div className="text-red-500 text-xs mt-1">{errors.deskripsi}</div>}
             </div>
 
-            {/* Gambar */}
+            {/* Input Gambar */}
             <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Gambar</label>
                 <input
                     type="file"
-                    onChange={(e) => setData("gambar", e.target.files[0])}
+                    onChange={(e) => setData("gambar", e.target.files[0])} // simpan file gambar ke state form
                     className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 {errors.gambar && <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>}
             </div>
 
-            {/* Tombol */}
+            {/* Tombol Aksi */}
             <div className="flex justify-end gap-3">
+                {/* Tombol batal untuk menutup modal tanpa menyimpan data */}
                 <button
                     type="button"
                     onClick={onClose}
@@ -92,9 +97,11 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 >
                     Batal
                 </button>
+
+                {/* Tombol submit untuk menyimpan data ekstrakurikuler */}
                 <button
                     type="submit"
-                    disabled={processing}
+                    disabled={processing} // disable saat proses penyimpanan sedang berjalan
                     className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[#E52020] to-[#FBA518] shadow hover:opacity-90 transition"
                 >
                     {processing ? "Menyimpan..." : "Simpan"}

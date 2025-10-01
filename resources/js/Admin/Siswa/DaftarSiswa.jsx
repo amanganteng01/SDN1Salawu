@@ -6,13 +6,14 @@ import EditSiswa from "./EditSiswa";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 
 export default function DaftarSiswa({ siswa }) {
-    const width = GunakanWidthWindows();
-    const [openTambah, setOpenTambah] = useState(false);
-    const [openEdit, setOpenEdit] = useState(false);
-    const [selectedSiswa, setSelectedSiswa] = useState(null);
-    const [openAksi, setAksi] = useState(null);
-    const [widthmd, setWidthmd] = useState(false);
+    const width = GunakanWidthWindows(); // hook custom untuk ambil ukuran layar
+    const [openTambah, setOpenTambah] = useState(false); // state buka modal tambah
+    const [openEdit, setOpenEdit] = useState(false); // state buka modal edit
+    const [selectedSiswa, setSelectedSiswa] = useState(null); // data siswa yang dipilih untuk edit
+    const [openAksi, setAksi] = useState(null); // state buka menu aksi (mobile)
+    const [widthmd, setWidthmd] = useState(false); // cek apakah layar < 1060px
 
+    // cek lebar layar, ubah label tabel sesuai ukuran layar
     useEffect(() => {
         if (width < 1060) {
             setWidthmd(true);
@@ -21,6 +22,7 @@ export default function DaftarSiswa({ siswa }) {
         }
     }, [width]);
 
+    // class tailwind untuk mendesain anjay
     const border = `
         border
         px-1 py-0.25
@@ -35,7 +37,7 @@ export default function DaftarSiswa({ siswa }) {
         text-sm
         md:text-base
     `;
-    
+
     const gradient = `
         bg-gradient-to-r
         from-[#E52020]
@@ -51,6 +53,7 @@ export default function DaftarSiswa({ siswa }) {
 
     return (
         <div className="p-4">
+            {/* Header + tombol tambah */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="font-bold text-xl md:text-2xl">Daftar Siswa</h1>
                 <button
@@ -61,6 +64,7 @@ export default function DaftarSiswa({ siswa }) {
                 </button>
             </div>
 
+            {/* Tabel daftar siswa */}
             <div className="overflow-x-auto relative">
                 <table className="min-w-full bg-white rounded-lg shadow-lg text-sm md:text-base">
                     <thead className="bg-gradient-to-r from-[#E52020]/70 to-[#FBA518]/70 text-white">
@@ -80,15 +84,22 @@ export default function DaftarSiswa({ siswa }) {
                                     key={item.id}
                                     className="border-b last:border-none hover:bg-gray-50 transition"
                                 >
+                                    {/* nomor urut */}
                                     <td className="px-4 py-3">{i + 1}</td>
+                                    {/* data siswa */}
                                     <td className="px-4 py-3">{item.nama_siswa}</td>
                                     <td className="px-4 py-3">{item.nisn}</td>
                                     <td className="px-4 py-3">
-                                        {item.jenis_kelamin === "L" ? widthmd? "L" : "Laki-laki" : widthmd? "P" : "Perempuan"}
+                                        {item.jenis_kelamin === "L"
+                                            ? widthmd ? "L" : "Laki-laki"
+                                            : widthmd ? "P" : "Perempuan"}
                                     </td>
                                     <td className="px-4 py-3">{item.tahun_masuk}</td>
+
+                                    {/* aksi edit & hapus */}
                                     <td className="px-4 py-3 text-center space-x-2 relative">
                                         {widthmd ? (
+                                            // versi dropdown untuk layar kecil
                                             <div className="relative inline-block text-left">
                                                 <button
                                                     onClick={() =>
@@ -112,6 +123,7 @@ export default function DaftarSiswa({ siswa }) {
                                                             ring-1 ring-black/5 z-50 bg-white"
                                                     >
                                                         <div className="py-1">
+                                                            {/* tombol edit */}
                                                             <button
                                                                 onClick={() => {
                                                                     setSelectedSiswa(item);
@@ -124,12 +136,13 @@ export default function DaftarSiswa({ siswa }) {
                                                             >
                                                                 Edit
                                                             </button>
+                                                            {/* tombol hapus */}
                                                             <button
                                                                 onClick={() => {
-                                                                if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
-                                                                    router.delete(`/admin/hapus/guru/${item.id}`);
+                                                                    if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
+                                                                        router.delete(`/admin/hapus/guru/${item.id}`);
+                                                                    }
                                                                 }}
-                                                                }
                                                                 className="block w-full text-left px-4 py-2 text-sm text-gray-700
                                                                     hover:bg-red-100 hover:text-red-600
                                                                     rounded transition"
@@ -141,6 +154,7 @@ export default function DaftarSiswa({ siswa }) {
                                                 )}
                                             </div>
                                         ) : (
+                                            // versi tombol langsung untuk layar besar
                                             <>
                                                 <button
                                                     onClick={() => {
@@ -155,8 +169,8 @@ export default function DaftarSiswa({ siswa }) {
                                                     onClick={() => {
                                                         if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
                                                             router.delete(`/admin/hapus/guru/${item.id}`);
-                                                        }}
-                                                    }
+                                                        }
+                                                    }}
                                                     className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
                                                 >
                                                     Hapus
@@ -168,6 +182,7 @@ export default function DaftarSiswa({ siswa }) {
                             ))
                         ) : (
                             <tr>
+                                {/* jika data kosong */}
                                 <td
                                     colSpan="6"
                                     className="px-4 py-6 text-center text-gray-500"
@@ -180,6 +195,7 @@ export default function DaftarSiswa({ siswa }) {
                 </table>
             </div>
 
+            {/* modal tambah siswa */}
             <Modal
                 isOpen={openTambah}
                 onClose={() => setOpenTambah(false)}
@@ -188,6 +204,7 @@ export default function DaftarSiswa({ siswa }) {
                 <TambahSiswa onClose={() => setOpenTambah(false)} />
             </Modal>
 
+            {/* modal edit siswa */}
             <Modal
                 isOpen={openEdit}
                 onClose={() => setOpenEdit(false)}

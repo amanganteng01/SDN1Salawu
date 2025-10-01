@@ -11,18 +11,23 @@ class ProfilSekolahController extends Controller
 {
     public function daftarProfilSekolah()
     {
+        // Menampilkan semua data profil sekolah
         $profil = ProfilSekolah::all();
+        // Menampilkan halaman daftar profil sekolah dengan data yang telah diambil
         return Inertia::render('ProfilSekolah/DaftarProfilSekolah', ['profil' => $profil]);
     }
 
     public function showProfilSekolah($id)
     {
+        // Mendapatkan data profil sekolah berdasarkan id
         $profil = ProfilSekolah::findOrFail($id);
+        // Menampilkan halaman detail profil sekolah dengan data yang telah diambil
         return Inertia::render('ProfilSekolah/DetailProfilSekolah', ['profil' => $profil]);
     }
 
     public function simpanProfilSekolah(Request $request)
     {
+        // Validasi inputan dari form tambah profil sekolah
         $validasi = $request->validate([
             'nama_sekolah'   => 'required|string|max:150',
             'kepala_sekolah' => 'required|string|max:100',
@@ -36,23 +41,29 @@ class ProfilSekolahController extends Controller
             'deskripsi'      => 'required|string',
         ]);
 
+        //upload foto dan logo
         $foto = $request->file('foto');
         $logo = $request->file('logo');
+        // Menyimpan nama file gambar ke dalam validasi
         $fotoName = time().".".$foto->getClientOriginalExtension();
         $logoName = time().".".$logo->getClientOriginalExtension();
-        
-        $foto->stroreAs('foto', $fotoName);
+
+        $foto->storeAs('foto', $fotoName);
         $logo->storeAs('logo', $logoName);
 
+        // Menyimpan nama file gambar ke dalam validasi
         $validasi['foto'] = $fotoName;
         $validasi['logo'] = $logoName;
 
+        // Menyimpan data profil sekolah ke database
         ProfilSekolah::create($validasi);
+        // Mengembalikan ke halaman daftar profil sekolah dengan pesan sukses
         return redirect('/admin/daftar/profil/sekolah')->with('success', 'Data profil sekolah berhasil ditambahkan.');
     }
 
     public function updateProfilSekolah(Request $request, $id)
     {
+        // Validasi inputan dari form edit profil sekolah
         $validasi = $request->validate([
             'nama_sekolah'   => 'nullable|string|max:150',
             'kepala_sekolah' => 'nullable|string|max:100',
@@ -66,6 +77,7 @@ class ProfilSekolahController extends Controller
             'deskripsi'      => 'nullable|string',
         ]);
 
+        // Mendapatkan data profil sekolah berdasarkan id
         $profil = ProfilSekolah::findOrFail($id);
 
         //upload foto baru jika ada
@@ -74,9 +86,11 @@ class ProfilSekolahController extends Controller
                 Storage::delete('foto/'.$profil->foto);
             }
             $foto = $request->file('foto');
+            // Memberi nama file dengan timestamp agar unik
             $fotoName = time().".".$foto->getClientOriginalExtension();
             $foto->storeAs('foto', $fotoName);
 
+            // Menyimpan nama file gambar ke dalam validasi
             $validasi['foto'] = $fotoName;
         }
 
@@ -86,18 +100,23 @@ class ProfilSekolahController extends Controller
                 Storage::delete('logo/'.$profil->logo);
             }
             $logo = $request->file('logo');
+            // Memberi nama file dengan timestamp agar unik
             $logoName = time().".".$logo->getClientOriginalExtension();
             $logo->storeAs('logo', $logoName);
 
+            // Menyimpan nama file gambar ke dalam validasi
             $validasi['logo'] = $logoName;
         }
 
+        // Menyimpan data profil sekolah ke database
         $profil->update($validasi);
+        // Mengembalikan ke halaman daftar profil sekolah dengan pesan sukses
         return redirect('/admin/daftar/profil/sekolah')->with('success', 'Data profil sekolah berhasil diperbarui.');
     }
 
     public function hapusProfilSekolah($id)
     {
+        // Mendapatkan data profil sekolah berdasarkan id
         $profil = ProfilSekolah::findOrFail($id);
         if (Storage::exists('foto/'.$profil->foto)) {
             Storage::delete('foto/'.$profil->foto);
@@ -105,7 +124,9 @@ class ProfilSekolahController extends Controller
         if (Storage::exists('logo/'.$profil->logo)) {
             Storage::delete('logo/'.$profil->logo);
         }
+        // Menghapus data profil sekolah dari database
         $profil->delete();
+        // Mengembalikan ke halaman daftar profil sekolah dengan pesan sukses
         return redirect('/admin/daftar/profil/sekolah')->with('success', 'Data profil sekolah berhasil dihapus.');
     }
 }
