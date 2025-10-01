@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 
-export default function Dashboard() {
+export default function Dashboard(guru) {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6">Dashboard Admin</h1>

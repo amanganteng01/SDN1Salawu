@@ -2,7 +2,7 @@ import { useForm, Link } from "@inertiajs/react";
 import { useEffect } from "react";
 
 export default function EditGuru({ guru, onClose }){
-    const { data, setData, put, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         nama: '',
         nip: '',
         mapel: '',
@@ -22,7 +22,7 @@ export default function EditGuru({ guru, onClose }){
 
     const submit = (e) => {
         e.preventDefault();
-        put(`/admin/update/guru/${guru.id}`, {
+        post(`/admin/update/guru/${guru.id}`, {
             onSuccess: () => {
                 reset();
                 onClose();

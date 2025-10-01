@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -20,6 +21,8 @@ class ViewController extends Controller
     }
 
     public function berandaAdmin() {
-        return Inertia::render("Dashboard");
+        $guru = Guru::all();
+        $jumlahguru = count($guru);
+        return Inertia::render("Dashboard", ['guru' => $guru], ['jumlahguru' => $jumlahguru] );
     }
 }

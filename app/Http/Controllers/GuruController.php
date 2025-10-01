@@ -13,6 +13,11 @@ class GuruController extends Controller
         $guru = Guru::all();
         return Inertia::render('Guru/DaftarGuru', [ 'guru' => $guru ]);
     }
+    
+    public function showGuru(String $id){
+        $guru = Guru::findOrFail($id);
+        return Inertia::render('Guru/DetailGuru', [ 'guru' => $guru ]);
+    }
 
     public function simpanGuru(Request $request){
         $validasi = $request->validate([
@@ -29,7 +34,7 @@ class GuruController extends Controller
 
         Guru::create($validasi);
 
-        return redirect('/admin/daftar/guru');
+        return redirect('/admin/daftar/guru')->with('success', 'Data guru berhasil ditambahkan.');
     }
 
     public function updateGuru(Request $request, String $id){
@@ -43,13 +48,14 @@ class GuruController extends Controller
         $guru = Guru::findOrFail($id);
 
         //upload foto baru jika ada
-        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-            if ($guru->foto && Storage::exists('guru/'.$guru->foto)) {
+        if ($request->hasFile('foto')) {
+            if (Storage::exists('guru/'.$guru->foto)) {
                 Storage::delete('guru/'.$guru->foto);
             }
             $foto = $request->file('foto');
             $filename = time().".".$foto->getClientOriginalExtension();
             $foto->storeAs('guru', $filename);
+
             $validasi['foto'] = $filename;
         }else{
             $validasi['foto'] = $guru->foto;

@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { use, useEffect, useState } from "react";
 import Modal from "../Modal";
 import TambahGuru from "./TambahGuru";
@@ -125,6 +125,11 @@ export default function DaftarGuru({ guru }) {
                                         Edit
                                         </button>
                                         <button
+                                        onClick={() => {
+                                        if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
+                                            router.delete(`/admin/hapus/guru/${item.id}`);
+                                        }}
+                                        }
                                         className="block w-full text-left px-4 py-2 text-sm text-gray-700
                                                     hover:bg-red-100 hover:text-red-600
                                                     rounded transition"
@@ -154,7 +159,11 @@ export default function DaftarGuru({ guru }) {
                                         Edit
                                     </button>
                                     <button
-                                        className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
+                                        onClick={() => {
+                                        if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
+                                            router.delete(`/admin/hapus/guru/${item.id}`);
+                                        }}
+                                        } className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
                                     >
                                         Hapus
                                     </button>
