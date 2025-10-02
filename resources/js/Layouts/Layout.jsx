@@ -33,7 +33,7 @@ export default function Layout({children}){
                         <a href="#beranda" className={ukuranNavbtn}>Beranda</a>
                         <a href="#profil" className={ukuranNavbtn}>Profil</a>
                         <a href="#berita" className={ukuranNavbtn}>Berita</a>
-                        <a href="#gurudansiswa" className={ukuranNavbtn}>Guru&Siswa</a>
+                        <a href="#gurudansiswa" className={ukuranNavbtn}>Guru</a>
                         <a href="#galeri" className={ukuranNavbtn}>Galeri</a>
                         <a href="#eskul" className={ukuranNavbtn}>Ekstrakurikuler</a>
                         <a href="#kontak" className={ukuranNavbtn}>Kontak</a>
@@ -41,11 +41,11 @@ export default function Layout({children}){
                 </div>
             </header>
 
-            <main className={`${gradientMain} ml-0 mt-11 min-h-screen`} >{children}</main>
+            <main className={`${gradientMain} ml-0 mt-10 md:mt-11 min-h-screen`} >{children}</main>
 
             {/* Footer */}
             <footer className={`${gradient} mt-10`} id="kontak">
-                <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols- gap-8">
                     {/* Info */}
                     <div>
                         <h4 className="text-xl font-bold mb-3">SDN 1 Salawu</h4>
@@ -64,16 +64,6 @@ export default function Layout({children}){
                             <li><a href="" className="hover:underline">Galeri</a></li>
                             <li><a href="" className="hover:underline">Kontak</a></li>
                         </ul>
-                    </div>
-
-                    {/* Sosial */}
-                    <div>
-                        <h4 className="text-xl font-bold mb-3">Ikuti Kami</h4>
-                        <div className="flex gap-4">
-                            <a href=""><Facebook /></a>
-                            <a href=""><Instagram /></a>
-                            <a href=""><Mail /></a>
-                        </div>
                     </div>
                 </div>
 

@@ -1,7 +1,46 @@
-import Layout from "../Layouts/Layout";
 import { User, GraduationCap } from "lucide-react";
+import { useState } from "react";
+import GunakanWidthWindows from "../Admin/GunakanWidthWindows";
 
 export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galeri, ekskul }) {
+    // Mendapatkan lebar jendela browser
+    const width = GunakanWidthWindows();
+    // Status slide galeri
+    const[ statusGaleriSlide, setstatusGaleriSlide ] = useState(0);
+
+    const bagiArray = (array, ukuran) => {
+        return array.reduce((hasil, _, index) => (
+            index % ukuran ? hasil : [...hasil, array.slice(index, index + ukuran)]
+        ),[]
+        )
+    }
+
+    // Membagi galeri menjadi beberapa bagian untuk ditampilkan dalam slide
+    const galeriTerbagi = () => {
+        if(width > 768){
+            return bagiArray(galeri, 3);
+        } else if(width > 640){
+            return bagiArray(galeri, 2);
+        } else {
+            return bagiArray(galeri, 1);
+        }
+    }
+
+    // Fungsi untuk mengubah slide galeri ke kiri
+    const slideSebelumnya = () => {
+        setstatusGaleriSlide(statusGaleriSlide === 0 ? galeriTerbagi().length - 1 : statusGaleriSlide - 1);
+    }
+    // Fungsi untuk mengubah slide galeri ke kanan
+    const slideSelanjutnya = () => {
+        setstatusGaleriSlide(statusGaleriSlide === galeriTerbagi().length - 1 ? 0 : statusGaleriSlide + 1);
+    }
+
+    // Fungsi untuk memulai slide galeri pada indeks tertentu
+    const mulaiSlide = (index) => [
+        setstatusGaleriSlide(index)
+    ]
+
+
     const gradienthiro = `
         bg-gradient-to-r
         from-[#E52020]/20
@@ -20,7 +59,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
         <>
             {/* Hero */}
             <section id="beranda" className="bg-center h-[500px] flex items-center justify-center relative">
-                <img src={`assets/image/sd.png`} alt="" className="absolute inset-0 w-full h-full object-cover"/>
+                <img src={`storage/foto/${profil.foto}`} alt="" className="absolute inset-0 w-full h-full object-cover"/>
                 <div className={`${gradienthiro} absolute inset-0 z-0`}></div>
                 <div className="relative z-10 text-center">
                     <h2 className="text-white text-4xl md:text-6xl font-extrabold drop-shadow-lg">
@@ -37,7 +76,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                 <div className="max-w-5xl mx-auto text-center px-6">
                     <h3 className="text-3xl font-extrabold mb-6 text-blue-700">Tentang Kami</h3>
                     <p className="text-gray-700 leading-relaxed text-lg">
-                        {profil.visi_misi}
+                        {profil.deskripsi}
                     </p>
                 </div>
             </section>
@@ -99,36 +138,46 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
             </section>
 
             {/* Galeri */}
-            <section id="galeri" className="py-16 bg-white">
-                <div className="max-w-6xl mx-auto px-6">
-                    <h3 className="text-3xl font-extrabold mb-8 text-center text-green-600">Galeri</h3>
+            <section id="galeri" className="py-16 bg-white relative">
+                <div className="max-w-6xl mx-auto px-6 text-center">
+                    <h3 className="text-3xl font-extrabold mb-6 text-green-700">
+                        Galeri
+                    </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        {galeri.map((galerii) => (
-                            <div
-                                key={galerii.id}
-                                className="relative overflow-hidden rounded-lg shadow-lg group"
-                            >
-                                { galerii.kategori === "foto" ? (
+                        {galeriTerbagi()[statusGaleriSlide]?.map((item) => (
+                            <div className="relative overflow-hidden rounded-lg shadow-lg group" key={item.id}>
+                                {item.kategori === 'foto' ? (
                                     <>
                                         <img
-                                            src={`/storage/galeri/${galerii.file}`}
-                                            alt={galerii.judul}
+                                            src={`storage/galeri/${item.file}`}
+                                            alt={item.judul}
                                             className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110"
                                         />
                                     </>
                                 ):(
                                     <>
-                                    <video controls className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110" >
-                                        <source src={`/storage/galeri/${galerii.file}`} type="video/mp4"/>
-                                    </video>
+                                        <video controls className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110">
+                                            <source src={`storage/galeri/${item.file}`} type="video/mp4" />
+                                        </video>
                                     </>
                                 )}
-                                {/* <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white font-bold text-lg transition">
-                                    Gambar {galerii.judul}
-                                </div> */}
                             </div>
                         ))}
                     </div>
+                    <button onClick={slideSelanjutnya} className="absolute top-1/2 right-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">❯</button>
+                    <button onClick={slideSebelumnya} className="absolute top-1/2 left-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">❮</button>
+                </div>
+                {/* Indicator */}
+                <div className="flex justify-center mt-4 space-x-2">
+                    {galeriTerbagi().map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => mulaiSlide(i)}
+                            className={`w-3 h-3 rounded-full ${
+                                i === statusGaleriSlide ? "bg-green-600" : "bg-gray-400"
+                            }`}
+                        />
+                    ))}
                 </div>
             </section>
 

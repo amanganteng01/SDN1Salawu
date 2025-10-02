@@ -23,7 +23,7 @@ class ViewController extends Controller
         $ekskul = Ekstrakurikuler::orderBy("created_at","desc")->take(6)->get();
         $berita = Berita::orderBy("created_at","desc")->take(3)->get();
         // Mengembalikan ke halaman beranda dengan data yang telah diambil
-        return Inertia::render("Beranda", ['jumlahguru'=> $guru->count(), 'jumlahsiswa' => $siswa->count(), 'profil' => $profil, 'galeri' => $galeri, 'ekskul' => $ekskul, 'berita' => $berita]);
+        return Inertia::render("Beranda", ['jumlahguru'=> $guru->count(), 'jumlahsiswa' => $siswa->count(), 'profil' => $profil, 'galeri' => $galeri, 'ekskul' => $ekskul, 'berita' => $berita ]);
     }
 
     public function profilSekolah(){

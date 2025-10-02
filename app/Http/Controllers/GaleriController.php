@@ -82,7 +82,7 @@ class GaleriController extends Controller
         // Mengembalikan ke halaman daftar galeri dengan pesan sukses
         return redirect('/admin/daftar/galeri')->with('success', 'Data galeri berhasil diupdate.');
     }
-
+    
     public function hapusGaleri(String $id){
         // Mendapatkan data galeri berdasarkan id
         $galeri = Galeri::findOrFail($id);

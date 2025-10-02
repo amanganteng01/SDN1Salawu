@@ -5,7 +5,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
   const width = GunakanWidthWindows();
   const [widthMd, setWidthMd] = useState(false);
-  
+
   useEffect(() => {
     if (width > 768) {
       setWidthMd(true);
@@ -45,7 +45,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
         <>
           {/* Modal Box */}
           <div
-            className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 max-h-[90vh] p-6 flex flex-col
+            className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 max-h-[90vh] flex flex-col
             "
           >
             <div className="flex justify-between items-center mb-4">

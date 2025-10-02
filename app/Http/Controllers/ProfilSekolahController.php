@@ -92,6 +92,8 @@ class ProfilSekolahController extends Controller
 
             // Menyimpan nama file gambar ke dalam validasi
             $validasi['foto'] = $fotoName;
+        } else {
+            $validasi['foto'] = $profil->foto;
         }
 
         //upload logo baru jika ada
@@ -106,6 +108,8 @@ class ProfilSekolahController extends Controller
 
             // Menyimpan nama file gambar ke dalam validasi
             $validasi['logo'] = $logoName;
+        } else {
+            $validasi['logo'] = $profil->logo;
         }
 
         // Menyimpan data profil sekolah ke database
