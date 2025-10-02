@@ -1,8 +1,11 @@
 import { Link, router } from "@inertiajs/react"
 import { Facebook, Instagram, Mail } from "lucide-react";
 
+// Komponen utama Layout untuk membungkus seluruh halaman
+// Menerima 'children' sebagai konten dinamis yang akan ditampilkan di bagian <main>
 export default function Layout({children}){
 
+    // Variabel className untuk ukuran tombol navigasi (responsive)
     const ukuranNavbtn =`
         hover:underline
         text-xs
@@ -10,9 +13,10 @@ export default function Layout({children}){
         md:text-base
         lg:text-lg
         xl:text-xl
-        2xl:text-2xlA
+        2xl:text-2xl
     `
 
+    // Variabel className untuk background gradient (merah ke oranye)
     const gradient = `
         bg-gradient-to-r
         from-[#E52020]
@@ -20,9 +24,10 @@ export default function Layout({children}){
         text-white
     `
 
+    // Variabel className untuk background utama dengan gradient transparan
     const gradientMain = `bg-gradient-to-r from-[#E52020]/30 to-[#FBA518]/30`;
 
-
+    // Return tampilan layout (Header, Main, Footer)
     return (
         <>
             {/* Header */}
@@ -41,12 +46,16 @@ export default function Layout({children}){
                 </div>
             </header>
 
-            <main className={`${gradientMain} ml-0 mt-10 md:mt-11 min-h-screen`} >{children}</main>
+            {/* Main Content */}
+            <main className={`${gradientMain} ml-0 mt-10 md:mt-11 min-h-screen`}>
+                {children}
+            </main>
 
             {/* Footer */}
             <footer className={`${gradient} mt-10`} id="kontak">
-                <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols- gap-8">
-                    {/* Info */}
+                <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    {/* Info Sekolah */}
                     <div>
                         <h4 className="text-xl font-bold mb-3">SDN 1 Salawu</h4>
                         <p className="text-sm text-gray-100">
@@ -54,20 +63,31 @@ export default function Layout({children}){
                         </p>
                     </div>
 
-                    {/* Navigasi */}
+                    {/* Navigasi Footer */}
                     <div>
                         <h4 className="text-xl font-bold mb-3">Navigasi</h4>
                         <ul className="space-y-2 text-sm">
-                            <li><a href="" className="hover:underline">Beranda</a></li>
-                            <li><a href="" className="hover:underline">Profil</a></li>
-                            <li><a href="" className="hover:underline">Guru</a></li>
-                            <li><a href="" className="hover:underline">Galeri</a></li>
-                            <li><a href="" className="hover:underline">Kontak</a></li>
+                            <li><a href="#beranda" className="hover:underline">Beranda</a></li>
+                            <li><a href="#profil" className="hover:underline">Profil</a></li>
+                            <li><a href="#gurudansiswa" className="hover:underline">Guru</a></li>
+                            <li><a href="#galeri" className="hover:underline">Galeri</a></li>
+                            <li><a href="#kontak" className="hover:underline">Kontak</a></li>
                         </ul>
                     </div>
+
+                    {/* Kontak / Sosial Media */}
+                    <div>
+                        <h4 className="text-xl font-bold mb-3">Kontak</h4>
+                        <div className="flex space-x-4">
+                            <a href="#" className="hover:text-gray-200"><Facebook /></a>
+                            <a href="#" className="hover:text-gray-200"><Instagram /></a>
+                            <a href="mailto:info@sdn1salawu.sch.id" className="hover:text-gray-200"><Mail /></a>
+                        </div>
+                    </div>
+
                 </div>
 
-                {/* Sub Footer */}
+                {/* Sub Footer (Hak cipta) */}
                 <div className="bg-black/30 text-center text-sm py-4">
                     © {new Date().getFullYear()} SDN 1 Salawu. Semua Hak Dilindungi.
                 </div>
