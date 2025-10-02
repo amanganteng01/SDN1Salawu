@@ -1,6 +1,7 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
+// Daftar menu sidebar admin
 const menus = [
   { href: "/admin/beranda", label: "Dashboard" },
   { href: "/admin/daftar/user", label: "User" },
@@ -12,15 +13,22 @@ const menus = [
   { href: "/admin/daftar/profil/sekolah", label: "Profil Sekolah" },
 ];
 
+// Komponen utama layout admin
+// Membungkus halaman admin dengan header, sidebar, konten utama, dan footer
 export default function LayoutAdmin({ children }) {
+  // Ambil props global dari Inertia (misalnya user login)
   const { props } = usePage();
   const user = props.auth?.user;
 
+  // State untuk membuka/menutup sidebar pada mode mobile
   const [sidebarOpen, setsidebarOpen] = useState(false);
 
+  // Variabel className untuk gradient (header/footer/sidebar)
   const gradient = `bg-gradient-to-r from-[#E52020] to-[#FBA518] text-white`;
+  // Variabel className untuk background konten utama
   const gradientMain = `bg-gradient-to-r from-[#E52020]/30 to-[#FBA518]/30`;
 
+  // Return layout admin (header, sidebar, main content, footer)
   return (
     <div>
         {/* Header atas */}
@@ -28,6 +36,7 @@ export default function LayoutAdmin({ children }) {
         <h1 className="text-xl md:text-2xl font-extrabold flex-1">
           Admin SDN 1 Salawu
         </h1>
+        {/* Jika user login tampilkan tombol logout, jika tidak tampilkan login */}
         {user ? (
             <Link
             href="/logout"
@@ -45,6 +54,7 @@ export default function LayoutAdmin({ children }) {
                 Login
             </Link>
         )}
+        {/* Tombol toggle sidebar untuk mobile */}
         <button
             className="md:hidden p-2 rounded hover:bg-white/20 ml-3"
             onClick={() => setsidebarOpen(!sidebarOpen)}
@@ -59,7 +69,7 @@ export default function LayoutAdmin({ children }) {
                 <aside className={`z-100 fixed top-11 left-0 w-64 h-full ${gradient} transform transition-transform duration-300 md:translate-x-0
                     ${sidebarOpen ? "translate-0" : "-translate-x-full"}
                 `}>
-                    {/* Menu */}
+                    {/* Menu navigasi sidebar */}
                     <nav className="mt-6 flex-1">
                     <ul className="flex flex-col gap-2 px-6 text-sm md:text-base">
                         {menus.map((menu, i) => (
@@ -76,7 +86,7 @@ export default function LayoutAdmin({ children }) {
                     </nav>
                 </aside>
 
-                {/* Main content */}
+                {/* Main content saat user login */}
                 <main
                     className={`${gradientMain} ml-0 md:ml-64 mt-11 p-6 min-h-screen`}
                 >
@@ -85,7 +95,7 @@ export default function LayoutAdmin({ children }) {
             </>
         ):(
             <>
-                {/* Main content */}
+                {/* Main content saat belum login */}
                 <main
                     className={`${gradientMain} p-6 min-h-screen`}
                 >

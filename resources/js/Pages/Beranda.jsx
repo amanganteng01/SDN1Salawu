@@ -37,7 +37,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                 <div className="max-w-5xl mx-auto text-center px-6">
                     <h3 className="text-3xl font-extrabold mb-6 text-blue-700">Tentang Kami</h3>
                     <p className="text-gray-700 leading-relaxed text-lg">
-                        {profil.visi_misi}
+                        {profil.deskripsi}
                     </p>
                 </div>
             </section>

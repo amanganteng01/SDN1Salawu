@@ -1,18 +1,21 @@
 import { useForm, usePage } from "@inertiajs/react";
 
 export default function Login() {
+    // Hook useForm untuk meng-handle data form login (username & password)
     const { data, setData, post, processing, errors, reset } = useForm({
         username: "",
         password: "",
     });
 
+    // Fungsi submit untuk mengirim data ke backend via Inertia
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // mencegah reload halaman
         post("/login/auth", {
-            onSuccess: () => reset(),
+            onSuccess: () => reset(), // reset form jika berhasil login
         });
     };
 
+    // Mengambil flash message (pesan sukses/gagal) dari props Inertia
     const { flash } = usePage().props;
 
     return (
@@ -34,8 +37,9 @@ export default function Login() {
                     </div>
                 )}
 
-                {/* Form */}
+                {/* Form Login */}
                 <form onSubmit={submit} className="space-y-4">
+                    {/* Input Username */}
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                             Username
@@ -44,7 +48,7 @@ export default function Login() {
                             type="text"
                             id="username"
                             value={data.username}
-                            onChange={(e) => setData("username", e.target.value)}
+                            onChange={(e) => setData("username", e.target.value)} // update state form
                             required
                             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-400"
                         />
@@ -53,6 +57,7 @@ export default function Login() {
                         )}
                     </div>
 
+                    {/* Input Password */}
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                             Password
@@ -61,7 +66,7 @@ export default function Login() {
                             type="password"
                             id="password"
                             value={data.password}
-                            onChange={(e) => setData("password", e.target.value)}
+                            onChange={(e) => setData("password", e.target.value)} // update state form
                             required
                             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-400"
                         />
@@ -70,9 +75,10 @@ export default function Login() {
                         )}
                     </div>
 
+                    {/* Tombol Login */}
                     <button
                         type="submit"
-                        disabled={processing}
+                        disabled={processing} // disable tombol saat sedang memproses
                         className="w-full bg-gradient-to-r from-[#E52020] to-[#FBA518] text-white py-2 rounded-md font-medium hover:opacity-90"
                     >
                         {processing ? "Loading..." : "Login"}

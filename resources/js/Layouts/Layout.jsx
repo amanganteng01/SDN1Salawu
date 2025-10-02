@@ -1,8 +1,11 @@
 import { Link, router } from "@inertiajs/react"
 import { Facebook, Instagram, Mail } from "lucide-react";
 
+// Komponen utama Layout untuk membungkus seluruh halaman
+// Menerima 'children' sebagai konten dinamis yang akan ditampilkan di bagian <main>
 export default function Layout({children}){
 
+    // Variabel className untuk ukuran tombol navigasi (responsive)
     const ukuranNavbtn =`
         hover:underline
         text-xs
@@ -13,6 +16,7 @@ export default function Layout({children}){
         2xl:text-2xlA
     `
 
+    // Variabel className untuk background gradient (merah ke oranye)
     const gradient = `
         bg-gradient-to-r
         from-[#E52020]
@@ -20,9 +24,11 @@ export default function Layout({children}){
         text-white
     `
 
+    // Variabel className untuk background utama dengan gradient transparan
     const gradientMain = `bg-gradient-to-r from-[#E52020]/30 to-[#FBA518]/30`;
 
 
+    // Return tampilan layout (Header, Main, Footer)
     return (
         <>
             {/* Header */}
@@ -41,12 +47,13 @@ export default function Layout({children}){
                 </div>
             </header>
 
+            {/* Main Content */}
             <main className={`${gradientMain} ml-0 mt-11 min-h-screen`} >{children}</main>
 
             {/* Footer */}
             <footer className={`${gradient} mt-10`} id="kontak">
                 <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Info */}
+                    {/* Info Sekolah */}
                     <div>
                         <h4 className="text-xl font-bold mb-3">SDN 1 Salawu</h4>
                         <p className="text-sm text-gray-100">
@@ -54,7 +61,7 @@ export default function Layout({children}){
                         </p>
                     </div>
 
-                    {/* Navigasi */}
+                    {/* Navigasi Footer */}
                     <div>
                         <h4 className="text-xl font-bold mb-3">Navigasi</h4>
                         <ul className="space-y-2 text-sm">
@@ -66,7 +73,7 @@ export default function Layout({children}){
                         </ul>
                     </div>
 
-                    {/* Sosial */}
+                    {/* Sosial Media */}
                     <div>
                         <h4 className="text-xl font-bold mb-3">Ikuti Kami</h4>
                         <div className="flex gap-4">
@@ -77,7 +84,7 @@ export default function Layout({children}){
                     </div>
                 </div>
 
-                {/* Sub Footer */}
+                {/* Sub Footer (Hak cipta) */}
                 <div className="bg-black/30 text-center text-sm py-4">
                     © {new Date().getFullYear()} SDN 1 Salawu. Semua Hak Dilindungi.
                 </div>
