@@ -12,6 +12,7 @@ use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ViewController::class, 'beranda']);
+Route::get('/guru', [ViewController::class, 'guru']);
 Route::get('/profilsekolah', [ViewController::class, 'profilSekolah']);
 Route::get('/ekstrakurikuler', [ViewController::class, 'ekstrakurikuler']);
 

@@ -38,7 +38,7 @@ export default function Layout({children}){
                         <a href="/" className={ukuranNavbtn}>Beranda</a>
                         <a href="#" className={ukuranNavbtn}>Profil</a>
                         <a href="#" className={ukuranNavbtn}>Berita</a>
-                        <a href="#" className={ukuranNavbtn}>Guru</a>
+                        <a href="/guru" className={ukuranNavbtn}>Guru</a>
                         <a href="#" className={ukuranNavbtn}>Galeri</a>
                         <a href="#" className={ukuranNavbtn}>Ekstrakurikuler</a>
                         <a href="#" className={ukuranNavbtn}>Kontak</a>

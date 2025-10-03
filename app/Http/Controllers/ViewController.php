@@ -19,11 +19,16 @@ class ViewController extends Controller
         $profil = ProfilSekolah::first();
         $guru = Guru::all();
         $siswa = Siswa::all();
-        $galeri = Galeri::orderBy("created_at", "desc")->get();
+        $galeri = Galeri::orderBy("created_at", "desc")->take(6)->get();
         $ekskul = Ekstrakurikuler::orderBy("created_at","desc")->take(6)->get();
-        $berita = Berita::orderBy("created_at","desc")->take(3)->get();
+        $berita = Berita::orderBy("created_at","desc")->take(6)->get();
         // Mengembalikan ke halaman beranda dengan data yang telah diambil
         return Inertia::render("Beranda", ['jumlahguru'=> $guru->count(), 'jumlahsiswa' => $siswa->count(), 'profil' => $profil, 'galeri' => $galeri, 'ekskul' => $ekskul, 'berita' => $berita ]);
+    }
+
+    public function guru(){
+        $guru = Guru::all();
+        return Inertia::render('Guru', ['guru' => $guru]);
     }
 
     public function profilSekolah(){
