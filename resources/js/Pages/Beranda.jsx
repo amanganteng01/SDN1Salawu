@@ -1,43 +1,81 @@
-import { User, GraduationCap } from "lucide-react";
-import { useState } from "react";
+import { User, GraduationCap, Icon } from "lucide-react";
+import { useState, useEffect } from "react";
 import GunakanWidthWindows from "../Admin/GunakanWidthWindows";
+import { label } from "framer-motion/client";
 
 export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galeri, ekskul }) {
     // Mendapatkan lebar jendela browser
     const width = GunakanWidthWindows();
-    // Status slide galeri
     const[ statusGaleriSlide, setstatusGaleriSlide ] = useState(0);
+    // Status slide galeri
+    // Status slide jumlah guru dan siswa
+    const[ statusGurudanSiswaSlide, setstatusGurudanSiswaSlide ] = useState(0);
 
-    const bagiArray = (array, ukuran) => {
+    useEffect(() => {
+        if (width > 768) {
+            if (statusGaleriSlide > 1) {
+                setstatusGaleriSlide(0);
+            }
+        }else if (width > 640) {
+            setstatusGurudanSiswaSlide(0);
+            if (statusGaleriSlide > 2) {
+                setstatusGaleriSlide(0);
+            }
+        }
+    });
+
+    // Fungsi untuk membagi array galeri menjadi beberapa bagian dengan ukuran tertentu
+    const bagiArrayGaleri = (array, ukuran) => {
         return array.reduce((hasil, _, index) => (
             index % ukuran ? hasil : [...hasil, array.slice(index, index + ukuran)]
         ),[]
         )
     }
 
-    // Membagi galeri menjadi beberapa bagian untuk ditampilkan dalam slide
-    const galeriTerbagi = () => {
-        if(width > 768){
-            return bagiArray(galeri, 3);
-        } else if(width > 640){
-            return bagiArray(galeri, 2);
-        } else {
-            return bagiArray(galeri, 1);
+    // Fungsi untuk menampilkan jumlah guru dan siswa menjadi beberapa bagian dengan ukuran tertentu
+    const bagiArrayGurudanSiswa = (array, ukuran) => {
+        return array.reduce((hasil, _, index) => (
+            index % ukuran ? hasil : [...hasil, array.slice(index, index + ukuran)]
+        ),[])
+    }
+
+    // Membagi jumlah guru dan siswa menjadi beberapa bagian untuk ditampilkan dalam slide
+    const jumlahGuruDanSiswaTerbagi = () => {
+        const data = [
+            { label: 'Guru', jumlah: jumlahguru, Icon: <GraduationCap className="mx-auto w-12 h-12 mb-3" /> },
+            { label: 'Siswa', jumlah: jumlahsiswa, Icon: <User className="mx-auto w-12 h-12 mb-3" /> }
+        ]
+
+        if (width > 640) {
+            return bagiArrayGurudanSiswa(data, 2);
+        }else {
+            return bagiArrayGurudanSiswa(data, 1);
         }
     }
 
-    // Fungsi untuk mengubah slide galeri ke kiri
-    const slideSebelumnya = () => {
-        setstatusGaleriSlide(statusGaleriSlide === 0 ? galeriTerbagi().length - 1 : statusGaleriSlide - 1);
-    }
-    // Fungsi untuk mengubah slide galeri ke kanan
-    const slideSelanjutnya = () => {
-        setstatusGaleriSlide(statusGaleriSlide === galeriTerbagi().length - 1 ? 0 : statusGaleriSlide + 1);
+    // Membagi galeri menjadi beberapa bagian untuk ditampilkan dalam slide
+    const galeriTerbagi = () => {
+        if(width > 768){
+            return bagiArrayGaleri(galeri, 3);
+        } else if(width > 640){
+            return bagiArrayGaleri(galeri, 2);
+        } else {
+            return bagiArrayGaleri(galeri, 1);
+        }
     }
 
-    // Fungsi untuk memulai slide galeri pada indeks tertentu
-    const mulaiSlide = (index) => [
-        setstatusGaleriSlide(index)
+    // Fungsi untuk mengubah slide ke kiri
+    const slideSebelumnya = (status, setStatus, hasilBagi) => {
+        setStatus(status === 0 ? hasilBagi - 1 : status - 1);
+    }
+    // Fungsi untuk mengubah slide ke kanan
+    const slideSelanjutnya = (status, setStatus, hasilBagi) => {
+        setStatus(status === hasilBagi - 1 ? 0 : status + 1);
+    }
+
+    // Fungsi untuk memulai slide pada indeks tertentu
+    const mulaiSlide = (setStatus ,index) => [
+        setStatus(index)
     ]
 
 
@@ -58,7 +96,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
     return (
         <>
             {/* Hero */}
-            <section id="beranda" className="bg-center h-[500px] flex items-center justify-center relative">
+            <section className="bg-center h-[500px] flex items-center justify-center relative">
                 <img src={`storage/foto/${profil.foto}`} alt="" className="absolute inset-0 w-full h-full object-cover"/>
                 <div className={`${gradienthiro} absolute inset-0 z-0`}></div>
                 <div className="relative z-10 text-center">
@@ -72,7 +110,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
             </section>
 
             {/* Tentang */}
-            <section id="profil" className="py-16 bg-gray-50">
+            <section className="py-16 bg-gray-50">
                 <div className="max-w-5xl mx-auto text-center px-6">
                     <h3 className="text-3xl font-extrabold mb-6 text-blue-700">Tentang Kami</h3>
                     <p className="text-gray-700 leading-relaxed text-lg">
@@ -82,7 +120,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
             </section>
 
             {/* Berita */}
-            <section id="berita" className="py-16 bg-white">
+            <section className="py-16 bg-white">
             <div className="max-w-6xl mx-auto px-6">
                 <h3 className="text-3xl font-extrabold mb-8 text-center text-red-600">
                 Berita Terbaru
@@ -122,23 +160,24 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
             </section>
 
             {/* Guru dan Siswa */}
-            <section id="gurudansiswa" className={`py-16 ${gradient} text-white`}>
+            <section className={`py-16 ${gradient} text-white relative`}>
                 <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10 text-center px-6">
-                    <div className="p-8 bg-white/20 rounded-xl shadow-lg backdrop-blur-md">
-                        <GraduationCap className="mx-auto w-12 h-12 mb-3" />
-                        <div className="text-5xl font-bold">{jumlahguru}</div>
-                        <div className="text-lg">Guru</div>
-                    </div>
-                    <div className="p-8 bg-white/20 rounded-xl shadow-lg backdrop-blur-md">
-                        <User className="mx-auto w-12 h-12 mb-3" />
-                        <div className="text-5xl font-bold">{jumlahsiswa}</div>
-                        <div className="text-lg">Siswa</div>
-                    </div>
+                    {jumlahGuruDanSiswaTerbagi()[statusGurudanSiswaSlide]?.map((item) => (
+                        <>
+                            <div className="p-8 bg-white/20 rounded-xl shadow-lg backdrop-blur-md" key={item}>
+                                {item.Icon}
+                                <div className="text-5xl font-bold">{item.jumlah}</div>
+                                <div className="text-lg">{item.label}</div>
+                            </div>
+                        </>
+                    ))}
                 </div>
+                <button onClick={() => slideSelanjutnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)} className="absolute top-1/2 right-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full sm:hidden">❯</button>
+                <button onClick={() => slideSebelumnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)} className="absolute top-1/2 left-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full sm:hidden">❮</button>
             </section>
 
             {/* Galeri */}
-            <section id="galeri" className="py-16 bg-white relative">
+            <section className="py-16 bg-white relative">
                 <div className="max-w-6xl mx-auto px-6 text-center">
                     <h3 className="text-3xl font-extrabold mb-6 text-green-700">
                         Galeri
@@ -164,8 +203,8 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                             </div>
                         ))}
                     </div>
-                    <button onClick={slideSelanjutnya} className="absolute top-1/2 right-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">❯</button>
-                    <button onClick={slideSebelumnya} className="absolute top-1/2 left-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">❮</button>
+                    <button onClick={() => slideSelanjutnya(statusGaleriSlide, setstatusGaleriSlide, galeriTerbagi().length)} className="absolute top-1/2 right-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">❯</button>
+                    <button onClick={() => slideSebelumnya(statusGaleriSlide, setstatusGaleriSlide, galeriTerbagi().length)} className="absolute top-1/2 left-0 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">❮</button>
                 </div>
                 {/* Indicator */}
                 <div className="flex justify-center mt-4 space-x-2">
@@ -182,7 +221,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
             </section>
 
             {/* Eskul */}
-            <section id="eskul" className="py-16 bg-gray-50">
+            <section className="py-16 bg-gray-50">
             <div className="max-w-6xl mx-auto px-6 text-center">
                 <h3 className="text-3xl font-extrabold mb-6 text-purple-700">
                 Ekstrakurikuler

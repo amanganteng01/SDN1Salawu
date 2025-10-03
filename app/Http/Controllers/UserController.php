@@ -10,13 +10,13 @@ class UserController extends Controller
 {
     public function daftarUser()
     {
-        // Mendapatkan level user yang sedang login
-        $level = Auth::user()->level;
+        // Mendapatkan role user yang sedang login
+        $role = Auth::user()->role;
         // Mengambil semua data user
         $user = User::all();
         // Mengembalikan ke halaman daftar user
         return inertia('User/DaftarUser', [
-            'users' => $user, 'level' => $level
+            'users' => $user, 'role' => $role
         ]);
     }
 

@@ -42,7 +42,7 @@ class ViewController extends Controller
         $jumlahsiswa = Siswa::all()->count();
         $jumlahekskul = Ekstrakurikuler::all()->count();
         $jumlahberita = Berita::all()->count();
-        $level = Auth::user()->level;
+        $level = Auth::user()->role;
         // Mengembalikan ke halaman beranda admin dengan data yang telah diambil
         return Inertia::render("Dashboard", ['jumlahguru' => $jumlahguru, 'jumlahsiswa' => $jumlahsiswa, 'jumlahekskul' => $jumlahekskul, 'jumlahberita' => $jumlahberita, 'level' => $level] );
     }

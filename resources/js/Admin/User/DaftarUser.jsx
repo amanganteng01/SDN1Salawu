@@ -6,7 +6,7 @@ import EditUser from "./EditUser";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 
 // Komponen utama daftar user
-export default function DaftarUser({ users }) {
+export default function DaftarUser({ users, role }) {
     // Mendapatkan lebar jendela browser
     const width = GunakanWidthWindows();
 
@@ -71,12 +71,17 @@ export default function DaftarUser({ users }) {
             {/* Header dengan judul dan tombol tambah user */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="font-bold text-xl md:text-2xl">Daftar User</h1>
-                <button
-                    onClick={() => setOpenTambah(true)} // buka modal tambah user
-                    className={`${border} ${gradient} ${gradientHover} rounded-md md:rounded-lg`}
-                >
-                    Tambah User
-                </button>
+                {/* Hanya admin yang bisa menambah user */}
+                {role === 'Admin' && (
+                    <>
+                        <button
+                            onClick={() => setOpenTambah(true)} // buka modal tambah user
+                            className={`${border} ${gradient} ${gradientHover} rounded-md md:rounded-lg`}
+                        >
+                            Tambah User
+                        </button>
+                    </>
+                )}
             </div>
 
             {/* Tabel daftar user */}
@@ -88,7 +93,11 @@ export default function DaftarUser({ users }) {
                             <th className="px-4 py-3 text-left">Nama</th>
                             <th className="px-4 py-3 text-left">Username</th>
                             <th className="px-4 py-3 text-left">Role</th>
-                            <th className="px-4 py-3 text-center">Aksi</th>
+                            {role === 'Admin' && (
+                                <>
+                                    <th className="px-4 py-3 text-center">Aksi</th>
+                                </>
+                            )}
                         </tr>
                     </thead>
                     <tbody>
@@ -103,90 +112,94 @@ export default function DaftarUser({ users }) {
                                     <td className="px-4 py-3">{item.name}</td>
                                     <td className="px-4 py-3">{item.username}</td>
                                     <td className="px-4 py-3">{item.role}</td>
-                                    <td className="px-4 py-3 text-center space-x-2 relative">
-                                        {/* Jika layar kecil: tampilkan dropdown aksi */}
-                                        {widthmd ? (
-                                            <div className="relative inline-block text-left">
-                                                <button
-                                                    onClick={() =>
-                                                        setAksi(openAksi === item.id ? null : item.id)
-                                                    } // toggle menu aksi
-                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
-                                                        bg-gradient-to-r from-[#E52020]/20 to-[#FBA518]/20
-                                                        hover:from-[#E52020]/30 hover:to-[#FBA518]/30
-                                                        text-sm md:text-base font-medium text-gray-800
-                                                        shadow-sm transition"
-                                                >
-                                                    Aksi
-                                                    <span className="text-xs">
-                                                        {openAksi === item.id ? "▲" : "▼"}
-                                                    </span>
-                                                </button>
+                                    {role === 'Admin' && (
+                                        <>
+                                            <td className="px-4 py-3 text-center space-x-2 relative">
+                                                {/* Jika layar kecil: tampilkan dropdown aksi */}
+                                                        {widthmd ? (
+                                                            <div className="relative inline-block text-left">
+                                                                <button
+                                                                    onClick={() =>
+                                                                        setAksi(openAksi === item.id ? null : item.id)
+                                                                    } // toggle menu aksi
+                                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
+                                                                        bg-gradient-to-r from-[#E52020]/20 to-[#FBA518]/20
+                                                                        hover:from-[#E52020]/30 hover:to-[#FBA518]/30
+                                                                        text-sm md:text-base font-medium text-gray-800
+                                                                        shadow-sm transition"
+                                                                >
+                                                                    Aksi
+                                                                    <span className="text-xs">
+                                                                        {openAksi === item.id ? "▲" : "▼"}
+                                                                    </span>
+                                                                </button>
 
-                                                {/* Dropdown aksi edit/hapus */}
-                                                {openAksi === item.id && (
-                                                    <div
-                                                        className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg
-                                                            ring-1 ring-black/5 z-50 bg-white"
-                                                    >
-                                                        <div className="py-1">
-                                                            {/* Tombol edit user */}
-                                                            <button
-                                                                onClick={() => {
-                                                                    setSelectedUser(item); // pilih user untuk diedit
-                                                                    setOpenEdit(true);     // buka modal edit
-                                                                    setAksi(null);         // tutup dropdown
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
-                                                                    hover:bg-[#FBA518]/10 hover:text-[#FBA518]
-                                                                    rounded transition"
-                                                            >
-                                                                Edit
-                                                            </button>
-                                                            {/* Tombol hapus user */}
-                                                            <button
-                                                                onClick={() => {
-                                                                    if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-                                                                        router.delete(`/admin/hapus/user/${item.id}`);
-                                                                    }
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
-                                                                    hover:bg-red-100 hover:text-red-600
-                                                                    rounded transition"
-                                                            >
-                                                                Hapus
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                                                {/* Dropdown aksi edit/hapus */}
+                                                                {openAksi === item.id && (
+                                                                    <div
+                                                                        className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg
+                                                                            ring-1 ring-black/5 z-50 bg-white"
+                                                                    >
+                                                                        <div className="py-1">
+                                                                            {/* Tombol edit user */}
+                                                                            <button
+                                                                                onClick={() => {
+                                                                                    setSelectedUser(item); // pilih user untuk diedit
+                                                                                    setOpenEdit(true);     // buka modal edit
+                                                                                    setAksi(null);         // tutup dropdown
+                                                                                }}
+                                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
+                                                                                    hover:bg-[#FBA518]/10 hover:text-[#FBA518]
+                                                                                    rounded transition"
+                                                                            >
+                                                                                Edit
+                                                                            </button>
+                                                                            {/* Tombol hapus user */}
+                                                                            <button
+                                                                                onClick={() => {
+                                                                                    if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
+                                                                                        router.delete(`/admin/hapus/user/${item.id}`);
+                                                                                    }
+                                                                                }}
+                                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
+                                                                                    hover:bg-red-100 hover:text-red-600
+                                                                                    rounded transition"
+                                                                            >
+                                                                                Hapus
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            // Jika layar besar: tampilkan tombol langsung
+                                                            <>
+                                                                {/* Tombol edit */}
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setSelectedUser(item);
+                                                                        setOpenEdit(true);
+                                                                    }}
+                                                                    className={`${ukuranTextBtn} bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition`}
+                                                                >
+                                                                    Edit
+                                                                </button>
+                                                                {/* Tombol hapus */}
+                                                                <button
+                                                                    onClick={() => {
+                                                                        if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
+                                                                            router.delete(`/admin/hapus/user/${item.id}`);
+                                                                        }
+                                                                    }}
+                                                                    className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
+                                                                >
+                                                                    Hapus
+                                                                </button>
+                                                            </>
                                                 )}
-                                            </div>
-                                        ) : (
-                                            // Jika layar besar: tampilkan tombol langsung
-                                            <>
-                                                {/* Tombol edit */}
-                                                <button
-                                                    onClick={() => {
-                                                        setSelectedUser(item);
-                                                        setOpenEdit(true);
-                                                    }}
-                                                    className={`${ukuranTextBtn} bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition`}
-                                                >
-                                                    Edit
-                                                </button>
-                                                {/* Tombol hapus */}
-                                                <button
-                                                    onClick={() => {
-                                                        if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-                                                            router.delete(`/admin/hapus/user/${item.id}`);
-                                                        }
-                                                    }}
-                                                    className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
-                                                >
-                                                    Hapus
-                                                </button>
-                                            </>
-                                        )}
-                                    </td>
+                                            </td>
+                                        </>
+                                    )}
                                 </tr>
                             ))
                         ) : (

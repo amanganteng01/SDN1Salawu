@@ -5,7 +5,7 @@ export default function Dashboard({jumlahguru, jumlahsiswa, jumlahekskul, jumlah
     return (
         <div className="p-6">
             {/* Judul Dashboard */}
-            <h1 className="text-2xl font-bold mb-6">Dashboard Admin</h1>
+            <h1 className="text-2xl font-bold mb-6">{level === 'Admin' ? 'Dashboard Admin' : 'Dashboard Officer'}</h1>
 
             {/* Statistik Card - Menampilkan jumlah data penting */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

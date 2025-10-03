@@ -11,12 +11,8 @@ export default function Modal({ isOpen, onClose, title, children }) {
 
   // State untuk mengecek apakah lebar layar > 768 (mode desktop)
   const [widthMd, setWidthMd] = useState(false);
-<<<<<<< HEAD
 
-=======
-  
   // useEffect dijalankan setiap kali 'width' berubah
->>>>>>> 350042b1a538264d0a546f8fad4e60ac57f2adc7
   useEffect(() => {
     if (width > 768) {
       setWidthMd(true); // jika layar lebar, set ke true
@@ -37,9 +33,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
       {widthMd ? (
         <>
           {/* Modal versi desktop */}
-          <div
-            className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] p-6 flex flex-col"
-          >
+          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] p-6 flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg md:text-xl font-bold">{title}</h2>
             </div>
@@ -49,14 +43,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
       ) : (
         <>
           {/* Modal versi mobile */}
-          <div
-<<<<<<< HEAD
-            className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 max-h-[90vh] flex flex-col
-            "
-=======
-            className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 max-h-[90vh] p-6 flex flex-col"
->>>>>>> 350042b1a538264d0a546f8fad4e60ac57f2adc7
-          >
+          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm max-h-[90vh] p-6 flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg md:text-xl font-bold">{title}</h2>
             </div>
