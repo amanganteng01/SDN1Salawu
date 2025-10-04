@@ -1,113 +1,145 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
+import { User, UserCircle, Lock } from "lucide-react";
 
+/**
+ * Komponen EditUser - Form untuk mengedit user yang sudah ada
+ * Menggunakan useForm dari Inertia untuk handle form state dan submission
+ */
 export default function EditUser({ user, onClose }) {
-  // useForm digunakan untuk mengelola state form (data, error, reset, dll.)
-  const { data, setData, post, processing, errors, reset } = useForm({
-    name: "",
-    username: "",
-    password: "",
-  });
-
-  // useEffect: setiap kali "user" berubah, isi form akan otomatis diset
-  useEffect(() => {
-    if (user) {
-      setData({
-        name: user.name || "",
-        username: user.username || "",
-        password: "", // password dikosongkan saat edit (opsional)
-      });
-    }
-  }, [user]);
-
-  // Fungsi submit untuk mengirim data ke server dengan post()
-  const submit = (e) => {
-    e.preventDefault(); // cegah reload halaman
-    post(`/admin/update/user/${user.id}`, {
-      onSuccess: () => {
-        reset();   // reset form setelah berhasil update
-        onClose(); // tutup modal atau form edit
-      },
+    // Inisialisasi form dengan useForm hook
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: "",
+        username: "",
+        password: "",
+        role: "Officer",
     });
-  };
 
-  return (
-    <form onSubmit={submit} className="space-y-5">
-      {/* Input Nama */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
-          Nama
-        </label>
-        <input
-          type="text"
-          value={data.name} // binding ke state form
-          onChange={(e) => setData("name", e.target.value)} // update state
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
-                     focus:border-[#E52020]"
-          placeholder="Masukkan nama"
-        />
-        {/* tampilkan error jika ada */}
-        {errors.name && <div className="text-red-500 text-xs mt-1">{errors.name}</div>}
-      </div>
+    /**
+     * Effect untuk mengisi form dengan data user yang akan diedit
+     * Di-trigger ketika prop user berubah
+     */
+    useEffect(() => {
+        if (user) {
+            setData({
+                name: user.name || "",
+                username: user.username || "",
+                password: "", // Password dikosongkan agar tidak overwrite
+                role: user.role || "Officer",
+            });
+        }
+    }, [user]);
 
-      {/* Input Username */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
-          Username
-        </label>
-        <input
-          type="text"
-          value={data.username}
-          onChange={(e) => setData("username", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
-                     focus:border-[#E52020]"
-          placeholder="Masukkan username"
-        />
-        {errors.username && <div className="text-red-500 text-xs mt-1">{errors.username}</div>}
-      </div>
+    /**
+     * Fungsi handle submit form
+     * @param {Event} e - Event form submission
+     */
+    const submit = (e) => {
+        e.preventDefault(); // Mencegah reload halaman
+        
+        // Kirim data ke endpoint update
+        post(`/admin/update/user/${user.id}`, {
+            onSuccess: () => {
+                reset();    // Reset form state
+                onClose();  // Tutup modal
+            },
+        });
+    };
 
-      {/* Input Password (opsional saat edit) */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
-          Password (opsional)
-        </label>
-        <input
-          type="password"
-          value={data.password}
-          onChange={(e) => setData("password", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
-                     focus:border-[#E52020]"
-          placeholder="Kosongkan jika tidak ingin mengganti password"
-        />
-        {errors.password && <div className="text-red-500 text-xs mt-1">{errors.password}</div>}
-      </div>
+    return (
+        <form onSubmit={submit} className="space-y-5">
+            {/* Field Nama */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Nama Lengkap
+                </label>
+                <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="text"
+                        value={data.name}
+                        onChange={(e) => setData("name", e.target.value)}
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm 
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Masukkan nama lengkap"
+                    />
+                </div>
+                {/* Error message untuk nama */}
+                {errors.name && (
+                    <div className="text-red-500 text-xs mt-1">{errors.name}</div>
+                )}
+            </div>
 
-      {/* Tombol aksi (Batal & Perbarui) */}
-      <div className="flex items-center justify-end gap-3 pt-2">
-        {/* Tombol batal → hanya menutup modal */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition"
-        >
-          Batal
-        </button>
+            {/* Field Username */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Username
+                </label>
+                <div className="relative">
+                    <UserCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="text"
+                        value={data.username}
+                        onChange={(e) => setData("username", e.target.value)}
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Masukkan username"
+                    />
+                </div>
+                {/* Error message untuk username */}
+                {errors.username && (
+                    <div className="text-red-500 text-xs mt-1">{errors.username}</div>
+                )}
+            </div>
 
-        {/* Tombol submit → kirim form */}
-        <button
-          type="submit"
-          disabled={processing} // disable saat proses submit
-          className="px-4 py-2 rounded-lg text-sm font-semibold text-white
-                     bg-gradient-to-r from-[#E52020] to-[#FBA518]
-                     hover:from-[#E52020]/80 hover:to-[#FBA518]/80
-                     shadow-md transition"
-        >
-          {processing ? "Memperbarui..." : "Perbarui"}
-        </button>
-      </div>
-    </form>
-  );
+            {/* Field Password */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Password (Opsional)
+                </label>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="password"
+                        value={data.password}
+                        onChange={(e) => setData("password", e.target.value)}
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Kosongkan jika tidak ingin mengganti password"
+                    />
+                </div>
+                {/* Error message untuk password */}
+                {errors.password && (
+                    <div className="text-red-500 text-xs mt-1">{errors.password}</div>
+                )}
+            </div>
+
+            {/* Tombol Aksi */}
+            <div className="flex items-center justify-end gap-3 pt-4">
+                {/* Tombol Batal */}
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                               hover:bg-slate-100 rounded-lg transition-colors"
+                >
+                    Batal
+                </button>
+                
+                {/* Tombol Submit */}
+                <button
+                    type="submit"
+                    disabled={processing}
+                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                               bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400
+                               shadow-md transition-colors"
+                >
+                    {processing ? "Memperbarui..." : "Perbarui User"}
+                </button>
+            </div>
+        </form>
+    );
 }

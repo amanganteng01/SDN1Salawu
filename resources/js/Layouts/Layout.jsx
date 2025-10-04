@@ -1,97 +1,180 @@
 import { Link, router } from "@inertiajs/react"
-import { Facebook, Instagram, Mail } from "lucide-react";
+import { Facebook, Instagram, Mail, Menu, X } from "lucide-react";
+import { useState } from "react";
 
-// Komponen utama Layout untuk membungkus seluruh halaman
-// Menerima 'children' sebagai konten dinamis yang akan ditampilkan di bagian <main>
-export default function Layout({children}){
+/**
+ * Komponen Layout - Layout utama untuk halaman publik website SDN 1 Salawu
+ * Menyediakan header, main content, dan footer dengan design yang konsisten
+ * Responsif untuk desktop dan mobile dengan navigation drawer
+ */
+export default function Layout({ children }) {
+    // State untuk mengontrol buka/tutup menu mobile
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    // Variabel className untuk ukuran tombol navigasi (responsive)
-    const ukuranNavbtn =`
-        hover:underline
-        text-xs
-        sm:text-sm
-        md:text-base
-        lg:text-lg
-        xl:text-xl
-        2xl:text-2xl
-    `
-
-    // Variabel className untuk background gradient (merah ke oranye)
+    // Variabel className untuk background gradient (biru theme)
     const gradient = `
         bg-gradient-to-r
-        from-[#E52020]
-        to-[#FBA518]
+        from-blue-600
+        to-blue-700
         text-white
-    `
+    `;
 
-    // Variabel className untuk background utama dengan gradient transparan
-    const gradientMain = `bg-gradient-to-r from-[#E52020]/30 to-[#FBA518]/30`;
+    // Variabel className untuk background utama
+    const mainBg = `bg-blue-50`;
 
-    // Return tampilan layout (Header, Main, Footer)
+    // Daftar menu navigasi
+    const menuItems = [
+        { href: "/", label: "Beranda" },
+        { href: "#profil", label: "Profil" },
+        { href: "#berita", label: "Berita" },
+        { href: "/guru", label: "Guru" },
+        { href: "#galeri", label: "Galeri" },
+        { href: "#ekskul", label: "Ekstrakurikuler" },
+        { href: "#kontak", label: "Kontak" }
+    ];
+
     return (
-        <>
+        <div className="min-h-screen">
             {/* Header */}
-            <header className={`${gradient} shadow-md fixed w-full max-w-[1920px] top-0 z-50`}>
-                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <h1 className="text-xl md:text-2xl font-extrabold">SDN 1 Salawu</h1>
-                    <nav className="space-x-6 hidden md:flex">
-                        <a href="/" className={ukuranNavbtn}>Beranda</a>
-                        <a href="#" className={ukuranNavbtn}>Profil</a>
-                        <a href="#" className={ukuranNavbtn}>Berita</a>
-                        <a href="/guru" className={ukuranNavbtn}>Guru</a>
-                        <a href="#" className={ukuranNavbtn}>Galeri</a>
-                        <a href="#" className={ukuranNavbtn}>Ekstrakurikuler</a>
-                        <a href="#" className={ukuranNavbtn}>Kontak</a>
-                    </nav>
+            <header className={`${gradient} shadow-lg fixed w-full top-0 z-50`}>
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <div className="flex justify-between items-center">
+                        {/* Logo dan Nama Sekolah */}
+                        <div className="flex items-center">
+                            <h1 className="text-xl md:text-2xl font-bold">SDN 1 Salawu</h1>
+                        </div>
+
+                        {/* Navigation Desktop */}
+                        <nav className="hidden md:flex space-x-8">
+                            {menuItems.map((item, index) => (
+                                <a 
+                                    key={index}
+                                    href={item.href} 
+                                    className="text-white hover:text-blue-100 font-medium transition-colors duration-200"
+                                >
+                                    {item.label}
+                                </a>
+                            ))}
+                        </nav>
+
+                        {/* Tombol Menu Mobile */}
+                        <button 
+                            className="md:hidden p-2 rounded-lg hover:bg-blue-500 transition-colors"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
+                            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        </button>
+                    </div>
+
+                    {/* Mobile Navigation Menu */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden mt-4 pb-4 border-t border-blue-500 pt-4">
+                            <nav className="flex flex-col space-y-4">
+                                {menuItems.map((item, index) => (
+                                    <a 
+                                        key={index}
+                                        href={item.href} 
+                                        className="text-white hover:text-blue-100 font-medium py-2 transition-colors duration-200"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        {item.label}
+                                    </a>
+                                ))}
+                            </nav>
+                        </div>
+                    )}
                 </div>
             </header>
 
             {/* Main Content */}
-            <main className={`${gradientMain} ml-0 mt-10 md:mt-11 min-h-screen`}>
+            <main className={`${mainBg} pt-11 min-h-screen`}>
                 {children}
             </main>
 
             {/* Footer */}
-            <footer className={`${gradient} mt-10`} id="kontak">
+            <footer className={`${gradient}`}>
                 <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-
+                    
                     {/* Info Sekolah */}
-                    <div>
-                        <h4 className="text-xl font-bold mb-3">SDN 1 Salawu</h4>
-                        <p className="text-sm text-gray-100">
-                            Jalan Raya Salawu No. 123, Salawu, Indonesia
-                        </p>
+                    <div className="space-y-4">
+                        <h4 className="text-xl font-bold">SDN 1 Salawu</h4>
+                        <div className="space-y-2 text-blue-100">
+                            <p className="text-sm">
+                                Jalan Raya Salawu No. 123
+                            </p>
+                            <p className="text-sm">
+                                Kecamatan Salawu, Kabupaten Tasikmalaya
+                            </p>
+                            <p className="text-sm">
+                                Jawa Barat, Indonesia 46475
+                            </p>
+                        </div>
                     </div>
 
                     {/* Navigasi Footer */}
-                    <div>
-                        <h4 className="text-xl font-bold mb-3">Navigasi</h4>
-                        <ul className="space-y-2 text-sm">
-                            <li><a href="/" className="hover:underline">Beranda</a></li>
-                            <li><a href="#" className="hover:underline">Profil</a></li>
-                            <li><a href="#" className="hover:underline">Guru & Siswa</a></li>
-                            <li><a href="#" className="hover:underline">Galeri</a></li>
-                            <li><a href="#" className="hover:underline">Kontak</a></li>
+                    <div className="space-y-4">
+                        <h4 className="text-xl font-bold">Navigasi Cepat</h4>
+                        <ul className="space-y-2 text-blue-100">
+                            {menuItems.map((item, index) => (
+                                <li key={index}>
+                                    <a 
+                                        href={item.href} 
+                                        className="text-sm hover:text-white transition-colors duration-200"
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Kontak / Sosial Media */}
-                    <div>
-                        <h4 className="text-xl font-bold mb-3">Kontak</h4>
-                        <div className="flex space-x-4">
-                            <a href="#" className="hover:text-gray-200"><Facebook /></a>
-                            <a href="#" className="hover:text-gray-200"><Instagram /></a>
-                            <a href="mailto:info@sdn1salawu.sch.id" className="hover:text-gray-200"><Mail /></a>
+                    {/* Kontak dan Sosial Media */}
+                    <div className="space-y-4">
+                        <h4 className="text-xl font-bold">Hubungi Kami</h4>
+                        <div className="space-y-3 text-blue-100">
+                            <p className="text-sm">
+                                Email: info@sdn1salawu.sch.id
+                            </p>
+                            <p className="text-sm">
+                                Telepon: (0265) 123456
+                            </p>
+                            <div className="flex space-x-4 pt-2">
+                                <a 
+                                    href="#" 
+                                    className="hover:text-white transition-colors duration-200"
+                                    aria-label="Facebook"
+                                >
+                                    <Facebook className="w-5 h-5" />
+                                </a>
+                                <a 
+                                    href="#" 
+                                    className="hover:text-white transition-colors duration-200"
+                                    aria-label="Instagram"
+                                >
+                                    <Instagram className="w-5 h-5" />
+                                </a>
+                                <a 
+                                    href="mailto:info@sdn1salawu.sch.id" 
+                                    className="hover:text-white transition-colors duration-200"
+                                    aria-label="Email"
+                                >
+                                    <Mail className="w-5 h-5" />
+                                </a>
+                            </div>
                         </div>
                     </div>
 
                 </div>
 
-                {/* Sub Footer (Hak cipta) */}
-                <div className="bg-black/30 text-center text-sm py-4">
-                    © {new Date().getFullYear()} SDN 1 Salawu. Semua Hak Dilindungi.
+                {/* Sub Footer */}
+                <div className="border-t border-blue-500">
+                    <div className="max-w-7xl mx-auto px-6 py-4">
+                        <div className="text-center text-blue-100 text-sm">
+                            © {new Date().getFullYear()} SDN 1 Salawu. Semua Hak Dilindungi Undang-Undang.
+                        </div>
+                    </div>
                 </div>
             </footer>
-        </>
-    )
+        </div>
+    );
 }

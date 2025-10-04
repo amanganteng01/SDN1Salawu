@@ -1,96 +1,135 @@
 import { useForm } from "@inertiajs/react";
 
-// Komponen untuk menambahkan berita baru
+/**
+ * Komponen TambahBerita - Form untuk menambahkan berita baru
+ * Menggunakan useForm dari Inertia untuk handle form state dan submission
+ */
 export default function TambahBerita({ onClose }) {
-    // useForm digunakan untuk handle data form, validasi, dan submit ke server
+    // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
-        judul: "",   // input judul berita
-        isi: "",     // input isi berita
-        tanggal: "", // input tanggal berita
-        gambar: null // input file gambar berita
+        judul: "",   // Input judul berita
+        isi: "",     // Input isi berita  
+        tanggal: "", // Input tanggal berita
+        gambar: null // Input file gambar berita
     });
 
-    // Fungsi untuk submit form
+    /**
+     * Fungsi handle submit form
+     * @param {Event} e - Event form submission
+     */
     const submit = (e) => {
-        e.preventDefault(); // mencegah reload halaman
-        post("/admin/simpan/berita", { // kirim data ke route /admin/simpan/berita
+        e.preventDefault(); // Mencegah reload halaman
+        
+        // Kirim data ke endpoint simpan
+        post("/admin/simpan/berita", {
             onSuccess: () => {
-                reset();   // reset data form setelah berhasil
-                onClose(); // tutup form/modal setelah berhasil
+                reset();    // Reset form state
+                onClose();  // Tutup modal
             },
         });
     };
 
     return (
         <form onSubmit={submit} className="space-y-5">
-            {/* Input Judul */}
+            {/* Field Judul Berita */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Judul</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Judul Berita
+                </label>
                 <input
                     type="text"
-                    value={data.judul} // ambil nilai dari state form
-                    onChange={(e) => setData("judul", e.target.value)} // update state ketika input berubah
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
+                    value={data.judul}
+                    onChange={(e) => setData("judul", e.target.value)}
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
                     placeholder="Masukkan judul berita"
                 />
-                {/* Tampilkan error jika ada */}
-                {errors.judul && <div className="text-red-500 text-xs mt-1">{errors.judul}</div>}
+                {/* Error message untuk judul */}
+                {errors.judul && (
+                    <div className="text-red-500 text-xs mt-1">{errors.judul}</div>
+                )}
             </div>
 
-            {/* Input Tanggal */}
+            {/* Field Tanggal */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Tanggal</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Tanggal Publikasi
+                </label>
                 <input
                     type="date"
                     value={data.tanggal}
                     onChange={(e) => setData("tanggal", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
                 />
-                {errors.tanggal && <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>}
+                {/* Error message untuk tanggal */}
+                {errors.tanggal && (
+                    <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>
+                )}
             </div>
 
-            {/* Input Isi Berita */}
+            {/* Field Isi Berita */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Isi</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Isi Berita
+                </label>
                 <textarea
                     value={data.isi}
                     onChange={(e) => setData("isi", e.target.value)}
                     rows="5"
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
-                    placeholder="Tulis isi berita"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
+                    placeholder="Tulis isi berita disini..."
                 />
-                {errors.isi && <div className="text-red-500 text-xs mt-1">{errors.isi}</div>}
+                {/* Error message untuk isi berita */}
+                {errors.isi && (
+                    <div className="text-red-500 text-xs mt-1">{errors.isi}</div>
+                )}
             </div>
 
-            {/* Input Gambar */}
+            {/* Field Upload Gambar */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Gambar</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Gambar Berita
+                </label>
                 <input
                     type="file"
-                    onChange={(e) => setData("gambar", e.target.files[0])} // simpan file pertama yang dipilih
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
+                    onChange={(e) => setData("gambar", e.target.files[0])}
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
+                    accept="image/*"
                 />
-                {errors.gambar && <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>}
+                {/* Error message untuk gambar */}
+                {errors.gambar && (
+                    <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>
+                )}
             </div>
 
             {/* Tombol Aksi */}
-            <div className="flex items-center justify-end gap-3 pt-2">
-                {/* Tombol batal untuk menutup form */}
+            <div className="flex items-center justify-end gap-3 pt-4">
+                {/* Tombol Batal */}
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition"
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                               hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
 
-                {/* Tombol submit untuk menyimpan berita */}
+                {/* Tombol Submit */}
                 <button
                     type="submit"
-                    disabled={processing} // tombol disable ketika sedang proses submit
-                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[#E52020] to-[#FBA518] hover:from-[#E52020]/80 hover:to-[#FBA518]/80 shadow-md transition"
+                    disabled={processing}
+                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                               bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400
+                               shadow-md transition-colors"
                 >
-                    {processing ? "Menyimpan..." : "Simpan"}
+                    {processing ? "Menyimpan..." : "Simpan Berita"}
                 </button>
             </div>
         </form>

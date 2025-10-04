@@ -4,238 +4,200 @@ import Modal from "../Modal";
 import TambahUser from "./TambahUser";
 import EditUser from "./EditUser";
 import GunakanWidthWindows from "../GunakanWidthWindows";
+import { Plus, Edit, Trash2, MoreVertical, Users, User, Shield } from "lucide-react";
 
-// Komponen utama daftar user
+/**
+ * Komponen DaftarUser - Menampilkan tabel daftar user
+ * Fitur: Tambah, Edit, Hapus user (hanya untuk Admin)
+ * Responsif untuk desktop dan mobile
+ */
 export default function DaftarUser({ users, role }) {
-    // Mendapatkan lebar jendela browser
+    // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-
-    // State untuk membuka modal tambah user
+    
+    // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
-
-    // State untuk membuka modal edit user
     const [openEdit, setOpenEdit] = useState(false);
-
-    // State untuk menyimpan user yang sedang dipilih (untuk edit)
     const [selectedUser, setSelectedUser] = useState(null);
-
-    // State untuk membuka/menutup menu aksi (khusus layar kecil)
     const [openAksi, setAksi] = useState(null);
-
-    // State untuk mendeteksi apakah layar lebih kecil dari 1060px
     const [widthmd, setWidthmd] = useState(false);
 
-    // useEffect akan jalan setiap kali `width` berubah
+    // Effect untuk mendeteksi ukuran layar
     useEffect(() => {
-        if (width < 1060) {
-            setWidthmd(true);  // jika layar kecil, gunakan tampilan dropdown aksi
-        } else {
-            setWidthmd(false); // jika layar besar, gunakan tombol langsung
-        }
+        setWidthmd(width < 1060);
     }, [width]);
 
-    // Variabel untuk styling border tombol
-    const border = `
-        border
-        px-1 py-0.25
-        sm:px-1.5 sm:py-0.5
-        md:px-2 md:py-1
-        lg:px-2.5 lg:py-1.5
-        xl:px-3 xl:py-2
-        2xl:px-3.5 2xl:py-2.5
-    `;
-
-    // Variabel ukuran teks tombol
-    const ukuranTextBtn = `
-        text-sm
-        md:text-base
-    `;
-
-    // Variabel gradient tombol
-    const gradient = `
-        bg-gradient-to-r
-        from-[#E52020]
-        to-[#FBA518]
-        text-white
-    `;
-
-    // Variabel efek hover gradient
-    const gradientHover = `
-        hover:from-[#E52020]/70
-        hover:to-[#FBA518]/70
-        transition
-    `;
-
     return (
-        <div className="p-4">
-            {/* Header dengan judul dan tombol tambah user */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="font-bold text-xl md:text-2xl">Daftar User</h1>
-                {/* Hanya admin yang bisa menambah user */}
+        <div className="p-6">
+            {/* Header Section dengan judul dan tombol tambah */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar User</h1>
+                    <p className="text-gray-600 mt-1">Kelola akun pengguna sistem</p>
+                </div>
+                
+                {/* Hanya Admin yang bisa menambah user */}
                 {role === 'Admin' && (
-                    <>
-                        <button
-                            onClick={() => setOpenTambah(true)} // buka modal tambah user
-                            className={`${border} ${gradient} ${gradientHover} rounded-md md:rounded-lg`}
-                        >
-                            Tambah User
-                        </button>
-                    </>
+                    <button
+                        onClick={() => setOpenTambah(true)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition shadow-md"
+                    >
+                        <Plus className="w-4 h-4" />
+                        Tambah User
+                    </button>
                 )}
             </div>
 
-            {/* Tabel daftar user */}
-            <div className="overflow-x-auto relative">
-                <table className="min-w-full bg-white rounded-lg shadow-lg text-sm md:text-base">
-                    <thead className="bg-gradient-to-r from-[#E52020]/70 to-[#FBA518]/70 text-white">
-                        <tr>
-                            <th className="px-4 py-3 text-left">No</th>
-                            <th className="px-4 py-3 text-left">Nama</th>
-                            <th className="px-4 py-3 text-left">Username</th>
-                            <th className="px-4 py-3 text-left">Role</th>
-                            {role === 'Admin' && (
-                                <>
-                                    <th className="px-4 py-3 text-center">Aksi</th>
-                                </>
-                            )}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.length > 0 ? (
-                            // Mapping data user ke baris tabel
-                            users.map((item, i) => (
-                                <tr
-                                    key={item.id}
-                                    className="border-b last:border-none hover:bg-gray-50 transition"
-                                >
-                                    <td className="px-4 py-3">{i + 1}</td>
-                                    <td className="px-4 py-3">{item.name}</td>
-                                    <td className="px-4 py-3">{item.username}</td>
-                                    <td className="px-4 py-3">{item.role}</td>
-                                    {role === 'Admin' && (
-                                        <>
-                                            <td className="px-4 py-3 text-center space-x-2 relative">
-                                                {/* Jika layar kecil: tampilkan dropdown aksi */}
-                                                        {widthmd ? (
-                                                            <div className="relative inline-block text-left">
-                                                                <button
-                                                                    onClick={() =>
-                                                                        setAksi(openAksi === item.id ? null : item.id)
-                                                                    } // toggle menu aksi
-                                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
-                                                                        bg-gradient-to-r from-[#E52020]/20 to-[#FBA518]/20
-                                                                        hover:from-[#E52020]/30 hover:to-[#FBA518]/30
-                                                                        text-sm md:text-base font-medium text-gray-800
-                                                                        shadow-sm transition"
-                                                                >
-                                                                    Aksi
-                                                                    <span className="text-xs">
-                                                                        {openAksi === item.id ? "▲" : "▼"}
-                                                                    </span>
-                                                                </button>
-
-                                                                {/* Dropdown aksi edit/hapus */}
-                                                                {openAksi === item.id && (
-                                                                    <div
-                                                                        className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg
-                                                                            ring-1 ring-black/5 z-50 bg-white"
-                                                                    >
-                                                                        <div className="py-1">
-                                                                            {/* Tombol edit user */}
-                                                                            <button
-                                                                                onClick={() => {
-                                                                                    setSelectedUser(item); // pilih user untuk diedit
-                                                                                    setOpenEdit(true);     // buka modal edit
-                                                                                    setAksi(null);         // tutup dropdown
-                                                                                }}
-                                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
-                                                                                    hover:bg-[#FBA518]/10 hover:text-[#FBA518]
-                                                                                    rounded transition"
-                                                                            >
-                                                                                Edit
-                                                                            </button>
-                                                                            {/* Tombol hapus user */}
-                                                                            <button
-                                                                                onClick={() => {
-                                                                                    if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-                                                                                        router.delete(`/admin/hapus/user/${item.id}`);
-                                                                                    }
-                                                                                }}
-                                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
-                                                                                    hover:bg-red-100 hover:text-red-600
-                                                                                    rounded transition"
-                                                                            >
-                                                                                Hapus
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ) : (
-                                                            // Jika layar besar: tampilkan tombol langsung
-                                                            <>
-                                                                {/* Tombol edit */}
-                                                                <button
-                                                                    onClick={() => {
-                                                                        setSelectedUser(item);
-                                                                        setOpenEdit(true);
-                                                                    }}
-                                                                    className={`${ukuranTextBtn} bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition`}
-                                                                >
-                                                                    Edit
-                                                                </button>
-                                                                {/* Tombol hapus */}
-                                                                <button
-                                                                    onClick={() => {
-                                                                        if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-                                                                            router.delete(`/admin/hapus/user/${item.id}`);
-                                                                        }
-                                                                    }}
-                                                                    className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
-                                                                >
-                                                                    Hapus
-                                                                </button>
-                                                            </>
-                                                )}
-                                            </td>
-                                        </>
-                                    )}
-                                </tr>
-                            ))
-                        ) : (
-                            // Jika tidak ada data user
+            {/* Tabel Daftar User */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="bg-slate-100 border-b border-slate-200">
                             <tr>
-                                <td
-                                    colSpan="5"
-                                    className="px-4 py-6 text-center text-gray-500"
-                                >
-                                    Tidak ada data user
-                                </td>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">No</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Nama</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Username</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Role</th>
+                                {role === 'Admin' && (
+                                    <th className="px-6 py-4 text-center text-sm font-semibold text-slate-700">Aksi</th>
+                                )}
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200">
+                            {users.length > 0 ? (
+                                // Loop data user
+                                users.map((item, i) => (
+                                    <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+                                        <td className="px-6 py-4 text-sm text-slate-600">{i + 1}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                                    <User className="w-4 h-4 text-blue-600" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-slate-800">
+                                                        {item.name}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-slate-600">{item.username}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                                item.role === 'Admin' 
+                                                    ? 'bg-purple-100 text-purple-800' 
+                                                    : 'bg-green-100 text-green-800'
+                                            }`}>
+                                                <Shield className="w-3 h-3 mr-1" />
+                                                {item.role}
+                                            </span>
+                                        </td>
+                                        {role === 'Admin' && (
+                                            <td className="px-6 py-4">
+                                                <div className="flex justify-center">
+                                                    {widthmd ? (
+                                                        /* Menu Aksi untuk Mobile - Dropdown */
+                                                        <div className="relative">
+                                                            <button
+                                                                onClick={() => setAksi(openAksi === item.id ? null : item.id)}
+                                                                className="flex items-center gap-1 px-3 py-2 rounded-lg border border-slate-300 hover:border-slate-400 transition-colors"
+                                                            >
+                                                                <MoreVertical className="w-4 h-4 text-slate-600" />
+                                                            </button>
+
+                                                            {/* Dropdown Menu */}
+                                                            {openAksi === item.id && (
+                                                                <div className="absolute right-0 mt-1 w-32 rounded-lg shadow-lg border border-slate-200 bg-white z-50">
+                                                                    <div className="py-1">
+                                                                        {/* Tombol Edit */}
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                setSelectedUser(item);
+                                                                                setOpenEdit(true);
+                                                                                setAksi(null);
+                                                                            }}
+                                                                            className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+                                                                        >
+                                                                            <Edit className="w-4 h-4" />
+                                                                            Edit
+                                                                        </button>
+                                                                        {/* Tombol Hapus */}
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
+                                                                                    router.delete(`/admin/hapus/user/${item.id}`);
+                                                                                }
+                                                                            }}
+                                                                            className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                                                                        >
+                                                                            <Trash2 className="w-4 h-4" />
+                                                                            Hapus
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ) : (
+                                                        /* Tombol Aksi untuk Desktop - Horizontal */
+                                                        <div className="flex items-center gap-2">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setSelectedUser(item);
+                                                                    setOpenEdit(true);
+                                                                }}
+                                                                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
+                                                            >
+                                                                <Edit className="w-4 h-4" />
+                                                                Edit
+                                                            </button>
+                                                            <button
+                                                                onClick={() => {
+                                                                    if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
+                                                                        router.delete(`/admin/hapus/user/${item.id}`);
+                                                                    }
+                                                                }}
+                                                                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                                                            >
+                                                                <Trash2 className="w-4 h-4" />
+                                                                Hapus
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))
+                            ) : (
+                                /* State kosong - Tidak ada data user */
+                                <tr>
+                                    <td colSpan={role === 'Admin' ? 5 : 4} className="px-6 py-8 text-center">
+                                        <div className="text-slate-500">
+                                            <Users className="w-12 h-12 mx-auto mb-2 text-slate-300" />
+                                            <p className="text-sm">Tidak ada data user</p>
+                                            <p className="text-xs mt-1">
+                                                {role === 'Admin' 
+                                                    ? 'Klik "Tambah User" untuk menambahkan data pertama' 
+                                                    : 'Tidak ada user terdaftar'
+                                                }
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            {/* Modal tambah user */}
-            <Modal
-                isOpen={openTambah}
-                onClose={() => setOpenTambah(false)}
-                title="Tambah User"
-            >
+            {/* Modal Tambah User */}
+            <Modal isOpen={openTambah} onClose={() => setOpenTambah(false)} title="Tambah User">
                 <TambahUser onClose={() => setOpenTambah(false)} />
             </Modal>
 
-            {/* Modal edit user */}
-            <Modal
-                isOpen={openEdit}
-                onClose={() => setOpenEdit(false)}
-                title="Edit User"
-            >
-                <EditUser
-                    user={selectedUser} // kirim data user yang dipilih
-                    onClose={() => setOpenEdit(false)}
-                />
+            {/* Modal Edit User */}
+            <Modal isOpen={openEdit} onClose={() => setOpenEdit(false)} title="Edit User">
+                <EditUser user={selectedUser} onClose={() => setOpenEdit(false)} />
             </Modal>
         </div>
     );

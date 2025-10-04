@@ -4,216 +4,201 @@ import Modal from "../Modal";
 import TambahSiswa from "./TambahSiswa";
 import EditSiswa from "./EditSiswa";
 import GunakanWidthWindows from "../GunakanWidthWindows";
+import { Plus, Edit, Trash2, MoreVertical, Users, User, Calendar } from "lucide-react";
 
+/**
+ * Komponen DaftarSiswa - Menampilkan tabel daftar siswa
+ * Fitur: Tambah, Edit, Hapus siswa
+ * Responsif untuk desktop dan mobile
+ */
 export default function DaftarSiswa({ siswa }) {
-    const width = GunakanWidthWindows(); // hook custom untuk ambil ukuran layar
-    const [openTambah, setOpenTambah] = useState(false); // state buka modal tambah
-    const [openEdit, setOpenEdit] = useState(false); // state buka modal edit
-    const [selectedSiswa, setSelectedSiswa] = useState(null); // data siswa yang dipilih untuk edit
-    const [openAksi, setAksi] = useState(null); // state buka menu aksi (mobile)
-    const [widthmd, setWidthmd] = useState(false); // cek apakah layar < 1060px
+    // Mengambil lebar window untuk responsive design
+    const width = GunakanWidthWindows();
+    
+    // State untuk modal dan aksi
+    const [openTambah, setOpenTambah] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [selectedSiswa, setSelectedSiswa] = useState(null);
+    const [openAksi, setAksi] = useState(null);
+    const [widthmd, setWidthmd] = useState(false);
 
-    // cek lebar layar, ubah label tabel sesuai ukuran layar
+    // Effect untuk mendeteksi ukuran layar
     useEffect(() => {
-        if (width < 1060) {
-            setWidthmd(true);
-        } else {
-            setWidthmd(false);
-        }
+        setWidthmd(width < 1060);
     }, [width]);
 
-    // class tailwind untuk mendesain anjay
-    const border = `
-        border
-        px-1 py-0.25
-        sm:px-1.5 sm:py-0.5
-        md:px-2 md:py-1
-        lg:px-2.5 lg:py-1.5
-        xl:px-3 xl:py-2
-        2xl:px-3.5 2xl:py-2.5
-    `;
-
-    const ukuranTextBtn = `
-        text-sm
-        md:text-base
-    `;
-
-    const gradient = `
-        bg-gradient-to-r
-        from-[#E52020]
-        to-[#FBA518]
-        text-white
-    `;
-
-    const gradientHover = `
-        hover:from-[#E52020]/70
-        hover:to-[#FBA518]/70
-        transition
-    `;
-
     return (
-        <div className="p-4">
-            {/* Header + tombol tambah */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="font-bold text-xl md:text-2xl">Daftar Siswa</h1>
+        <div className="p-6">
+            {/* Header Section dengan judul dan tombol tambah */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Siswa</h1>
+                    <p className="text-gray-600 mt-1">Kelola data siswa sekolah</p>
+                </div>
+                
+                {/* Tombol Tambah Siswa */}
                 <button
                     onClick={() => setOpenTambah(true)}
-                    className={`${border} ${gradient} ${gradientHover} rounded-md md:rounded-lg`}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition shadow-md"
                 >
+                    <Plus className="w-4 h-4" />
                     Tambah Siswa
                 </button>
             </div>
 
-            {/* Tabel daftar siswa */}
-            <div className="overflow-x-auto relative">
-                <table className="min-w-full bg-white rounded-lg shadow-lg text-sm md:text-base">
-                    <thead className="bg-gradient-to-r from-[#E52020]/70 to-[#FBA518]/70 text-white">
-                        <tr>
-                            <th className="px-4 py-3 text-left">No</th>
-                            <th className="px-4 py-3 text-left">{widthmd ? "Nama" : "Nama Siswa"}</th>
-                            <th className="px-4 py-3 text-left">NISN</th>
-                            <th className="px-4 py-3 text-left">{widthmd ? "JK" : "Jenis Kelamin"}</th>
-                            <th className="px-4 py-3 text-left">{widthmd ? "Masuk" : "Tahun Masuk"}</th>
-                            <th className="px-4 py-3 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {siswa.length > 0 ? (
-                            siswa.map((item, i) => (
-                                <tr
-                                    key={item.id}
-                                    className="border-b last:border-none hover:bg-gray-50 transition"
-                                >
-                                    {/* nomor urut */}
-                                    <td className="px-4 py-3">{i + 1}</td>
-                                    {/* data siswa */}
-                                    <td className="px-4 py-3">{item.nama_siswa}</td>
-                                    <td className="px-4 py-3">{item.nisn}</td>
-                                    <td className="px-4 py-3">
-                                        {item.jenis_kelamin === "L"
-                                            ? widthmd ? "L" : "Laki-laki"
-                                            : widthmd ? "P" : "Perempuan"}
-                                    </td>
-                                    <td className="px-4 py-3">{item.tahun_masuk}</td>
+            {/* Tabel Daftar Siswa */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="bg-slate-100 border-b border-slate-200">
+                            <tr>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">No</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                                    {widthmd ? "Nama" : "Nama Siswa"}
+                                </th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">NISN</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                                    {widthmd ? "JK" : "Jenis Kelamin"}
+                                </th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                                    {widthmd ? "Masuk" : "Tahun Masuk"}
+                                </th>
+                                <th className="px-6 py-4 text-center text-sm font-semibold text-slate-700">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200">
+                            {siswa.length > 0 ? (
+                                // Loop data siswa
+                                siswa.map((item, i) => (
+                                    <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+                                        <td className="px-6 py-4 text-sm text-slate-600">{i + 1}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                                    <User className="w-4 h-4 text-blue-600" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-slate-800">
+                                                        {item.nama_siswa}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-slate-600">{item.nisn}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                                item.jenis_kelamin === "L" 
+                                                    ? "bg-blue-100 text-blue-800" 
+                                                    : "bg-pink-100 text-pink-800"
+                                            }`}>
+                                                {item.jenis_kelamin === "L" ? "Laki-laki" : "Perempuan"}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-slate-600">
+                                            <div className="flex items-center gap-2">
+                                                <Calendar className="w-4 h-4 text-slate-400" />
+                                                {item.tahun_masuk}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex justify-center">
+                                                {widthmd ? (
+                                                    /* Menu Aksi untuk Mobile - Dropdown */
+                                                    <div className="relative">
+                                                        <button
+                                                            onClick={() => setAksi(openAksi === item.id ? null : item.id)}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg border border-slate-300 hover:border-slate-400 transition-colors"
+                                                        >
+                                                            <MoreVertical className="w-4 h-4 text-slate-600" />
+                                                        </button>
 
-                                    {/* aksi edit & hapus */}
-                                    <td className="px-4 py-3 text-center space-x-2 relative">
-                                        {widthmd ? (
-                                            // versi dropdown untuk layar kecil
-                                            <div className="relative inline-block text-left">
-                                                <button
-                                                    onClick={() =>
-                                                        setAksi(openAksi === item.id ? null : item.id)
-                                                    }
-                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
-                                                        bg-gradient-to-r from-[#E52020]/20 to-[#FBA518]/20
-                                                        hover:from-[#E52020]/30 hover:to-[#FBA518]/30
-                                                        text-sm md:text-base font-medium text-gray-800
-                                                        shadow-sm transition"
-                                                >
-                                                    Aksi
-                                                    <span className="text-xs">
-                                                        {openAksi === item.id ? "▲" : "▼"}
-                                                    </span>
-                                                </button>
-
-                                                {openAksi === item.id && (
-                                                    <div
-                                                        className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg
-                                                            ring-1 ring-black/5 z-50 bg-white"
-                                                    >
-                                                        <div className="py-1">
-                                                            {/* tombol edit */}
-                                                            <button
-                                                                onClick={() => {
-                                                                    setSelectedSiswa(item);
-                                                                    setOpenEdit(true);
-                                                                    setAksi(null);
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
-                                                                    hover:bg-[#FBA518]/10 hover:text-[#FBA518]
-                                                                    rounded transition"
-                                                            >
-                                                                Edit
-                                                            </button>
-                                                            {/* tombol hapus */}
-                                                            <button
-                                                                onClick={() => {
-                                                                    if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
-                                                                        router.delete(`/admin/hapus/guru/${item.id}`);
-                                                                    }
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700
-                                                                    hover:bg-red-100 hover:text-red-600
-                                                                    rounded transition"
-                                                            >
-                                                                Hapus
-                                                            </button>
-                                                        </div>
+                                                        {/* Dropdown Menu */}
+                                                        {openAksi === item.id && (
+                                                            <div className="absolute right-0 mt-1 w-32 rounded-lg shadow-lg border border-slate-200 bg-white z-50">
+                                                                <div className="py-1">
+                                                                    {/* Tombol Edit */}
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            setSelectedSiswa(item);
+                                                                            setOpenEdit(true);
+                                                                            setAksi(null);
+                                                                        }}
+                                                                        className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+                                                                    >
+                                                                        <Edit className="w-4 h-4" />
+                                                                        Edit
+                                                                    </button>
+                                                                    {/* Tombol Hapus */}
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            if (confirm("Apakah Anda yakin ingin menghapus siswa ini?")) {
+                                                                                router.delete(`/admin/hapus/siswa/${item.id}`);
+                                                                            }
+                                                                        }}
+                                                                        className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                                                                    >
+                                                                        <Trash2 className="w-4 h-4" />
+                                                                        Hapus
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    /* Tombol Aksi untuk Desktop - Horizontal */
+                                                    <div className="flex items-center gap-2">
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedSiswa(item);
+                                                                setOpenEdit(true);
+                                                            }}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
+                                                        >
+                                                            <Edit className="w-4 h-4" />
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (confirm("Apakah Anda yakin ingin menghapus siswa ini?")) {
+                                                                    router.delete(`/admin/hapus/siswa/${item.id}`);
+                                                                }
+                                                            }}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                            Hapus
+                                                        </button>
                                                     </div>
                                                 )}
                                             </div>
-                                        ) : (
-                                            // versi tombol langsung untuk layar besar
-                                            <>
-                                                <button
-                                                    onClick={() => {
-                                                        setSelectedSiswa(item);
-                                                        setOpenEdit(true);
-                                                    }}
-                                                    className={`${ukuranTextBtn} bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition`}
-                                                >
-                                                    Edit
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        if (confirm("Apakah Anda yakin ingin menghapus guru ini?")) {
-                                                            router.delete(`/admin/hapus/guru/${item.id}`);
-                                                        }
-                                                    }}
-                                                    className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
-                                                >
-                                                    Hapus
-                                                </button>
-                                            </>
-                                        )}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                /* State kosong - Tidak ada data siswa */
+                                <tr>
+                                    <td colSpan="6" className="px-6 py-8 text-center">
+                                        <div className="text-slate-500">
+                                            <Users className="w-12 h-12 mx-auto mb-2 text-slate-300" />
+                                            <p className="text-sm">Tidak ada data siswa</p>
+                                            <p className="text-xs mt-1">Klik "Tambah Siswa" untuk menambahkan data pertama</p>
+                                        </div>
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                {/* jika data kosong */}
-                                <td
-                                    colSpan="6"
-                                    className="px-4 py-6 text-center text-gray-500"
-                                >
-                                    Tidak ada data siswa
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            {/* modal tambah siswa */}
-            <Modal
-                isOpen={openTambah}
-                onClose={() => setOpenTambah(false)}
-                title="Tambah Siswa"
-            >
+            {/* Modal Tambah Siswa */}
+            <Modal isOpen={openTambah} onClose={() => setOpenTambah(false)} title="Tambah Siswa">
                 <TambahSiswa onClose={() => setOpenTambah(false)} />
             </Modal>
 
-            {/* modal edit siswa */}
-            <Modal
-                isOpen={openEdit}
-                onClose={() => setOpenEdit(false)}
-                title="Edit Siswa"
-            >
-                <EditSiswa
-                    siswa={selectedSiswa}
-                    onClose={() => setOpenEdit(false)}
-                />
+            {/* Modal Edit Siswa */}
+            <Modal isOpen={openEdit} onClose={() => setOpenEdit(false)} title="Edit Siswa">
+                <EditSiswa siswa={selectedSiswa} onClose={() => setOpenEdit(false)} />
             </Modal>
         </div>
     );

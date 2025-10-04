@@ -1,101 +1,129 @@
 import { useForm } from "@inertiajs/react";
+import { User, UserCircle, Lock } from "lucide-react";
 
+/**
+ * Komponen TambahUser - Form untuk menambahkan user baru
+ * Menggunakan useForm dari Inertia untuk handle form state dan submission
+ */
 export default function TambahUser({ onClose }) {
-  // useForm digunakan untuk mengelola state form, error, status submit, dan reset form
-  const { data, setData, post, processing, errors, reset } = useForm({
-    name: "",
-    username: "",
-    password: "",
-  });
-
-  // Fungsi submit dipanggil ketika form dikirim
-  const submit = (e) => {
-    e.preventDefault(); // cegah reload halaman
-    post("/admin/simpan/user", {
-      onSuccess: () => {
-        reset();   // reset form setelah berhasil simpan
-        onClose(); // tutup modal/form setelah sukses
-      },
+    // Inisialisasi form dengan useForm hook
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: "",
+        username: "",
+        password: "",
+        role: "Officer", // Default role
     });
-  };
 
-  return (
-    <form onSubmit={submit} className="space-y-5">
-      {/* Input Nama */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
-          Nama
-        </label>
-        <input
-          type="text"
-          value={data.name} // binding value ke state form
-          onChange={(e) => setData("name", e.target.value)} // update state
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
-                     focus:border-[#E52020]"
-          placeholder="Masukkan nama"
-        />
-        {/* tampilkan error validasi jika ada */}
-        {errors.name && <div className="text-red-500 text-xs mt-1">{errors.name}</div>}
-      </div>
+    /**
+     * Fungsi handle submit form
+     * @param {Event} e - Event form submission
+     */
+    const submit = (e) => {
+        e.preventDefault(); // Mencegah reload halaman
+        
+        // Kirim data ke endpoint simpan
+        post("/admin/simpan/user", {
+            onSuccess: () => {
+                reset();    // Reset form state
+                onClose();  // Tutup modal
+            },
+        });
+    };
 
-      {/* Input Username */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
-          Username
-        </label>
-        <input
-          type="text"
-          value={data.username}
-          onChange={(e) => setData("username", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
-                     focus:border-[#E52020]"
-          placeholder="Masukkan username"
-        />
-        {errors.username && <div className="text-red-500 text-xs mt-1">{errors.username}</div>}
-      </div>
+    return (
+        <form onSubmit={submit} className="space-y-5">
+            {/* Field Nama */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Nama Lengkap
+                </label>
+                <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="text"
+                        value={data.name}
+                        onChange={(e) => setData("name", e.target.value)}
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Masukkan nama lengkap"
+                    />
+                </div>
+                {/* Error message untuk nama */}
+                {errors.name && (
+                    <div className="text-red-500 text-xs mt-1">{errors.name}</div>
+                )}
+            </div>
 
-      {/* Input Password */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
-          Password
-        </label>
-        <input
-          type="password"
-          value={data.password}
-          onChange={(e) => setData("password", e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60
-                     focus:border-[#E52020]"
-          placeholder="Masukkan password"
-        />
-        {errors.password && <div className="text-red-500 text-xs mt-1">{errors.password}</div>}
-      </div>
+            {/* Field Username */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Username
+                </label>
+                <div className="relative">
+                    <UserCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="text"
+                        value={data.username}
+                        onChange={(e) => setData("username", e.target.value)}
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Masukkan username"
+                    />
+                </div>
+                {/* Error message untuk username */}
+                {errors.username && (
+                    <div className="text-red-500 text-xs mt-1">{errors.username}</div>
+                )}
+            </div>
 
-      {/* Tombol Aksi */}
-      <div className="flex items-center justify-end gap-3 pt-2">
-        {/* Tombol batal → hanya menutup modal */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition"
-        >
-          Batal
-        </button>
+            {/* Field Password */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Password
+                </label>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="password"
+                        value={data.password}
+                        onChange={(e) => setData("password", e.target.value)}
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Masukkan password"
+                    />
+                </div>
+                {/* Error message untuk password */}
+                {errors.password && (
+                    <div className="text-red-500 text-xs mt-1">{errors.password}</div>
+                )}
+            </div>
 
-        {/* Tombol simpan → submit form ke server */}
-        <button
-          type="submit"
-          disabled={processing} // disable saat sedang proses submit
-          className="px-4 py-2 rounded-lg text-sm font-semibold text-white
-                     bg-gradient-to-r from-[#E52020] to-[#FBA518]
-                     hover:from-[#E52020]/80 hover:to-[#FBA518]/80
-                     shadow-md transition"
-        >
-          {processing ? "Menyimpan..." : "Simpan"}
-        </button>
-      </div>
-    </form>
-  );
+            {/* Tombol Aksi */}
+            <div className="flex items-center justify-end gap-3 pt-4">
+                {/* Tombol Batal */}
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                               hover:bg-slate-100 rounded-lg transition-colors"
+                >
+                    Batal
+                </button>
+
+                {/* Tombol Submit */}
+                <button
+                    type="submit"
+                    disabled={processing}
+                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                               bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400
+                               shadow-md transition-colors"
+                >
+                    {processing ? "Menyimpan..." : "Simpan User"}
+                </button>
+            </div>
+        </form>
+    );
 }

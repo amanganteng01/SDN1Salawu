@@ -1,5 +1,10 @@
 import { useForm, usePage } from "@inertiajs/react";
 
+/**
+ * Komponen Login - Halaman autentikasi untuk admin dan officer
+ * Menggunakan useForm dari Inertia untuk handle form state dan submission
+ * Responsif untuk desktop dan mobile
+ */
 export default function Login() {
     // Hook useForm untuk meng-handle data form login (username & password)
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -7,11 +12,14 @@ export default function Login() {
         password: "",
     });
 
-    // Fungsi submit untuk mengirim data ke backend via Inertia
+    /**
+     * Fungsi submit untuk mengirim data login ke backend
+     * @param {Event} e - Event form submission
+     */
     const submit = (e) => {
-        e.preventDefault(); // mencegah reload halaman
+        e.preventDefault(); // Mencegah reload halaman
         post("/login/auth", {
-            onSuccess: () => reset(), // reset form jika berhasil login
+            onSuccess: () => reset(), // Reset form jika berhasil login
         });
     };
 
@@ -19,71 +27,135 @@ export default function Login() {
     const { flash } = usePage().props;
 
     return (
-        <div className={`flex items-center justify-center min-h-screen`}>
-            <div className="w-[90%] sm:w-[400px] bg-white p-6 rounded-xl shadow-lg">
-                <h2 className="text-center text-xl sm:text-2xl font-extrabold text-gray-800 mb-6">
-                    Login Admin
-                </h2>
+        <div className="min-h-screen bg-blue-50 flex items-center justify-center p-6">
+            {/* Card Login */}
+            <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-slate-200">
+                {/* Header Login */}
+                <div className="text-center mb-8">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                        SDN 1 Salawu
+                    </h1>
+                    {/* <h2 className="text-lg font-semibold text-gray-600">
+                        Admin/Officer Panel
+                    </h2> */}
+                </div>
 
-                {/* Flash & Error */}
+                {/* Flash Messages */}
                 {flash?.success && (
-                    <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                        {flash.success}
+                    <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <div className="ml-3">
+                                <p className="text-sm font-medium">{flash.success}</p>
+                            </div>
+                        </div>
                     </div>
                 )}
+                
                 {errors.login && (
-                    <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-                        {errors.login}
+                    <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <div className="ml-3">
+                                <p className="text-sm font-medium">{errors.login}</p>
+                            </div>
+                        </div>
                     </div>
                 )}
 
                 {/* Form Login */}
-                <form onSubmit={submit} className="space-y-4">
-                    {/* Input Username */}
+                <form onSubmit={submit} className="space-y-6">
+                    {/* Field Username */}
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="username" className="block text-sm font-semibold text-slate-700 mb-2">
                             Username
                         </label>
                         <input
                             type="text"
                             id="username"
                             value={data.username}
-                            onChange={(e) => setData("username", e.target.value)} // update state form
+                            onChange={(e) => setData("username", e.target.value)}
                             required
-                            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-400"
+                            className="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm
+                                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                       transition-colors placeholder-slate-400"
+                            placeholder="Masukkan username Anda"
                         />
+                        {/* Error message untuk username */}
                         {errors.username && (
-                            <p className="text-red-600 text-xs mt-1">{errors.username}</p>
+                            <p className="text-red-500 text-xs mt-2 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                </svg>
+                                {errors.username}
+                            </p>
                         )}
                     </div>
 
-                    {/* Input Password */}
+                    {/* Field Password */}
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-2">
                             Password
                         </label>
                         <input
                             type="password"
                             id="password"
                             value={data.password}
-                            onChange={(e) => setData("password", e.target.value)} // update state form
+                            onChange={(e) => setData("password", e.target.value)}
                             required
-                            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-400"
+                            className="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm
+                                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                       transition-colors placeholder-slate-400"
+                            placeholder="Masukkan password Anda"
                         />
+                        {/* Error message untuk password */}
                         {errors.password && (
-                            <p className="text-red-600 text-xs mt-1">{errors.password}</p>
+                            <p className="text-red-500 text-xs mt-2 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                </svg>
+                                {errors.password}
+                            </p>
                         )}
                     </div>
 
                     {/* Tombol Login */}
                     <button
                         type="submit"
-                        disabled={processing} // disable tombol saat sedang memproses
-                        className="w-full bg-gradient-to-r from-[#E52020] to-[#FBA518] text-white py-2 rounded-md font-medium hover:opacity-90"
+                        disabled={processing}
+                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg 
+                                   font-semibold shadow-md hover:from-blue-700 hover:to-blue-800 
+                                   disabled:from-blue-400 disabled:to-blue-500 disabled:cursor-not-allowed
+                                   transition-all duration-200"
                     >
-                        {processing ? "Loading..." : "Login"}
+                        {processing ? (
+                            <div className="flex items-center justify-center">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Memproses...
+                            </div>
+                        ) : (
+                            "Masuk ke Dashboard"
+                        )}
                     </button>
                 </form>
+
+                {/* Footer Login */}
+                <div className="mt-8 pt-6 border-t border-slate-200">
+                    <p className="text-center text-sm text-slate-500">
+                        &copy; {new Date().getFullYear()} SDN 1 Salawu. All rights reserved.
+                    </p>
+                </div>
             </div>
         </div>
     );

@@ -63,11 +63,8 @@ Route::middleware(['petugas'])->group(function() {
     Route::delete('/admin/hapus/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'hapusEkstrakurikuler']);
 
     // Route Profil Sekolah
-    Route::get('/admin/daftar/profil/sekolah', [ProfilSekolahController::class, 'daftarProfilSekolah']);
-    Route::get('/admin/show/profil/sekolah/{id}', [ProfilSekolahController::class, 'showProfilSekolah']);
-    Route::post('/admin/simpan/profil/sekolah', [ProfilSekolahController::class, 'simpanProfilSekolah']);
+    Route::get('/admin/show/profil/sekolah', [ProfilSekolahController::class, 'showProfilSekolah']);
     Route::post('/admin/update/profil/sekolah/{id}', [ProfilSekolahController::class, 'updateProfilSekolah']);
-    Route::delete('/admin/hapus/profil/sekolah/{id}', [ProfilSekolahController::class, 'hapusProfilSekolah']);
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

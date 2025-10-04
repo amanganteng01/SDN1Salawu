@@ -1,56 +1,105 @@
-import GunakanWidthWindows from "./GunakanWidthWindows";
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
-// Komponen Modal untuk menampilkan konten dalam pop-up
+/**
+ * Komponen Modal - Menampilkan konten dalam pop-up dialog
+ * Responsif untuk desktop dan mobile
+ * Fitur: Overlay backdrop, scrollable content, close button
+ */
 export default function Modal({ isOpen, onClose, title, children }) {
-  // Jika modal tidak terbuka, return null (tidak render apapun)
-  if (!isOpen) return null;
+    // Jika modal tidak terbuka, return null (tidak render apapun)
+    if (!isOpen) return null;
 
-  // Gunakan custom hook untuk mendapatkan lebar jendela browser
-  const width = GunakanWidthWindows();
+    // State untuk mengecek ukuran layar
+    const [isDesktop, setIsDesktop] = useState(false);
 
-  // State untuk mengecek apakah lebar layar > 768 (mode desktop)
-  const [widthMd, setWidthMd] = useState(false);
+    // Effect untuk mendeteksi ukuran layar
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsDesktop(window.innerWidth > 768);
+        };
 
-  // useEffect dijalankan setiap kali 'width' berubah
-  useEffect(() => {
-    if (width > 768) {
-      setWidthMd(true); // jika layar lebar, set ke true
-    } else {
-      setWidthMd(false); // jika layar kecil, set ke false
-    }
-  }, [width]);
+        // Check initial screen size
+        checkScreenSize();
 
-  // Render tampilan modal
-  return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      {/* Overlay background gelap */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        // onClick={onClose} // bisa diaktifkan kalau mau menutup modal saat klik overlay
-      ></div>
+        // Add event listener for resize
+        window.addEventListener('resize', checkScreenSize);
 
-      {widthMd ? (
-        <>
-          {/* Modal versi desktop */}
-          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] p-6 flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg md:text-xl font-bold">{title}</h2>
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
+
+        // Cleanup function
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
+
+    // Handle overlay click to close modal
+    const handleOverlayClick = (e) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
+    // Handle escape key to close modal
+    useEffect(() => {
+        const handleEscapeKey = (e) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('keydown', handleEscapeKey);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, [isOpen, onClose]);
+
+    return (
+        <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={handleOverlayClick}
+        >
+            {/* Overlay background dengan backdrop blur */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
+
+            {/* Modal Container */}
+            <div 
+                className={`
+                    relative bg-white rounded-xl shadow-2xl w-full max-h-[90vh] 
+                    flex flex-col transform transition-all duration-300
+                    ${isDesktop 
+                        ? 'max-w-lg'  // Desktop size
+                        : 'max-w-md'  // Mobile size
+                    }
+                `}
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+            >
+                {/* Header Modal */}
+                <div className="flex items-center justify-between p-6 border-b border-slate-200">
+                    <h2 className="text-xl font-semibold text-slate-800">
+                        {title}
+                    </h2>
+                    
+                    {/* Close Button */}
+                    <button
+                        onClick={onClose}
+                        className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                        aria-label="Tutup modal"
+                    >
+                        <X className="w-5 h-5 text-slate-600" />
+                    </button>
+                </div>
+
+                {/* Content Area - Scrollable */}
+                <div className="flex-1 overflow-y-auto p-6">
+                    {children}
+                </div>
             </div>
-            <div className="overflow-y-auto pr-2 flex-1">{children}</div>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Modal versi mobile */}
-          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm max-h-[90vh] p-6 flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg md:text-xl font-bold">{title}</h2>
-            </div>
-            <div className="overflow-y-auto pr-2 flex-1">{children}</div>
-          </div>
-        </>
-      )}
-    </div>
-  );
+        </div>
+    );
 }

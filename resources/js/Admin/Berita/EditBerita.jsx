@@ -1,8 +1,12 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
+/**
+ * Komponen EditBerita - Form untuk mengedit berita yang sudah ada
+ * Menggunakan useForm dari Inertia untuk handle form state dan submission
+ */
 export default function EditBerita({ berita, onClose }) {
-    // Hook useForm dari Inertia.js untuk mengelola form data, error, dan submit
+    // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
         judul: "",
         isi: "",
@@ -10,124 +14,141 @@ export default function EditBerita({ berita, onClose }) {
         gambar: null,
     });
 
-    // useEffect dijalankan ketika props "berita" berubah
-    // Berguna untuk mengisi form dengan data berita yang dipilih
+    /**
+     * Effect untuk mengisi form dengan data berita yang akan diedit
+     * Di-trigger ketika prop berita berubah
+     */
     useEffect(() => {
         if (berita) {
             setData({
                 judul: berita.judul || "",
                 isi: berita.isi || "",
                 tanggal: berita.tanggal || "",
-                gambar: null, // gambar default dikosongkan agar tidak overwrite file lama
+                gambar: null, // Gambar dikosongkan agar tidak overwrite file lama
             });
         }
     }, [berita]);
 
-    // Fungsi submit form
+    /**
+     * Fungsi handle submit form
+     * @param {Event} e - Event form submission
+     */
     const submit = (e) => {
-        e.preventDefault(); // mencegah reload halaman
+        e.preventDefault(); // Mencegah reload halaman
+        
+        // Kirim data ke endpoint update
         post(`/admin/update/berita/${berita.id}`, {
             onSuccess: () => {
-                reset();    // reset form setelah sukses update
-                onClose();  // menutup modal edit
+                reset();    // Reset form state
+                onClose();  // Tutup modal
             },
         });
     };
 
     return (
-        // Form edit berita
         <form onSubmit={submit} className="space-y-5">
-            {/* Input Judul */}
+            {/* Field Judul Berita */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Judul
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Judul Berita
                 </label>
                 <input
                     type="text"
                     value={data.judul}
                     onChange={(e) => setData("judul", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                               focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
                     placeholder="Masukkan judul berita"
                 />
-                {/* Menampilkan error jika validasi judul gagal */}
+                {/* Error message untuk judul */}
                 {errors.judul && (
                     <div className="text-red-500 text-xs mt-1">{errors.judul}</div>
                 )}
             </div>
 
-            {/* Input Isi Berita */}
+            {/* Field Isi Berita */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Isi Berita
                 </label>
                 <textarea
                     value={data.isi}
                     onChange={(e) => setData("isi", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm min-h-[150px]
-                               focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
-                    placeholder="Masukkan isi berita"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm min-h-[150px]
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
+                    placeholder="Tulis isi berita disini..."
                 />
-                {/* Menampilkan error jika validasi isi gagal */}
+                {/* Error message untuk isi berita */}
                 {errors.isi && (
                     <div className="text-red-500 text-xs mt-1">{errors.isi}</div>
                 )}
             </div>
 
-            {/* Input Tanggal */}
+            {/* Field Tanggal */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Tanggal
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Tanggal Publikasi
                 </label>
                 <input
                     type="date"
                     value={data.tanggal}
                     onChange={(e) => setData("tanggal", e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                               focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
                 />
-                {/* Menampilkan error jika validasi tanggal gagal */}
+                {/* Error message untuk tanggal */}
                 {errors.tanggal && (
                     <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>
                 )}
             </div>
 
-            {/* Input Gambar */}
+            {/* Field Upload Gambar */}
             <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Gambar
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Gambar Berita (Opsional)
                 </label>
                 <input
                     type="file"
                     onChange={(e) => setData("gambar", e.target.files[0])}
-                    className="w-full border rounded-xl px-4 py-2 text-sm shadow-sm
-                               focus:outline-none focus:ring-2 focus:ring-[#FBA518]/60 focus:border-[#E52020]"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                               transition-colors"
+                    accept="image/*"
                 />
-                {/* Menampilkan error jika validasi gambar gagal */}
+                {/* Pesan info untuk gambar */}
+                <p className="text-xs text-slate-500 mt-1">
+                    Kosongkan jika tidak ingin mengubah gambar
+                </p>
+                {/* Error message untuk gambar */}
                 {errors.gambar && (
                     <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>
                 )}
             </div>
 
             {/* Tombol Aksi */}
-            <div className="flex items-center justify-end gap-3 pt-2">
-                {/* Tombol batal untuk menutup modal */}
+            <div className="flex items-center justify-end gap-3 pt-4">
+                {/* Tombol Batal */}
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition"
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                               hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                {/* Tombol submit untuk mengirim data update */}
+                
+                {/* Tombol Submit */}
                 <button
                     type="submit"
                     disabled={processing}
                     className="px-4 py-2 rounded-lg text-sm font-semibold text-white
-                               bg-gradient-to-r from-[#E52020] to-[#FBA518]
-                               hover:from-[#E52020]/80 hover:to-[#FBA518]/80 shadow-md transition"
+                               bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400
+                               shadow-md transition-colors"
                 >
-                    {processing ? "Memperbarui..." : "Perbarui"}
+                    {processing ? "Memperbarui..." : "Perbarui Berita"}
                 </button>
             </div>
         </form>

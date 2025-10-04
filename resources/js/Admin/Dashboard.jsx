@@ -1,65 +1,69 @@
 import { Link, usePage } from "@inertiajs/react";
+import { Users, User, Award, Newspaper, Image, School, TrendingUp, Users2, BookOpen, Activity } from "lucide-react";
 
-export default function Dashboard({jumlahguru, jumlahsiswa, jumlahekskul, jumlahberita, level}) {
+/**
+ * Komponen Dashboard - Menampilkan statistik dan visualisasi data sekolah
+ * Berisi cards statistik, grafik distribusi siswa, dan partisipasi ekskul
+ * Responsif untuk desktop dan mobile
+ */
+export default function Dashboard({ jumlahguru, jumlahsiswa, jumlahekskul, jumlahberita, level }) {
+    
+    // Data statistik untuk cards utama
+    const stats = [
+        { 
+            icon: User, 
+            label: 'Guru', 
+            value: jumlahguru, 
+            color: 'bg-blue-500',
+        },
+        { 
+            icon: Users, 
+            label: 'Siswa', 
+            value: jumlahsiswa, 
+            color: 'bg-green-500',
+        },
+        { 
+            icon: Award, 
+            label: 'Ekstrakurikuler', 
+            value: jumlahekskul, 
+            color: 'bg-purple-500',
+        },
+        { 
+            icon: Newspaper, 
+            label: 'Berita', 
+            value: jumlahberita, 
+            color: 'bg-orange-500'
+        }
+    ];
 
     return (
         <div className="p-6">
-            {/* Judul Dashboard */}
-            <h1 className="text-2xl font-bold mb-6">{level === 'Admin' ? 'Dashboard Admin' : 'Dashboard Officer'}</h1>
-
-            {/* Statistik Card - Menampilkan jumlah data penting */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                {/* Jumlah Guru */}
-                <div className="bg-white p-4 shadow rounded-lg text-center">
-                    <h2 className="text-lg font-semibold">Guru</h2>
-                    <p className="text-3xl font-bold text-blue-600">{jumlahguru}</p>
-                </div>
-                {/* Jumlah Siswa */}
-                <div className="bg-white p-4 shadow rounded-lg text-center">
-                    <h2 className="text-lg font-semibold">Siswa</h2>
-                    <p className="text-3xl font-bold text-green-600">{jumlahsiswa}</p>
-                </div>
-                {/* Jumlah Ekskul */}
-                <div className="bg-white p-4 shadow rounded-lg text-center">
-                    <h2 className="text-lg font-semibold">Ekskul</h2>
-                    <p className="text-3xl font-bold text-purple-600">{jumlahekskul}</p>
-                </div>
-                {/* Jumlah Berita */}
-                <div className="bg-white p-4 shadow rounded-lg text-center">
-                    <h2 className="text-lg font-semibold">Berita</h2>
-                    <p className="text-3xl font-bold text-red-600">{jumlahberita}</p>
+            {/* Header Section dengan judul dan deskripsi */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                        {level === 'Admin' ? 'Dashboard Admin' : 'Dashboard Officer'}
+                    </h1>
+                    <p className="text-gray-600 mt-1">Visualisasi data dan statistik sekolah</p>
                 </div>
             </div>
 
-            {/* Navigasi Cepat - Shortcut ke menu penting */}
-            <div className="bg-white p-6 shadow rounded-lg">
-                <h2 className="text-xl font-bold mb-4">Navigasi Cepat</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Link ke halaman guru */}
-                    <Link href="/admin/daftar/guru" className="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-center">
-                        Kelola Guru
-                    </Link>
-                    {/* Link ke halaman siswa */}
-                    <Link href="/admin/daftar/siswa" className="bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-center">
-                        Kelola Siswa
-                    </Link>
-                    {/* Link ke halaman ekstrakurikuler */}
-                    <Link href="/admin/daftar/ekstrakurikuler" className="bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg text-center">
-                        Kelola Ekskul
-                    </Link>
-                    {/* Link ke halaman berita */}
-                    <Link href="/admin/daftar/berita" className="bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg text-center">
-                        Kelola Berita
-                    </Link>
-                    {/* Link ke halaman galeri */}
-                    <Link href="/admin/daftar/galeri" className="bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded-lg text-center">
-                        Kelola Galeri
-                    </Link>
-                    {/* Link ke halaman profil sekolah */}
-                    <Link href="/admin/daftar/profil/sekolah" className="bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg text-center">
-                        Profil Sekolah
-                    </Link>
-                </div>
+            {/* Grid Cards Statistik */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {stats.map((stat, index) => (
+                    <div key={index} className="bg-white rounded-xl p-4 shadow-lg border border-slate-200">
+                        <div className="flex items-center justify-between mb-2">
+                            {/* Icon dengan background berwarna */}
+                            <div className={`${stat.color} p-2 rounded-lg`}>
+                                <stat.icon className="w-6 h-6 text-white" />
+                            </div>
+                        </div>
+                        {/* Nilai statistik */}
+                        <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+                        {/* Label statistik */}
+                        <p className="text-sm text-gray-600">{stat.label}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );

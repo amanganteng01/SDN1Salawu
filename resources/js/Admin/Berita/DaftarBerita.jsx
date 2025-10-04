@@ -4,207 +4,182 @@ import Modal from "../Modal";
 import TambahBerita from "./TambahBerita";
 import EditBerita from "./EditBerita";
 import GunakanWidthWindows from "../GunakanWidthWindows";
+import { Plus, Eye, Edit, Trash2, MoreVertical } from "lucide-react";
 
+// Menampilkan tabel daftar berita
 export default function DaftarBerita({ berita }) {
-    // Mengambil lebar window dari custom hook
+    // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-
-    // State untuk membuka/menutup modal tambah berita
+    
+    // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
-
-    // State untuk membuka/menutup modal edit berita
     const [openEdit, setOpenEdit] = useState(false);
-
-    // State untuk menyimpan berita yang dipilih ketika ingin diedit
     const [selectedBerita, setSelectedBerita] = useState(null);
-
-    // State untuk membuka/menutup menu aksi (khusus mode mobile)
     const [openAksi, setAksi] = useState(null);
-
-    // State untuk menentukan apakah ukuran layar di bawah 1000px
     const [widthmd, setWidthmd] = useState(false);
 
-    // Efek samping untuk mengecek ukuran layar setiap kali `width` berubah
+    // Effect untuk mendeteksi ukuran layar
     useEffect(() => {
-        if (width < 1000) {
-            setWidthmd(true);
-        }else {
-            setWidthmd(false);
-        }
+        setWidthmd(width < 1000);
     }, [width]);
 
-    // Variabel className untuk styling border tombol
-    const border = `
-        border
-        px-1 py-0.25
-        sm:px-1.5 sm:py-0.5
-        md:px-2 md:py-1
-        lg:px-2.5 lg:py-1.5
-        xl:px-3 xl:py-2
-        2xl:px-3.5 2xl:py-2.5
-    `;
-
-    // Variabel className untuk ukuran teks tombol
-    const ukuranTextBtn = `
-        text-sm
-        md:text-base
-    `;
-
-    // Variabel className untuk gradient tombol utama
-    const gradient = `
-        bg-gradient-to-r
-        from-[#E52020]
-        to-[#FBA518]
-        text-white
-    `;
-
-    // Variabel className untuk efek hover pada gradient
-    const gradientHover = `
-        hover:from-[#E52020]/70
-        hover:to-[#FBA518]/70
-        transition
-    `;
-
     return (
-        <div className="p-4">
-            {/* Bagian judul halaman dan tombol tambah berita */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="font-bold text-xl md:text-2xl">Daftar Berita</h1>
+        <div className="p-6">
+            {/* Header Section dengan judul dan tombol tambah */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Berita</h1>
+                    <p className="text-gray-600 mt-1">Kelola berita dan informasi sekolah</p>
+                </div>
+                
+                {/* Tombol Tambah Berita */}
                 <button
                     onClick={() => setOpenTambah(true)}
-                    className={`${border} ${gradient} ${gradientHover} rounded-md md:rounded-lg`}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition shadow-md"
                 >
+                    <Plus className="w-4 h-4" />
                     Tambah Berita
                 </button>
             </div>
 
-            {/* Bagian tabel daftar berita */}
-            <div className="overflow-x-auto relative">
-                <table className="min-w-full bg-white rounded-lg shadow-lg text-sm md:text-base">
-                    <thead className="bg-gradient-to-r from-[#E52020]/70 to-[#FBA518]/70 text-white">
-                        <tr>
-                            <th className="px-4 py-3 text-left">No</th>
-                            <th className="px-4 py-3 text-left">{widthmd ? "Judul" : "Judul Berita"}</th>
-                            <th className="px-4 py-3 text-left">Tanggal</th>
-                            <th className="px-4 py-3 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {berita.length > 0 ? (
-                            // Loop data berita untuk ditampilkan di tabel
-                            berita.map((item, i) => (
-                                <tr
-                                    key={item.id}
-                                    className="border-b last:border-none hover:bg-gray-50 transition"
-                                >
-                                    <td className="px-4 py-3">{i + 1}</td>
-                                    <td className="px-4 py-3">{item.judul}</td>
-                                    <td className="px-4 py-3">{item.tanggal}</td>
-                                    <td className="px-4 py-3 text-center space-x-2 relative">
-                                        {/* Jika layar kecil (<1000px), tampilkan dropdown menu aksi */}
-                                        {widthmd ? (
-                                            <div className="relative inline-block text-left">
-                                                {/* Tombol untuk membuka menu aksi */}
-                                                <button
-                                                    onClick={() => setAksi(openAksi === item.id ? null : item.id)}
-                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md
-                                                        bg-gradient-to-r from-[#E52020]/20 to-[#FBA518]/20
-                                                        hover:from-[#E52020]/30 hover:to-[#FBA518]/30
-                                                        text-sm md:text-base font-medium text-gray-800
-                                                        shadow-sm transition"
-                                                >
-                                                    Aksi
-                                                    <span className="text-xs">{openAksi === item.id ? "▲" : "▼"}</span>
-                                                </button>
+            {/* Tabel Daftar Berita */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="bg-slate-100 border-b border-slate-200">
+                            <tr>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">No</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Judul Berita</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Tanggal</th>
+                                <th className="px-6 py-4 text-center text-sm font-semibold text-slate-700">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200">
+                            {berita.length > 0 ? (
+                                // Loop data berita
+                                berita.map((item, i) => (
+                                    <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+                                        <td className="px-6 py-4 text-sm text-slate-600">{i + 1}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="max-w-xs">
+                                                {/* Judul berita */}
+                                                <p className="text-sm font-medium text-slate-800 line-clamp-2">
+                                                    {item.judul}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-slate-600">{item.tanggal}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex justify-center">
+                                                {widthmd ? (
+                                                    // Menu Aksi untuk tampilan mobile
+                                                    <div className="relative">
+                                                        <button
+                                                            onClick={() => setAksi(openAksi === item.id ? null : item.id)}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg border border-slate-300 hover:border-slate-400 transition-colors"
+                                                        >
+                                                            <MoreVertical className="w-4 h-4 text-slate-600" />
+                                                        </button>
 
-                                                {/* Dropdown menu aksi (Detail, Edit, Hapus) */}
-                                                {openAksi === item.id && (
-                                                    <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg ring-1 ring-black/5 z-50 bg-white">
-                                                        <div className="py-1">
-                                                            {/* Tombol detail berita */}
-                                                            <Link
-                                                                href={`/admin/show/berita/${item.id}`}
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#E52020]/10 hover:text-[#E52020] rounded transition"
-                                                            >
-                                                                Detail
-                                                            </Link>
-                                                            {/* Tombol edit berita */}
-                                                            <button
-                                                                onClick={() => {
-                                                                    setSelectedBerita(item);
-                                                                    setOpenEdit(true);
-                                                                    setAksi(null);
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#FBA518]/10 hover:text-[#FBA518] rounded transition"
-                                                            >
-                                                                Edit
-                                                            </button>
-                                                            {/* Tombol hapus berita */}
-                                                            <button
-                                                                onClick={() => {
-                                                                    if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
-                                                                        router.delete(`/admin/hapus/berita/${item.id}`);
-                                                                    }
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 rounded transition"
-                                                            >
-                                                                Hapus
-                                                            </button>
-                                                        </div>
+                                                        {/* Dropdown Menu */}
+                                                        {openAksi === item.id && (
+                                                            <div className="absolute right-0 mt-1 w-40 rounded-lg shadow-lg border border-slate-200 bg-white z-50">
+                                                                <div className="py-1">
+                                                                    {/* Tombol Detail */}
+                                                                    <Link
+                                                                        href={`/admin/show/berita/${item.id}`}
+                                                                        className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                                                    >
+                                                                        <Eye className="w-4 h-4" />
+                                                                        Detail
+                                                                    </Link>
+                                                                    {/* Tombol Edit */}
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            setSelectedBerita(item);
+                                                                            setOpenEdit(true);
+                                                                            setAksi(null);
+                                                                        }}
+                                                                        className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+                                                                    >
+                                                                        <Edit className="w-4 h-4" />
+                                                                        Edit
+                                                                    </button>
+                                                                    {/* Tombol Hapus */}
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
+                                                                                router.delete(`/admin/hapus/berita/${item.id}`);
+                                                                            }
+                                                                        }}
+                                                                        className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                                                                    >
+                                                                        <Trash2 className="w-4 h-4" />
+                                                                        Hapus
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    // Tombol Aksi untuk desktop
+                                                    <div className="flex items-center gap-2">
+                                                        <Link
+                                                            href={`/admin/show/berita/${item.id}`}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                                                        >
+                                                            <Eye className="w-4 h-4" />
+                                                            Detail
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedBerita(item);
+                                                                setOpenEdit(true);
+                                                            }}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
+                                                        >
+                                                            <Edit className="w-4 h-4" />
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
+                                                                    router.delete(`/admin/hapus/berita/${item.id}`);
+                                                                }
+                                                            }}
+                                                            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                            Hapus
+                                                        </button>
                                                     </div>
                                                 )}
                                             </div>
-                                        ) : (
-                                            // Jika layar besar (>=1000px), tombol aksi langsung tampil
-                                            <>
-                                                <Link
-                                                    href={`/admin/show/berita/${item.id}`}
-                                                    className={`${ukuranTextBtn} bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition`}
-                                                >
-                                                    Detail
-                                                </Link>
-                                                <button
-                                                    onClick={() => {
-                                                        setSelectedBerita(item);
-                                                        setOpenEdit(true);
-                                                    }}
-                                                    className={`${ukuranTextBtn} bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition`}
-                                                >
-                                                    Edit
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
-                                                            router.delete(`/admin/hapus/berita/${item.id}`);
-                                                        }
-                                                    }}
-                                                    className={`${ukuranTextBtn} bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition`}
-                                                >
-                                                    Hapus
-                                                </button>
-                                            </>
-                                        )}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                // Jika tidak ada barita
+                                <tr>
+                                    <td colSpan="4" className="px-6 py-8 text-center">
+                                        <div className="text-slate-500">
+                                            <p className="text-sm">Tidak ada data berita</p>
+                                            <p className="text-xs mt-1">Klik "Tambah Berita" untuk menambahkan berita pertama</p>
+                                        </div>
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            // Jika tidak ada berita, tampilkan pesan kosong
-                            <tr>
-                                <td colSpan="4" className="px-4 py-6 text-center text-gray-500">
-                                    Tidak ada data berita
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            {/* Modal untuk tambah berita */}
+            {/* Modal Tambah Berita */}
             <Modal isOpen={openTambah} onClose={() => setOpenTambah(false)} title="Tambah Berita">
                 <TambahBerita onClose={() => setOpenTambah(false)} />
             </Modal>
 
-            {/* Modal untuk edit berita */}
+            {/* Modal Edit Berita */}
             <Modal isOpen={openEdit} onClose={() => setOpenEdit(false)} title="Edit Berita">
                 <EditBerita berita={selectedBerita} onClose={() => setOpenEdit(false)} />
             </Modal>
