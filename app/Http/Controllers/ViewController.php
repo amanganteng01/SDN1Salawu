@@ -26,19 +26,37 @@ class ViewController extends Controller
         return Inertia::render("Beranda", ['jumlahguru'=> $guru->count(), 'jumlahsiswa' => $siswa->count(), 'profil' => $profil, 'galeri' => $galeri, 'ekskul' => $ekskul, 'berita' => $berita ]);
     }
 
+    public function berita() {
+        // Mengambil data berita dari yang terbaru
+        $berita = Berita::orderBy("created_at", "desc")->get();
+        // Mengembalikan ke halaman berita dengan data yang sudah diambil
+        return Inertia::render("Berita", ['berita' => $berita]);
+    }
+
     public function guru(){
         $guru = Guru::all();
         return Inertia::render('Guru', ['guru' => $guru]);
     }
 
-    public function profilSekolah(){
-        // Mengembalikan ke halaman profil sekolah
-        return Inertia::render("ProfilSekolah");
+    public function galeri(){
+        // Mengambil data galeri dari yang terbaru
+        $galeri = Galeri::orderBy("created_at", "desc")->get();
+        // Mengembalikan ke halaman galeri dengan data yang sudah diambil
+        return Inertia::render("Galeri", ['galeri' => $galeri]);
     }
 
     public function ekstrakurikuler(){
-        // Mengembalikan ke halaman ekstrakurikuler
-        return Inertia::render("Ekstrakurikuler");
+        // Mengambil data ekstrakurikuler
+        $ekstrakurikuler = Ekstrakurikuler::all();
+        // Mengembalikan ke halaman ekstrakurikuler dengan data yang sudah diambil
+        return Inertia::render("Ekstrakurikuler", ['ekskul' => $ekstrakurikuler]);
+    }
+
+    public function tentangKami(){
+        // Mengambil data profil sekolah
+        $profil = ProfilSekolah::first();
+        // Mengembalikan ke halaman tentang kami dengan data yang sudah diambil
+        return Inertia::render("TentangKami", ['profil' => $profil]);
     }
 
     public function berandaAdmin() {

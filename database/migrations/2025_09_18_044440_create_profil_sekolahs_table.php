@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('npsn');
             $table->string('alamat');
             $table->string('kontak');
-            $table->text('visi_misi');
+            $table->text('visi');
+            $table->text('misi');
             $table->year('tahun_berdiri');
             $table->text('deskripsi');
+            $table->text('nilai_budaya');
             $table->timestamps();
         });
     }

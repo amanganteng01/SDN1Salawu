@@ -1,12 +1,8 @@
 import { Link, router } from "@inertiajs/react"
-import { Facebook, Instagram, Mail, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
-/**
- * Komponen Layout - Layout utama untuk halaman publik website SDN 1 Salawu
- * Menyediakan header, main content, dan footer dengan design yang konsisten
- * Responsif untuk desktop dan mobile dengan navigation drawer
- */
+//Layout utama untuk halaman publik website SDN 1 Salawu
 export default function Layout({ children }) {
     // State untuk mengontrol buka/tutup menu mobile
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,12 +21,11 @@ export default function Layout({ children }) {
     // Daftar menu navigasi
     const menuItems = [
         { href: "/", label: "Beranda" },
-        { href: "#profil", label: "Profil" },
-        { href: "#berita", label: "Berita" },
+        { href: "/berita", label: "Berita" },
         { href: "/guru", label: "Guru" },
-        { href: "#galeri", label: "Galeri" },
-        { href: "#ekskul", label: "Ekstrakurikuler" },
-        { href: "#kontak", label: "Kontak" }
+        { href: "/galeri", label: "Galeri" },
+        { href: "/ekstrakurikuler", label: "Ekstrakurikuler" },
+        { href: "/tentang/kami", label: "Tentang Kami" },
     ];
 
     return (
@@ -93,7 +88,7 @@ export default function Layout({ children }) {
 
             {/* Footer */}
             <footer className={`${gradient}`}>
-                <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-8">
                     
                     {/* Info Sekolah */}
                     <div className="space-y-4">
@@ -127,43 +122,6 @@ export default function Layout({ children }) {
                             ))}
                         </ul>
                     </div>
-
-                    {/* Kontak dan Sosial Media */}
-                    <div className="space-y-4">
-                        <h4 className="text-xl font-bold">Hubungi Kami</h4>
-                        <div className="space-y-3 text-blue-100">
-                            <p className="text-sm">
-                                Email: info@sdn1salawu.sch.id
-                            </p>
-                            <p className="text-sm">
-                                Telepon: (0265) 123456
-                            </p>
-                            <div className="flex space-x-4 pt-2">
-                                <a 
-                                    href="#" 
-                                    className="hover:text-white transition-colors duration-200"
-                                    aria-label="Facebook"
-                                >
-                                    <Facebook className="w-5 h-5" />
-                                </a>
-                                <a 
-                                    href="#" 
-                                    className="hover:text-white transition-colors duration-200"
-                                    aria-label="Instagram"
-                                >
-                                    <Instagram className="w-5 h-5" />
-                                </a>
-                                <a 
-                                    href="mailto:info@sdn1salawu.sch.id" 
-                                    className="hover:text-white transition-colors duration-200"
-                                    aria-label="Email"
-                                >
-                                    <Mail className="w-5 h-5" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
                 {/* Sub Footer */}

@@ -12,66 +12,78 @@ class ProfilSekolahController extends Controller
     public function showProfilSekolah()
     {
         $id = 1;
-        // Mendapatkan data profil sekolah berdasarkan id
         $profil = ProfilSekolah::findOrFail($id);
-        // Menampilkan halaman detail profil sekolah dengan data yang telah diambil
+        
+        // Tambahkan URL lengkap untuk foto dan logo
+        if ($profil->foto) {
+            $profil->foto_url = Storage::url('foto/' . $profil->foto);
+        }
+        if ($profil->logo) {
+            $profil->logo_url = Storage::url('logo/' . $profil->logo);
+        }
+        
         return Inertia::render('ProfilSekolah/DetailProfilSekolah', ['profil' => $profil]);
     }
 
     public function updateProfilSekolah(Request $request, $id)
     {
-        // Validasi inputan dari form edit profil sekolah
+        // Validasi
         $validasi = $request->validate([
-            'nama_sekolah'   => 'nullable|string|max:150',
-            'kepala_sekolah' => 'nullable|string|max:100',
+            'nama_sekolah'   => 'required|string|max:150',
+            'kepala_sekolah' => 'required|string|max:100',
             'foto'           => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'logo'           => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'npsn'           => 'nullable|string|max:20',
-            'alamat'         => 'nullable|string|max:255',
-            'kontak'         => 'nullable|string|max:20',
-            'visi_misi'      => 'nullable|string',
-            'tahun_berdiri'  => 'nullable|integer|min:1900|max:' . date('Y'),
-            'deskripsi'      => 'nullable|string',
+            'npsn'           => 'required|string|max:20',
+            'alamat'         => 'required|string|max:255',
+            'kontak'         => 'required|string|max:20',
+            'visi'           => 'required|string',
+            'misi'           => 'required|string',
+            'tahun_berdiri'  => 'required|integer|min:1900|max:' . date('Y'),
+            'deskripsi'      => 'required|string',
+            'nilai_budaya'   => 'required|string',
         ]);
 
-        // Mendapatkan data profil sekolah berdasarkan id
         $profil = ProfilSekolah::findOrFail($id);
 
-        //upload foto baru jika ada
+        // Upload foto baru jika ada
         if ($request->hasFile('foto')) {
-            if (Storage::exists('foto/'.$profil->foto)) {
-                Storage::delete('foto/'.$profil->foto);
+            // Hapus foto lama jika ada
+            if ($profil->foto && Storage::exists('foto/' . $profil->foto)) {
+                Storage::delete('foto/' . $profil->foto);
             }
+            
             $foto = $request->file('foto');
-            // Memberi nama file dengan timestamp agar unik
-            $fotoName = time().".".$foto->getClientOriginalExtension();
+            $fotoName = 'foto_' . time() . '.' . $foto->getClientOriginalExtension();
+            
+            // Simpan ke storage - Gunakan putFileAs untuk lebih reliable
             $foto->storeAs('foto', $fotoName);
-
-            // Menyimpan nama file gambar ke dalam validasi
             $validasi['foto'] = $fotoName;
         } else {
-            $validasi['foto'] = $profil->foto;
+            // Pertahankan foto lama jika tidak ada upload baru
+            unset($validasi['foto']);
         }
 
-        //upload logo baru jika ada
+        // Upload logo baru jika ada
         if ($request->hasFile('logo')) {
-            if (Storage::exists('logo/'.$profil->logo)) {
-                Storage::delete('logo/'.$profil->logo);
+            // Hapus logo lama jika ada
+            if ($profil->logo && Storage::exists('logo/' . $profil->logo)) {
+                Storage::delete('logo/' . $profil->logo);
             }
+            
             $logo = $request->file('logo');
-            // Memberi nama file dengan timestamp agar unik
-            $logoName = time().".".$logo->getClientOriginalExtension();
+            $logoName = 'logo_' . time() . '.' . $logo->getClientOriginalExtension();
+            
+            // Simpan ke storage
             $logo->storeAs('logo', $logoName);
-
-            // Menyimpan nama file gambar ke dalam validasi
             $validasi['logo'] = $logoName;
         } else {
-            $validasi['logo'] = $profil->logo;
+            // Pertahankan logo lama jika tidak ada upload baru
+            unset($validasi['logo']);
         }
 
-        // Menyimpan data profil sekolah ke database
+        // Update data
         $profil->update($validasi);
-        // Mengembalikan ke halaman detail profil sekolah dengan pesan sukses
+        
         return redirect('/admin/show/profil/sekolah')->with('success', 'Data profil sekolah berhasil diperbarui.');
     }
 }

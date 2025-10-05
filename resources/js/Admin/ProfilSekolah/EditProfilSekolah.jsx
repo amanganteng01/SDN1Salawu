@@ -1,13 +1,8 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
-import { Upload, School, User, MapPin, Phone, Info, Calendar, FileText } from "lucide-react";
+import { Upload, School, User, MapPin, Phone, Info, Calendar, FileText, Target, Heart } from "lucide-react";
 
-/**
- * Komponen EditProfilSekolah - Form untuk mengedit profil sekolah yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
 export default function EditProfilSekolah({ profil, onClose }) {
-    // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
         nama_sekolah: "",
         kepala_sekolah: "",
@@ -16,44 +11,42 @@ export default function EditProfilSekolah({ profil, onClose }) {
         npsn: "",
         alamat: "",
         kontak: "",
-        visi_misi: "",
+        visi: "",
+        misi: "",
         tahun_berdiri: "",
         deskripsi: "",
+        nilai_budaya: "",
     });
 
-    /**
-     * Effect untuk mengisi form dengan data profil sekolah yang akan diedit
-     * Di-trigger ketika prop profil berubah
-     */
     useEffect(() => {
         if (profil) {
             setData({
                 nama_sekolah: profil.nama_sekolah || "",
                 kepala_sekolah: profil.kepala_sekolah || "",
-                foto: null, // Foto dikosongkan agar tidak overwrite file lama
-                logo: null, // Logo dikosongkan agar tidak overwrite file lama
+                foto: null,
+                logo: null,
                 npsn: profil.npsn || "",
                 alamat: profil.alamat || "",
                 kontak: profil.kontak || "",
-                visi_misi: profil.visi_misi || "",
+                visi: profil.visi || "",
+                misi: profil.misi || "",
                 tahun_berdiri: profil.tahun_berdiri || "",
                 deskripsi: profil.deskripsi || "",
+                nilai_budaya: profil.nilai_budaya || "",
             });
         }
     }, [profil]);
 
-    /**
-     * Fungsi handle submit form
-     * @param {Event} e - Event form submission
-     */
     const submit = (e) => {
-        e.preventDefault(); // Mencegah reload halaman
+        e.preventDefault();
         
-        // Kirim data ke endpoint update
+        // PERBAIKAN: Gunakan post dengan forceFormData untuk file upload
         post(`/admin/update/profil/sekolah/${profil.id}`, {
+            forceFormData: true, // PENTING untuk upload file
+            preserveScroll: true,
             onSuccess: () => {
-                reset();    // Reset form state
-                onClose();  // Tutup modal
+                reset();
+                onClose();
             },
         });
     };
@@ -77,7 +70,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         placeholder="Masukkan nama sekolah"
                     />
                 </div>
-                {/* Error message untuk nama sekolah */}
                 {errors.nama_sekolah && (
                     <div className="text-red-500 text-xs mt-1">{errors.nama_sekolah}</div>
                 )}
@@ -100,7 +92,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         placeholder="Masukkan nama kepala sekolah"
                     />
                 </div>
-                {/* Error message untuk kepala sekolah */}
                 {errors.kepala_sekolah && (
                     <div className="text-red-500 text-xs mt-1">{errors.kepala_sekolah}</div>
                 )}
@@ -120,7 +111,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                                transition-colors"
                     placeholder="Masukkan NPSN sekolah"
                 />
-                {/* Error message untuk NPSN */}
                 {errors.npsn && (
                     <div className="text-red-500 text-xs mt-1">{errors.npsn}</div>
                 )}
@@ -143,7 +133,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         placeholder="Masukkan alamat lengkap sekolah"
                     />
                 </div>
-                {/* Error message untuk alamat */}
                 {errors.alamat && (
                     <div className="text-red-500 text-xs mt-1">{errors.alamat}</div>
                 )}
@@ -166,7 +155,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         placeholder="Masukkan nomor telepon sekolah"
                     />
                 </div>
-                {/* Error message untuk kontak */}
                 {errors.kontak && (
                     <div className="text-red-500 text-xs mt-1">{errors.kontak}</div>
                 )}
@@ -187,41 +175,63 @@ export default function EditProfilSekolah({ profil, onClose }) {
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
                         placeholder="Masukkan tahun berdiri sekolah"
+                        min="1900"
+                        max={new Date().getFullYear()}
                     />
                 </div>
-                {/* Error message untuk tahun berdiri */}
                 {errors.tahun_berdiri && (
                     <div className="text-red-500 text-xs mt-1">{errors.tahun_berdiri}</div>
                 )}
             </div>
 
-            {/* Field Visi & Misi */}
+            {/* Field Visi */}
             <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    Visi & Misi
+                    Visi Sekolah
+                </label>
+                <div className="relative">
+                    <Target className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                    <textarea 
+                        value={data.visi} 
+                        onChange={(e) => setData("visi", e.target.value)} 
+                        rows="3"
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Tuliskan visi sekolah..."
+                    />
+                </div>
+                {errors.visi && (
+                    <div className="text-red-500 text-xs mt-1">{errors.visi}</div>
+                )}
+            </div>
+
+            {/* Field Misi */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Misi Sekolah
                 </label>
                 <div className="relative">
                     <Info className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                     <textarea 
-                        value={data.visi_misi} 
-                        onChange={(e) => setData("visi_misi", e.target.value)} 
+                        value={data.misi} 
+                        onChange={(e) => setData("misi", e.target.value)} 
                         rows="4"
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
-                        placeholder="Tuliskan visi dan misi sekolah..."
+                        placeholder="Tuliskan misi sekolah..."
                     />
                 </div>
-                {/* Error message untuk visi & misi */}
-                {errors.visi_misi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.visi_misi}</div>
+                {errors.misi && (
+                    <div className="text-red-500 text-xs mt-1">{errors.misi}</div>
                 )}
             </div>
 
             {/* Field Deskripsi */}
             <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    Deskripsi
+                    Deskripsi Sekolah
                 </label>
                 <div className="relative">
                     <FileText className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
@@ -232,12 +242,33 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
-                        placeholder="Tuliskan deskripsi sekolah..."
+                        placeholder="Tuliskan deskripsi lengkap tentang sekolah..."
                     />
                 </div>
-                {/* Error message untuk deskripsi */}
                 {errors.deskripsi && (
                     <div className="text-red-500 text-xs mt-1">{errors.deskripsi}</div>
+                )}
+            </div>
+
+            {/* Field Nilai Budaya */}
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Nilai & Budaya Sekolah
+                </label>
+                <div className="relative">
+                    <Heart className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                    <textarea 
+                        value={data.nilai_budaya} 
+                        onChange={(e) => setData("nilai_budaya", e.target.value)} 
+                        rows="4"
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                   transition-colors"
+                        placeholder="Tuliskan nilai-nilai dan budaya sekolah..."
+                    />
+                </div>
+                {errors.nilai_budaya && (
+                    <div className="text-red-500 text-xs mt-1">{errors.nilai_budaya}</div>
                 )}
             </div>
 
@@ -263,7 +294,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         </div>
                     </label>
                 </div>
-                {/* Error message untuk logo */}
                 {errors.logo && (
                     <div className="text-red-500 text-xs mt-1">{errors.logo}</div>
                 )}
@@ -291,7 +321,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                         </div>
                     </label>
                 </div>
-                {/* Error message untuk foto */}
                 {errors.foto && (
                     <div className="text-red-500 text-xs mt-1">{errors.foto}</div>
                 )}
@@ -299,7 +328,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
 
             {/* Tombol Aksi */}
             <div className="flex items-center justify-end gap-3 pt-4 sticky bottom-0 bg-white pb-2">
-                {/* Tombol Batal */}
                 <button
                     type="button"
                     onClick={onClose}
@@ -309,7 +337,6 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     Batal
                 </button>
                 
-                {/* Tombol Submit */}
                 <button
                     type="submit"
                     disabled={processing}

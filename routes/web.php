@@ -12,9 +12,11 @@ use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ViewController::class, 'beranda']);
+Route::get('/berita', [ViewController::class, 'berita']);
 Route::get('/guru', [ViewController::class, 'guru']);
-Route::get('/profilsekolah', [ViewController::class, 'profilSekolah']);
+Route::get('/galeri', [ViewController::class, 'galeri']);
 Route::get('/ekstrakurikuler', [ViewController::class, 'ekstrakurikuler']);
+Route::get('/tentang/kami', [ViewController::class, 'tentangKami']);
 
 Route::get('/login', [LoginController::class, 'tampilanLogin'])->name('login');
 Route::post('/login/auth', [LoginController::class, 'authLogin']);
