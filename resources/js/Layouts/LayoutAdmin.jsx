@@ -34,7 +34,7 @@ export default function LayoutAdmin({ children }) {
         {/* Header Section - Fixed di atas */}
         <header className={`${headerBg} fixed top-0 left-0 w-full z-50 h-16 flex items-center px-6 shadow-sm`}>
           <h1 className="text-xl md:text-2xl font-semibold flex-1">
-            Admin SDN 1 Salawu
+            Admin SMA Negeri 4 Tasikmalaya
           </h1>
 
           {/* Tombol Login/Logout berdasarkan status user */}

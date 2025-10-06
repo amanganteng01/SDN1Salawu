@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ViewController::class, 'beranda']);
 Route::get('/berita', [ViewController::class, 'berita']);
+Route::get('/berita/{id}', [ViewController::class, 'detailberita']);
 Route::get('/guru', [ViewController::class, 'guru']);
+Route::get('/guru/{id}', [ViewController::class, 'detailguru']);
 Route::get('/galeri', [ViewController::class, 'galeri']);
 Route::get('/ekstrakurikuler', [ViewController::class, 'ekstrakurikuler']);
 Route::get('/tentang/kami', [ViewController::class, 'tentangKami']);

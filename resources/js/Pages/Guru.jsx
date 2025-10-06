@@ -1,4 +1,5 @@
 import { User, GraduationCap, Mail, Phone } from "lucide-react";
+import { Link } from "@inertiajs/react";
 
 /**
  * Komponen Guru - Menampilkan daftar guru dan staff pengajar
@@ -45,7 +46,7 @@ export default function Guru({ guru }) {
                                 {/* Informasi Guru */}
                                 <div className="p-6">
                                     <h3 className="text-lg font-bold text-gray-800 mb-1">
-                                        {guru.name}
+                                        {guru.nama}
                                     </h3>
 
                                     {guru.nip && (
@@ -56,13 +57,15 @@ export default function Guru({ guru }) {
 
                                     <div className="flex items-center justify-center text-sm text-blue-600 mb-3">
                                         <GraduationCap className="w-4 h-4 mr-1" />
-                                        <span>{guru.mapei}</span>
+                                        <span>{guru.mapel}</span>
                                     </div>
 
                                     {/* Badge Status */}
-                                    <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <Link 
+                                    href={`guru/${guru.id}`} 
+                                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                         Aktif Mengajar
-                                    </div>
+                                    </Link>
                                 </div>
                             </div>
                         ))

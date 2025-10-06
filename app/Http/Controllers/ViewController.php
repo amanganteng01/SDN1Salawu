@@ -35,9 +35,25 @@ class ViewController extends Controller
         return Inertia::render("Berita", ['berita' => $berita]);
     }
 
+    public function detailberita($id){
+        // Mengambil data berita sesuai dengan id
+        $berita = Berita::findOrFail($id);
+        // Mengambalikan ke halaman detail berita dengan data yang sudah diambil
+        return Inertia::render("DetailBerita", ['berita' => $berita]);
+    }
+
     public function guru(){
+        // Mengambil data guru
         $guru = Guru::all();
+        // Mengembalikan ke halaman guru dengan data yang sudah diambil
         return Inertia::render('Guru', ['guru' => $guru]);
+    }
+
+    public function detailguru($id){
+        // Mengambil data guru sesuai dengan id
+        $guru = Guru::findOrFail($id);
+        // Mengembalikan ke halaman detail guru dengan data yang sudah diambil
+        return Inertia::render("DetailGuru", ['guru' => $guru]);
     }
 
     public function galeri(){
