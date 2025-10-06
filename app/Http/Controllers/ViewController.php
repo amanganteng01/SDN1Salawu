@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Ekstrakurikuler;
+use App\Models\FasilitasDanSarana;
 use App\Models\Galeri;
 use App\Models\Guru;
+use App\Models\PencapaianDanPrestasi;
 use App\Models\ProfilSekolah;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -53,10 +55,14 @@ class ViewController extends Controller
     }
 
     public function tentangKami(){
+        // Mengambil 3 data fasilitas dan sarana terbaru
+        $fasilitas = FasilitasDanSarana::orderBy("created_at", "desc")->limit(3)->get();
+        // Mengambil 3 data pencapaian dan prestasi terbaru
+        $pencapaian = PencapaianDanPrestasi::orderBy("created_at", "desc")->limit(3)->get();
         // Mengambil data profil sekolah
         $profil = ProfilSekolah::first();
         // Mengembalikan ke halaman tentang kami dengan data yang sudah diambil
-        return Inertia::render("TentangKami", ['profil' => $profil]);
+        return Inertia::render("TentangKami", ['profil' => $profil, 'pencapaian' => $pencapaian, 'fasilitas' => $fasilitas]);
     }
 
     public function berandaAdmin() {

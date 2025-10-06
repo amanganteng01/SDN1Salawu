@@ -21,7 +21,7 @@ export default function Guru({ guru }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {guru.length > 0 ? (
                         guru.map((guru) => (
-                            <div 
+                            <div
                                 key={guru.id}
                                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200 group text-center"
                             >
@@ -47,13 +47,13 @@ export default function Guru({ guru }) {
                                     <h3 className="text-lg font-bold text-gray-800 mb-1">
                                         {guru.name}
                                     </h3>
-                                    
+
                                     {guru.nip && (
                                         <p className="text-sm text-gray-600 mb-2">
                                             NIP: {guru.nip}
                                         </p>
                                     )}
-                                    
+
                                     <div className="flex items-center justify-center text-sm text-blue-600 mb-3">
                                         <GraduationCap className="w-4 h-4 mr-1" />
                                         <span>{guru.mapei}</span>
@@ -81,30 +81,6 @@ export default function Guru({ guru }) {
                         </div>
                     )}
                 </div>
-
-                {/* Statistik Section */}
-                {guru.length > 0 && (
-                    <div className="mt-16 bg-blue-600 rounded-xl p-8 text-white">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                            <div>
-                                <div className="text-3xl font-bold mb-2">{guru.length}</div>
-                                <div className="text-blue-100">Total Guru</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold mb-2">
-                                    {guru.filter(g => g.mapei && g.mapei.includes('Matematika')).length}
-                                </div>
-                                <div className="text-blue-100">Guru Matematika</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold mb-2">
-                                    {guru.filter(g => g.mapei && g.mapei.includes('Bahasa')).length}
-                                </div>
-                                <div className="text-blue-100">Guru Bahasa</div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );

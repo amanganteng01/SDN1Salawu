@@ -21,7 +21,7 @@ export default function TambahGaleri({ onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint simpan
         post("/admin/simpan/galeri", {
             onSuccess: () => {
@@ -125,9 +125,9 @@ export default function TambahGaleri({ onClose }) {
                                 {data.file ? data.file.name : `Klik untuk upload ${data.kategori}`}
                             </p>
                             <p className="text-xs text-slate-500 mt-1">
-                                {data.kategori === "foto" 
-                                    ? "Format: JPG, PNG, GIF (Max. 5MB)" 
-                                    : "Format: MP4, AVI, MOV (Max. 50MB)"}
+                                {data.kategori === "foto"
+                                    ? "Format: JPG, PNG, GIF (Max. 10MB)"
+                                    : "Format: MP4, AVI, MOV (Max. 100MB)"}
                             </p>
                         </div>
                     </label>
@@ -163,7 +163,7 @@ export default function TambahGaleri({ onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal

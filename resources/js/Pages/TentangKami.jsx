@@ -1,11 +1,11 @@
-import { MapPin, Phone, Mail, Calendar, Users, Award, BookOpen, Heart, Target, Eye } from "lucide-react";
+import { MapPin, Phone, Mail, Calendar, Users, Award, BookOpen, Heart, Target, Eye, Circle } from "lucide-react";
 
 /**
  * Komponen TentangKami - Menampilkan informasi lengkap tentang sekolah
  * Versi diperluas dari ProfilSekolah dengan penekanan pada "Tentang Kami"
  * Responsif untuk desktop dan mobile
  */
-export default function TentangKami({ profil }) {
+export default function TentangKami({ profil, pencapaian, fasilitas }) {
     return (
         <div className="min-h-screen py-8">
             <div className="max-w-6xl mx-auto px-6">
@@ -43,7 +43,7 @@ export default function TentangKami({ profil }) {
                                 <BookOpen className="w-5 h-5 text-blue-600 mr-2" />
                                 Identitas Sekolah
                             </h3>
-                            
+
                             <div className="space-y-4">
                                 <div className="flex items-start">
                                     <BookOpen className="w-5 h-5 text-blue-600 mt-1 mr-4 flex-shrink-0" />
@@ -52,7 +52,7 @@ export default function TentangKami({ profil }) {
                                         <p className="text-gray-600">{profil.name_sekolah}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-start">
                                     <Award className="w-5 h-5 text-blue-600 mt-1 mr-4 flex-shrink-0" />
                                     <div>
@@ -60,7 +60,7 @@ export default function TentangKami({ profil }) {
                                         <p className="text-gray-600">{profil.kepala_sekolah}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-start">
                                     <MapPin className="w-5 h-5 text-blue-600 mt-1 mr-4 flex-shrink-0" />
                                     <div>
@@ -68,7 +68,7 @@ export default function TentangKami({ profil }) {
                                         <p className="text-gray-600">{profil.alamat}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-start">
                                     <Phone className="w-5 h-5 text-blue-600 mt-1 mr-4 flex-shrink-0" />
                                     <div>
@@ -76,7 +76,7 @@ export default function TentangKami({ profil }) {
                                         <p className="text-gray-600">{profil.kontak}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-start">
                                     <Calendar className="w-5 h-5 text-blue-600 mt-1 mr-4 flex-shrink-0" />
                                     <div>
@@ -84,7 +84,7 @@ export default function TentangKami({ profil }) {
                                         <p className="text-gray-600">{profil.tahun_berdiri}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-start">
                                     <Users className="w-5 h-5 text-blue-600 mt-1 mr-4 flex-shrink-0" />
                                     <div>
@@ -102,7 +102,7 @@ export default function TentangKami({ profil }) {
                             <Target className="w-5 h-5 text-blue-600 mr-2" />
                             Visi & Misi
                         </h3>
-                        
+
                         <div className="space-y-4">
                             <div>
                                 <h4 className="font-semibold text-blue-600 mb-2 flex items-center">
@@ -110,18 +110,18 @@ export default function TentangKami({ profil }) {
                                     Visi
                                 </h4>
                                 <p className="text-gray-600 text-sm leading-relaxed">
-                                    {profil.visi_misi ? profil.visi_misi.split('Misi:')[0] : 'Visi sekolah belum tersedia.'}
+                                    {profil.visi ? profil.visi : 'Visi sekolah belum tersedia.'}
                                 </p>
                             </div>
-                            
+
                             <div>
                                 <h4 className="font-semibold text-green-600 mb-2 flex items-center">
                                     <Target className="w-4 h-4 mr-2" />
                                     Misi
                                 </h4>
                                 <p className="text-gray-600 text-sm leading-relaxed">
-                                    {profil.visi_misi && profil.visi_misi.includes('Misi:') 
-                                        ? profil.visi_misi.split('Misi:')[1] 
+                                    {profil.misi ?
+                                        profil.misi
                                         : 'Misi sekolah belum tersedia.'
                                     }
                                 </p>
@@ -134,22 +134,22 @@ export default function TentangKami({ profil }) {
                 <div className="bg-white rounded-xl shadow-md p-8 border border-slate-200 mb-8">
                     <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                         <Heart className="w-5 h-5 text-blue-600 mr-2" />
-                        Mengenal {profil.name_sekolah}
+                        Mengenal {profil.nama_sekolah   }
                     </h3>
                     <div className="prose max-w-none">
                         <p className="text-gray-700 leading-relaxed text-lg mb-6">
                             {profil.deskripsi || 'Deskripsi sekolah sedang dalam proses pengembangan.'}
                         </p>
-                        
+
                         {/* Tambahan konten untuk "Tentang Kami" */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                             <div className="bg-blue-50 rounded-lg p-4">
                                 <h4 className="font-semibold text-blue-800 mb-2">Sejarah Singkat</h4>
                                 <p className="text-gray-600 text-sm">
-                                    {profil.sejarah || `Berdiri sejak ${profil.tahun_berdiri}, ${profil.name_sekolah} telah berkontribusi dalam mencerdaskan kehidupan bangsa dan membentuk generasi yang berkarakter.`}
+                                    {profil.deskripsi || `Berdiri sejak ${profil.tahun_berdiri}, ${profil.nama_sekolah} telah berkontribusi dalam mencerdaskan kehidupan bangsa dan membentuk generasi yang berkarakter.`}
                                 </p>
                             </div>
-                            
+
                             <div className="bg-green-50 rounded-lg p-4">
                                 <h4 className="font-semibold text-green-800 mb-2">Nilai & Budaya</h4>
                                 <p className="text-gray-600 text-sm">
@@ -167,20 +167,14 @@ export default function TentangKami({ profil }) {
                             <Award className="w-5 h-5 mr-3 text-yellow-300" />
                             Pencapaian & Prestasi
                         </h3>
-                        <div className="space-y-3">
-                            <div className="flex items-center">
-                                <Award className="w-5 h-5 mr-3 text-yellow-300" />
-                                <span>Sekolah Adiwiyata Tingkat Kecamatan</span>
+                        {pencapaian.map((itempencapaian) => (
+                            <div className="space-y-3" key={itempencapaian.id}>
+                                <div className="flex items-center">
+                                    <Award className="w-5 h-5 mr-3 text-yellow-300" />
+                                    <span>{itempencapaian.pencapaian}</span>
+                                </div>
                             </div>
-                            <div className="flex items-center">
-                                <Award className="w-5 h-5 mr-3 text-yellow-300" />
-                                <span>Juara 1 Lomba Pidato Bahasa Sunda</span>
-                            </div>
-                            <div className="flex items-center">
-                                <Award className="w-5 h-5 mr-3 text-yellow-300" />
-                                <span>Sekolah Ramah Anak Terbaik 2023</span>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     <div className="bg-green-600 rounded-xl p-6 text-white">
@@ -188,20 +182,15 @@ export default function TentangKami({ profil }) {
                             <BookOpen className="w-5 h-5 mr-3" />
                             Fasilitas & Sarana
                         </h3>
-                        <div className="space-y-3">
-                            <div className="flex items-center">
-                                <BookOpen className="w-5 h-5 mr-3" />
-                                <span>Perpustakaan Digital</span>
+                        {fasilitas.map((itemfasilitas) => (
+                            <div className="space-y-3" key={itemfasilitas.id}>
+                                <div className="flex items-center">
+                                    <Circle className="w-3 h-3 mr-3" />
+                                    <span>{itemfasilitas.nama_fasilitas}</span>
+                                </div>
                             </div>
-                            <div className="flex items-center">
-                                <Users className="w-5 h-5 mr-3" />
-                                <span>Laboratorium Komputer</span>
-                            </div>
-                            <div className="flex items-center">
-                                <Award className="w-5 h-5 mr-3" />
-                                <span>Lapangan Olahraga</span>
-                            </div>
-                        </div>
+                        )
+                        )}
                     </div>
                 </div>
 
@@ -216,7 +205,7 @@ export default function TentangKami({ profil }) {
                             <h4 className="font-semibold text-gray-800 mb-2">Pendidikan Berkualitas</h4>
                             <p className="text-gray-600 text-sm">Menyediakan pendidikan terbaik untuk mengembangkan potensi setiap siswa</p>
                         </div>
-                        
+
                         <div className="text-center">
                             <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                                 <Heart className="w-6 h-6 text-green-600" />
@@ -224,7 +213,7 @@ export default function TentangKami({ profil }) {
                             <h4 className="font-semibold text-gray-800 mb-2">Lingkungan Nyaman</h4>
                             <p className="text-gray-600 text-sm">Menciptakan lingkungan belajar yang aman, nyaman, dan inspiratif</p>
                         </div>
-                        
+
                         <div className="text-center">
                             <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                                 <Award className="w-6 h-6 text-purple-600" />

@@ -19,7 +19,7 @@ export default function DetailProfilSekolah({ profil }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Profil Sekolah</h1>
                     <p className="text-gray-600 mt-1">Informasi lengkap {profil.nama_sekolah}</p>
                 </div>
-                
+
                 <div className="flex gap-3 w-full lg:w-auto">
                     <button
                         onClick={() => setOpenEdit(true)}
@@ -39,10 +39,10 @@ export default function DetailProfilSekolah({ profil }) {
                         <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
                             <div className="flex items-center gap-4">
                                 {profil.logo ? (
-                                    <img 
-                                        src={`/storage/logo/${profil.logo}`} 
-                                        alt="Logo Sekolah" 
-                                        className="w-16 h-16 object-cover rounded-full border-2 border-white" 
+                                    <img
+                                        src={`/storage/logo/${profil.logo}`}
+                                        alt="Logo Sekolah"
+                                        className="w-16 h-16 object-cover rounded-full border-2 border-white"
                                     />
                                 ) : (
                                     <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center border-2 border-white">
@@ -58,7 +58,7 @@ export default function DetailProfilSekolah({ profil }) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         {/* Informasi Detail */}
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -67,7 +67,7 @@ export default function DetailProfilSekolah({ profil }) {
                                 <DetailItem icon={Calendar} label="Tahun Berdiri" value={profil.tahun_berdiri} />
                                 <DetailItem icon={User} label="Kepala Sekolah" value={profil.kepala_sekolah} />
                             </div>
-                            
+
                             {/* Deskripsi Sekolah */}
                             <div className="mt-6">
                                 <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
@@ -97,7 +97,7 @@ export default function DetailProfilSekolah({ profil }) {
                                 <h4 className="font-medium text-gray-700 text-sm mb-2">Visi</h4>
                                 <div className="bg-blue-50 rounded-lg p-3">
                                     <p className="text-gray-600 text-sm leading-relaxed">
-                                        {profil.visi_misi?.split('\n')[0] || "Visi sekolah belum diisi"}
+                                        {profil.visi || "Visi sekolah belum diisi"}
                                     </p>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@ export default function DetailProfilSekolah({ profil }) {
                                 <h4 className="font-medium text-gray-700 text-sm mb-2">Misi</h4>
                                 <div className="bg-green-50 rounded-lg p-3">
                                     <p className="text-gray-600 text-sm leading-relaxed">
-                                        {profil.visi_misi?.split('\n').slice(1).join(' ') || "Misi sekolah belum diisi"}
+                                        {profil.misi? profil.misi : "Misi sekolah belum diisi"}
                                     </p>
                                 </div>
                             </div>
@@ -119,10 +119,10 @@ export default function DetailProfilSekolah({ profil }) {
                             Foto Sekolah
                         </h3>
                         {profil.foto ? (
-                            <img 
-                                src={`/storage/foto/${profil.foto}`} 
-                                alt="Sekolah" 
-                                className="w-full h-48 object-cover rounded-lg" 
+                            <img
+                                src={`/storage/foto/${profil.foto}`}
+                                alt="Sekolah"
+                                className="w-full h-48 object-cover rounded-lg"
                             />
                         ) : (
                             <div className="w-full h-48 bg-slate-100 rounded-lg flex flex-col items-center justify-center text-slate-400">

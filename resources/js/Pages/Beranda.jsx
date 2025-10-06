@@ -11,23 +11,34 @@ import GunakanWidthWindows from "../Admin/GunakanWidthWindows";
 export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galeri, ekskul }) {
     // Mendapatkan lebar jendela browser untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk mengontrol slide galeri
     const [statusGaleriSlide, setstatusGaleriSlide] = useState(0);
-    
+
     // State untuk mengontrol slide jumlah guru dan siswa
     const [statusGurudanSiswaSlide, setstatusGurudanSiswaSlide] = useState(0);
 
-    /**
-     * Effect untuk reset slide ketika ukuran layar berubah
-     */
+    // State untuk mengontrol slide Ekstrakurikuler
+    const [statusEkskulSlide, setstatusEkskulSlide] = useState(0);
+
+    const [statusBeritaSlide, setstatusBeritaSlide] = useState(0);
+
+    // Effect untuk reset slide ketika ukuran layar berubah
     useEffect(() => {
-        if (width > 768 && statusGaleriSlide > 1) {
-            setstatusGaleriSlide(0);
-        } else if (width > 640 && statusGaleriSlide > 2) {
-            setstatusGaleriSlide(0);
+        if (width > 768) {
+            if (statusGaleriSlide > 1) {
+                setstatusGaleriSlide(0);
+            }else if (statusEkskulSlide > 1) {
+                setstatusEkskulSlide(0);
+            }
+        } else if (width > 640) {
+            if (statusGaleriSlide > 2) {
+                setstatusGaleriSlide(0);
+            }else if (statusEkskulSlide > 2) {
+                setstatusEkskulSlide(0);
+            }
         }
-    }, [width, statusGaleriSlide]);
+    }, [width, statusGaleriSlide, statusEkskulSlide]);
 
     /**
      * Fungsi untuk membagi array menjadi beberapa bagian dengan ukuran tertentu
@@ -43,16 +54,16 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
      */
     const jumlahGuruDanSiswaTerbagi = () => {
         const data = [
-            { 
-                label: 'Guru', 
-                jumlah: jumlahguru, 
+            {
+                label: 'Guru',
+                jumlah: jumlahguru,
                 Icon: GraduationCap,
                 description: 'Tenaga Pendidik Profesional',
                 color: 'bg-blue-500'
             },
-            { 
-                label: 'Siswa', 
-                jumlah: jumlahsiswa, 
+            {
+                label: 'Siswa',
+                jumlah: jumlahsiswa,
                 Icon: User,
                 description: 'Siswa Aktif',
                 color: 'bg-green-500'
@@ -62,13 +73,15 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
         return width > 640 ? bagiArray(data, 2) : bagiArray(data, 1);
     }
 
-    /**
-     * Fungsi untuk membagi galeri berdasarkan breakpoint
-     */
-    const galeriTerbagi = () => {
-        if (width > 768) return bagiArray(galeri, 3);
-        if (width > 640) return bagiArray(galeri, 2);
-        return bagiArray(galeri, 1);
+    // const ekskulTerbagi = () => {
+
+    // }
+
+    //  Fungsi untuk membagi galeri berdasarkan breakpoint
+    const dataTerbagi = (data) => {
+        if (width > 768) return bagiArray(data, 3);
+        if (width > 640) return bagiArray(data, 2);
+        return bagiArray(data, 1);
     }
 
     /**
@@ -86,9 +99,9 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
         <>
             {/* Hero Section */}
             <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
-                <img 
-                    src={`/storage/foto/${profil.foto}`} 
-                    alt="SDN 1 Salawu" 
+                <img
+                    src={`/storage/foto/${profil.foto}`}
+                    alt="SDN 1 Salawu"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-blue-900/50 z-0"></div>
@@ -124,10 +137,10 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                         <h2 className="text-3xl font-bold mb-4">Statistik Sekolah</h2>
                         <div className="w-20 h-1 bg-blue-300 mx-auto"></div>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
                         {jumlahGuruDanSiswaTerbagi()[statusGurudanSiswaSlide]?.map((item, index) => (
-                            <div 
+                            <div
                                 key={index}
                                 className="bg-white/20 rounded-xl p-8 backdrop-blur-sm border border-white/30 shadow-lg text-center"
                             >
@@ -144,14 +157,14 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                     {/* Navigation untuk mobile */}
                     {width < 640 && (
                         <>
-                            <button 
-                                onClick={() => slideSebelumnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)} 
+                            <button
+                                onClick={() => slideSebelumnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)}
                                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full backdrop-blur-sm border border-white/30"
                             >
                                 <ChevronLeft className="w-5 h-5" />
                             </button>
-                            <button 
-                                onClick={() => slideSelanjutnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)} 
+                            <button
+                                onClick={() => slideSelanjutnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full backdrop-blur-sm border border-white/30"
                             >
                                 <ChevronRight className="w-5 h-5" />
@@ -169,9 +182,8 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                         <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {berita.length > 0 ? (
-                            berita.slice(0, 3).map((item) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {berita.length > 0 ? (dataTerbagi(berita)[statusBeritaSlide].map((item) => (
                                 <div
                                     key={item.id}
                                     className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200"
@@ -205,6 +217,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                             </div>
                         )}
                     </div>
+
                 </div>
             </section>
 
@@ -218,9 +231,9 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
 
                     <div className="relative">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                            {galeriTerbagi()[statusGaleriSlide]?.map((item) => (
-                                <div 
-                                    key={item.id} 
+                            {dataTerbagi(galeri)[statusGaleriSlide]?.map((item) => (
+                                <div
+                                    key={item.id}
                                     className="relative overflow-hidden rounded-xl shadow-md group hover:shadow-lg transition-all duration-300"
                                 >
                                     {item.kategori === 'foto' ? (
@@ -230,53 +243,42 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                                             className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                                         />
                                     ) : (
-                                        <div className="relative">
-                                            <video 
+                                        <>
+                                            <video
+                                                controls
                                                 className="w-full h-64 object-cover"
                                             >
                                                 <source src={`/storage/galeri/${item.file}`} type="video/mp4" />
                                             </video>
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <Play className="w-12 h-12 text-white opacity-70" />
-                                            </div>
-                                        </div>
+                                        </>
                                     )}
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center">
-                                            <Images className="w-8 h-8 mx-auto mb-2" />
-                                            <p className="font-semibold">{item.judul}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             ))}
                         </div>
-
-                        {/* Navigation buttons */}
-                        <button 
-                            onClick={() => slideSebelumnya(statusGaleriSlide, setstatusGaleriSlide, galeriTerbagi().length)} 
+                        <button
+                            onClick={() => slideSebelumnya(statusGaleriSlide, setstatusGaleriSlide, dataTerbagi(galeri).length)}
                             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-lg border border-slate-200 hover:bg-white transition-colors"
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
-                        <button 
-                            onClick={() => slideSelanjutnya(statusGaleriSlide, setstatusGaleriSlide, galeriTerbagi().length)} 
+                        <button
+                            onClick={() => slideSelanjutnya(statusGaleriSlide, setstatusGaleriSlide, dataTerbagi(galeri).length)}
                             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-lg border border-slate-200 hover:bg-white transition-colors"
                         >
                             <ChevronRight className="w-5 h-5" />
                         </button>
-                    </div>
-
-                    {/* Slide indicators */}
-                    <div className="flex justify-center mt-8 space-x-2">
-                        {galeriTerbagi().map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setstatusGaleriSlide(index)}
-                                className={`w-3 h-3 rounded-full transition-colors ${
-                                    index === statusGaleriSlide ? "bg-blue-600" : "bg-gray-300"
-                                }`}
-                            />
-                        ))}
+                        {/* Slide indicators */}
+                        <div className="flex justify-center mt-8 space-x-2">
+                            {dataTerbagi(galeri).map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setstatusGaleriSlide(index)}
+                                    className={`w-3 h-3 rounded-full transition-colors ${
+                                        index === statusGaleriSlide ? "bg-blue-600" : "bg-gray-300"
+                                    }`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -289,31 +291,57 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                         <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {ekskul.map((item) => (
-                            <div
-                                key={item.id}
-                                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200 group"
-                            >
-                                <div className="relative overflow-hidden">
-                                    <img
-                                        src={`/storage/ekstrakurikuler/${item.gambar}`}
-                                        alt={item.nama}
-                                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                        <Award className="w-6 h-6 text-white mr-2" />
-                                        <span className="text-white font-semibold">{item.nama}</span>
+                    <div className="relative">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            {dataTerbagi(ekskul)[statusEkskulSlide]?.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200 group"
+                                >
+                                    <div className="relative overflow-hidden">
+                                        <img
+                                            src={`/storage/ekstrakurikuler/${item.gambar}`}
+                                            alt={item.nama}
+                                            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                            <Award className="w-6 h-6 text-white mr-2" />
+                                            <span className="text-white font-semibold">{item.nama}</span>
+                                        </div>
+                                    </div>
+                                    <div className="p-6">
+                                        <h3 className="text-lg font-bold text-gray-800 mb-2">{item.nama}</h3>
+                                        <p className="text-gray-600 text-sm line-clamp-3">
+                                            {item.deskripsi}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="p-6">
-                                    <h3 className="text-lg font-bold text-gray-800 mb-2">{item.nama}</h3>
-                                    <p className="text-gray-600 text-sm line-clamp-3">
-                                        {item.deskripsi}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        <button
+                            onClick={() => slideSebelumnya(statusEkskulSlide, setstatusEkskulSlide, dataTerbagi(ekskul).length)}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-lg border border-slate-200 hover:bg-white transition-colors"
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => slideSelanjutnya(statusEkskulSlide, setstatusEkskulSlide, dataTerbagi(ekskul).length)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-lg border border-slate-200 hover:bg-white transition-colors"
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
+                        {/* Slide indicators */}
+                        <div className="flex justify-center mt-8 space-x-2">
+                            {dataTerbagi(ekskul).map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setstatusEkskulSlide(index)}
+                                    className={`w-3 h-3 rounded-full transition-colors ${
+                                        index === statusEkskulSlide ? "bg-blue-600" : "bg-gray-300"
+                                    }`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

@@ -38,7 +38,7 @@ export default function EditGaleri({ galeri, onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint update
         post(`/admin/update/galeri/${galeri.id}`, {
             onSuccess: () => {
@@ -59,7 +59,7 @@ export default function EditGaleri({ galeri, onClose }) {
                     type="text"
                     value={data.judul}
                     onChange={(e) => setData("judul", e.target.value)}
-                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm 
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                transition-colors"
                     placeholder="Masukkan judul galeri"
@@ -178,12 +178,12 @@ export default function EditGaleri({ galeri, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 {/* Tombol Submit */}
                 <button
                     type="submit"

@@ -65,7 +65,7 @@ class UserController extends Controller
         return redirect('/admin/daftar/user')->with('success', 'Data user berhasil diupdate.');
     }
 
-    public function deleteUser(Request $request, $id)
+    public function hapusUser(Request $request, $id)
     {
         // Menghapus data user berdasarkan id
         User::where('id', $id)->delete();

@@ -8,7 +8,7 @@ import { Images, Video, Calendar, Filter, Play } from "lucide-react";
 export default function Galeri({ galeri }) {
     // State untuk filter kategori
     const [kategoriAktif, setKategoriAktif] = useState('semua');
-    
+
     // State untuk lightbox
     const [lightboxTerbuka, setLightboxTerbuka] = useState(false);
     const [itemAktif, setItemAktif] = useState(null);
@@ -16,8 +16,8 @@ export default function Galeri({ galeri }) {
     /**
      * Fungsi untuk memfilter galeri berdasarkan kategori
      */
-    const galeriTersaring = kategoriAktif === 'semua' 
-        ? galeri 
+    const galeriTersaring = kategoriAktif === 'semua'
+        ? galeri
         : galeri.filter(item => item.kategori === kategoriAktif);
 
     /**
@@ -35,10 +35,10 @@ export default function Galeri({ galeri }) {
      * @returns {string} Tanggal yang sudah diformat
      */
     const formatTanggal = (dateString) => {
-        const options = { 
-            day: 'numeric', 
-            month: 'long', 
-            year: 'numeric' 
+        const options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
         };
         return new Date(dateString).toLocaleDateString('id-ID', options);
     };
@@ -96,7 +96,7 @@ export default function Galeri({ galeri }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {galeriTersaring.length > 0 ? (
                         galeriTersaring.map((item) => (
-                            <div 
+                            <div
                                 key={item.id}
                                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200 group cursor-pointer"
                                 onClick={() => bukaLightbox(item)}
@@ -110,27 +110,12 @@ export default function Galeri({ galeri }) {
                                             className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                                         />
                                     ) : (
-                                        <div className="relative">
-                                            <video className="w-full h-64 object-cover">
+                                        <>
+                                            <video controls className="w-full h-64 object-cover">
                                                 <source src={`/storage/galeri/${item.file}`} type="video/mp4" />
                                             </video>
-                                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                                                <Play className="w-12 h-12 text-white opacity-80" />
-                                            </div>
-                                        </div>
+                                        </>
                                     )}
-                                    
-                                    {/* Overlay Hover */}
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center">
-                                            {item.kategori === 'foto' ? (
-                                                <Images className="w-8 h-8 mx-auto mb-2" />
-                                            ) : (
-                                                <Video className="w-8 h-8 mx-auto mb-2" />
-                                            )}
-                                            <p className="font-semibold">Klik untuk melihat</p>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 {/* Informasi Galeri */}
@@ -144,7 +129,7 @@ export default function Galeri({ galeri }) {
                                             <span>{formatTanggal(item.tanggal)}</span>
                                         </div>
                                         <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                            item.kategori === 'foto' 
+                                            item.kategori === 'foto'
                                                 ? 'bg-blue-100 text-blue-800'
                                                 : 'bg-purple-100 text-purple-800'
                                         }`}>
@@ -163,7 +148,7 @@ export default function Galeri({ galeri }) {
                                     Tidak Ada Konten
                                 </h3>
                                 <p className="text-gray-400">
-                                    {kategoriAktif === 'semua' 
+                                    {kategoriAktif === 'semua'
                                         ? 'Belum ada galeri yang tersedia.'
                                         : `Tidak ada ${kategoriAktif} dalam galeri.`
                                     }
@@ -184,7 +169,7 @@ export default function Galeri({ galeri }) {
                             >
                                 <X className="w-8 h-8" />
                             </button>
-                            
+
                             {/* Konten Lightbox */}
                             <div className="bg-white rounded-lg overflow-hidden">
                                 {itemAktif.kategori === 'foto' ? (
@@ -194,15 +179,15 @@ export default function Galeri({ galeri }) {
                                         className="w-full h-auto max-h-[80vh] object-contain"
                                     />
                                 ) : (
-                                    <video 
-                                        controls 
+                                    <video
+                                        controls
                                         className="w-full h-auto max-h-[80vh]"
                                         autoPlay
                                     >
                                         <source src={`/storage/galeri/${itemAktif.file}`} type="video/mp4" />
                                     </video>
                                 )}
-                                
+
                                 {/* Caption */}
                                 <div className="p-4">
                                     <h3 className="text-lg font-semibold text-gray-800 mb-2">
