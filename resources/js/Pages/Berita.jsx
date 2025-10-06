@@ -72,7 +72,7 @@ export default function Berita({ berita }) {
                                         </div>
                                         <div className="flex items-center space-x-1">
                                             <User className="w-4 h-4" />
-                                            <span>Admin</span>
+                                            <span>{item.user? item.user.name : "Supriii"}</span>
                                         </div>
                                     </div>
 

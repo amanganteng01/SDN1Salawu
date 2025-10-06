@@ -59,4 +59,8 @@ class User extends Authenticatable
         // Mengembalikan nama kolom yang digunakan untuk autentikasi
         return 'username';
     }
+
+    public function berita(){
+        return $this->hasMany(Berita::class, 'user_id');
+    }
 }

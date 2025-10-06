@@ -21,7 +21,7 @@ export default function Ekstrakurikuler({ ekskul }) {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {ekskul.length > 0 ? (
                         ekskul.map((item) => (
-                            <div 
+                            <div
                                 key={item.id}
                                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200 group"
                             >
@@ -65,7 +65,7 @@ export default function Ekstrakurikuler({ ekskul }) {
                                             <Calendar className="w-4 h-4 mr-3 text-green-600" />
                                             <div>
                                                 <span className="font-medium">Jadwal:</span>
-                                                <span className="ml-2">{item.ladwal_latihan}</span>
+                                                <span className="ml-2">{item.jadwal_latihan}</span>
                                             </div>
                                         </div>
 
@@ -76,13 +76,6 @@ export default function Ekstrakurikuler({ ekskul }) {
                                                 <span className="ml-2">Area Sekolah</span>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    {/* Tombol Daftar */}
-                                    <div className="mt-6 pt-4 border-t border-slate-200">
-                                        <button className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                                            Daftar Sekarang
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +105,7 @@ export default function Ekstrakurikuler({ ekskul }) {
                             </h3>
                             <div className="w-16 h-1 bg-blue-600 mx-auto"></div>
                         </div>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
                                 <Users className="w-12 h-12 text-blue-600 mx-auto mb-4" />
@@ -121,7 +114,7 @@ export default function Ekstrakurikuler({ ekskul }) {
                                     Meningkatkan kemampuan berinteraksi dan bekerja sama dalam tim
                                 </p>
                             </div>
-                            
+
                             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
                                 <Award className="w-12 h-12 text-green-600 mx-auto mb-4" />
                                 <h4 className="font-semibold text-gray-800 mb-2">Bakat & Minat</h4>
@@ -129,7 +122,7 @@ export default function Ekstrakurikuler({ ekskul }) {
                                     Mengembangkan potensi dan bakat siswa di luar akademik
                                 </p>
                             </div>
-                            
+
                             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
                                 <Clock className="w-12 h-12 text-purple-600 mx-auto mb-4" />
                                 <h4 className="font-semibold text-gray-800 mb-2">Manajemen Waktu</h4>

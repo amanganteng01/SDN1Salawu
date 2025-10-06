@@ -30,15 +30,19 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                 setstatusGaleriSlide(0);
             }else if (statusEkskulSlide > 1) {
                 setstatusEkskulSlide(0);
+            }else if (statusBeritaSlide > 1) {
+                setstatusBeritaSlide(0);
             }
         } else if (width > 640) {
             if (statusGaleriSlide > 2) {
                 setstatusGaleriSlide(0);
             }else if (statusEkskulSlide > 2) {
                 setstatusEkskulSlide(0);
+            }else if (statusBeritaSlide > 2) {
+                setstatusBeritaSlide(0);
             }
         }
-    }, [width, statusGaleriSlide, statusEkskulSlide]);
+    }, [width, statusGaleriSlide, statusEkskulSlide, statusBeritaSlide]);
 
     /**
      * Fungsi untuk membagi array menjadi beberapa bagian dengan ukuran tertentu
@@ -107,7 +111,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                 <div className="absolute inset-0 bg-blue-900/50 z-0"></div>
                 <div className="relative z-10 text-center text-white px-6 max-w-4xl">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-                        SDN 1 Salawu
+                        {profil.nama_sekolah}
                     </h1>
                     <p className="text-xl md:text-2xl text-blue-100 mb-8">
                         Mencetak Generasi Unggul, Berprestasi, dan Berkarakter
@@ -152,25 +156,25 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                                 <div className="text-blue-100 text-sm">{item.description}</div>
                             </div>
                         ))}
+                        {/* Navigation untuk mobile */}
+                        {width < 640 && (
+                            <>
+                                <button
+                                    onClick={() => slideSebelumnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)}
+                                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full backdrop-blur-sm border border-white/30"
+                                >
+                                    <ChevronLeft className="w-5 h-5" />
+                                </button>
+                                <button
+                                    onClick={() => slideSelanjutnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full backdrop-blur-sm border border-white/30"
+                                >
+                                    <ChevronRight className="w-5 h-5" />
+                                </button>
+                            </>
+                        )}
                     </div>
 
-                    {/* Navigation untuk mobile */}
-                    {width < 640 && (
-                        <>
-                            <button
-                                onClick={() => slideSebelumnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)}
-                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full backdrop-blur-sm border border-white/30"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => slideSelanjutnya(statusGurudanSiswaSlide, setstatusGurudanSiswaSlide, jumlahGuruDanSiswaTerbagi().length)}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full backdrop-blur-sm border border-white/30"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </>
-                    )}
                 </div>
             </section>
 
@@ -182,42 +186,68 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                         <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        {berita.length > 0 ? (dataTerbagi(berita)[statusBeritaSlide].map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200"
-                                >
-                                    <img
-                                        src={`/storage/berita/${item.gambar}`}
-                                        alt={item.judul}
-                                        className="w-full h-48 object-cover"
-                                    />
-                                    <div className="p-6">
-                                        <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
-                                            {item.judul}
-                                        </h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            {item.deskripsi}
-                                        </p>
-                                        <Link
-                                            href={`/berita/${item.id}`}
-                                            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm"
-                                        >
-                                            Baca Selengkapnya
-                                            <ChevronRight className="w-4 h-4 ml-1" />
-                                        </Link>
+                    <div className="relative">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            {berita.length > 0 ? (
+                                dataTerbagi(berita)[statusBeritaSlide]?.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-200"
+                                    >
+                                        <img
+                                            src={`/storage/berita/${item.gambar}`}
+                                            alt={item.judul}
+                                            className="w-full h-48 object-cover"
+                                        />
+                                        <div className="p-6">
+                                            <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                                                {item.judul}
+                                            </h3>
+                                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                                {item.deskripsi}
+                                            </p>
+                                            <Link
+                                                href={`/berita/${item.id}`}
+                                                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm"
+                                            >
+                                                Baca Selengkapnya
+                                                <ChevronRight className="w-4 h-4 ml-1" />
+                                            </Link>
+                                        </div>
                                     </div>
+                                ))
+                            ) : (
+                                <div className="col-span-3 text-center py-12">
+                                    <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                                    <p className="text-gray-500 text-lg">Tidak ada berita terbaru</p>
                                 </div>
-                            ))
-                        ) : (
-                            <div className="col-span-3 text-center py-12">
-                                <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                                <p className="text-gray-500 text-lg">Tidak ada berita terbaru</p>
-                            </div>
-                        )}
+                            )}
+                        </div>
+                        <button
+                            onClick={() => slideSebelumnya(statusBeritaSlide, setstatusBeritaSlide, dataTerbagi(berita).length)}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-lg border border-slate-200 hover:bg-white transition-colors"
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => slideSelanjutnya(statusBeritaSlide, setstatusBeritaSlide, dataTerbagi(berita).length)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-lg border border-slate-200 hover:bg-white transition-colors"
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
+                        {/* Slide indicators */}
+                        <div className="flex justify-center mt-8 space-x-2">
+                            {dataTerbagi(berita).map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setstatusBeritaSlide(index)}
+                                    className={`w-3 h-3 rounded-full transition-colors ${
+                                        index === statusBeritaSlide ? "bg-blue-600" : "bg-gray-300"
+                                    }`}
+                                />
+                            ))}
+                        </div>
                     </div>
-
                 </div>
             </section>
 

@@ -22,7 +22,7 @@ class ViewController extends Controller
         $guru = Guru::all();
         $siswa = Siswa::all();
         $galeri = Galeri::orderBy("created_at", "desc")->take(6)->get();
-        $ekskul = Ekstrakurikuler::orderBy("created_at","desc")->take(6)->get();
+        $ekskul = Ekstrakurikuler::orderBy("created_at","desc")->get();
         $berita = Berita::orderBy("created_at","desc")->take(6)->get();
         // Mengembalikan ke halaman beranda dengan data yang telah diambil
         return Inertia::render("Beranda", ['jumlahguru'=> $guru->count(), 'jumlahsiswa' => $siswa->count(), 'profil' => $profil, 'galeri' => $galeri, 'ekskul' => $ekskul, 'berita' => $berita ]);
@@ -30,7 +30,7 @@ class ViewController extends Controller
 
     public function berita() {
         // Mengambil data berita dari yang terbaru
-        $berita = Berita::orderBy("created_at", "desc")->get();
+        $berita = Berita::with('user')->orderBy("created_at", "desc")->get();
         // Mengembalikan ke halaman berita dengan data yang sudah diambil
         return Inertia::render("Berita", ['berita' => $berita]);
     }
