@@ -82,7 +82,6 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
     // const ekskulTerbagi = () => {
 
     // }
-p
     //  Fungsi untuk membagi galeri berdasarkan breakpoint
     const dataTerbagi = (data) => {
         if (width > 768) return bagiArray(data, 3);
