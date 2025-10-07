@@ -2,10 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { Upload, User, IdCard, BookOpen } from "lucide-react";
 
-/**
- * Komponen EditGuru - Form untuk mengedit guru yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk mengedit guru yang sudah ada
 export default function EditGuru({ guru, onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -15,15 +12,12 @@ export default function EditGuru({ guru, onClose }) {
         foto: null,
     });
 
-    /**
-     * Effect untuk mengisi form dengan data guru yang akan diedit
-     * Di-trigger ketika prop guru berubah
-     */
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (guru) {
             setData({
                 nama: guru.nama || "",
-                nip: guru.nip || "",
+                nip: "",
                 mapel: guru.mapel || "",
                 foto: null, // Foto dikosongkan agar tidak overwrite file lama
             });
@@ -36,7 +30,7 @@ export default function EditGuru({ guru, onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint update
         post(`/admin/update/guru/${guru.id}`, {
             onSuccess: () => {
@@ -59,7 +53,7 @@ export default function EditGuru({ guru, onClose }) {
                         type="text"
                         value={data.nama}
                         onChange={(e) => setData("nama", e.target.value)}
-                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm 
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
                         placeholder="Masukkan nama lengkap guru"
@@ -67,7 +61,7 @@ export default function EditGuru({ guru, onClose }) {
                 </div>
                 {/* Error message untuk nama */}
                 {errors.nama && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nama}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama tidak valid</div>
                 )}
             </div>
 
@@ -85,12 +79,12 @@ export default function EditGuru({ guru, onClose }) {
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
-                        placeholder="Masukkan NIP (opsional)"
+                        placeholder="Masukkan NIP (jika ingin mengubah nip)"
                     />
                 </div>
                 {/* Error message untuk NIP */}
                 {errors.nip && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nip}</div>
+                    <div className="text-red-500 text-xs mt-1">Nip ini sudah dipakai atau tidak valid</div>
                 )}
             </div>
 
@@ -113,7 +107,7 @@ export default function EditGuru({ guru, onClose }) {
                 </div>
                 {/* Error message untuk mata pelajaran */}
                 {errors.mapel && (
-                    <div className="text-red-500 text-xs mt-1">{errors.mapel}</div>
+                    <div className="text-red-500 text-xs mt-1">Mata pelajaran tidak valid</div>
                 )}
             </div>
 
@@ -141,7 +135,7 @@ export default function EditGuru({ guru, onClose }) {
                 </div>
                 {/* Error message untuk foto */}
                 {errors.foto && (
-                    <div className="text-red-500 text-xs mt-1">{errors.foto}</div>
+                    <div className="text-red-500 text-xs mt-1">Foto tidak valid</div>
                 )}
             </div>
 
@@ -151,12 +145,12 @@ export default function EditGuru({ guru, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 {/* Tombol Submit */}
                 <button
                     type="submit"

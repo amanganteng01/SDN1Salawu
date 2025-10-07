@@ -1,10 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { User, UserCircle, Lock } from "lucide-react";
 
-/**
- * Komponen TambahUser - Form untuk menambahkan user baru
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk menambahkan user baru
 export default function TambahUser({ onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,13 +11,15 @@ export default function TambahUser({ onClose }) {
         role: "Officer", // Default role
     });
 
+    const href = typeof window !== "undefined" ? window.location.href : "";
+
     /**
      * Fungsi handle submit form
      * @param {Event} e - Event form submission
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint simpan
         post("/admin/simpan/user", {
             onSuccess: () => {
@@ -35,7 +34,7 @@ export default function TambahUser({ onClose }) {
             {/* Field Nama */}
             <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    Nama Lengkap
+                    Nama Lengkap{href}
                 </label>
                 <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -51,7 +50,7 @@ export default function TambahUser({ onClose }) {
                 </div>
                 {/* Error message untuk nama */}
                 {errors.name && (
-                    <div className="text-red-500 text-xs mt-1">{errors.name}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Lengkap tidak valid</div>
                 )}
             </div>
 
@@ -74,7 +73,7 @@ export default function TambahUser({ onClose }) {
                 </div>
                 {/* Error message untuk username */}
                 {errors.username && (
-                    <div className="text-red-500 text-xs mt-1">{errors.username}</div>
+                    <div className="text-red-500 text-xs mt-1">Username tidak valid</div>
                 )}
             </div>
 
@@ -97,7 +96,7 @@ export default function TambahUser({ onClose }) {
                 </div>
                 {/* Error message untuk password */}
                 {errors.password && (
-                    <div className="text-red-500 text-xs mt-1">{errors.password}</div>
+                    <div className="text-red-500 text-xs mt-1">Password tidak valid</div>
                 )}
             </div>
 
@@ -107,7 +106,7 @@ export default function TambahUser({ onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal

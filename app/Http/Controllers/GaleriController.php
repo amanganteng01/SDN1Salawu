@@ -45,7 +45,7 @@ class GaleriController extends Controller
         Galeri::create($validasi);
 
         // Mengembalikan ke halaman daftar galeri dengan pesan sukses
-        return redirect('/admin/daftar/galeri')->with('success', 'Data galeri berhasil ditambahkan.');
+        return redirect('/admin/daftar/galeri');
     }
 
     public function updateGaleri(Request $request, String $id){
@@ -80,7 +80,7 @@ class GaleriController extends Controller
         $galeri->update($validasi);
 
         // Mengembalikan ke halaman daftar galeri dengan pesan sukses
-        return redirect('/admin/daftar/galeri')->with('success', 'Data galeri berhasil diupdate.');
+        return redirect('/admin/daftar/galeri');
     }
 
     public function hapusGaleri(String $id){
@@ -92,6 +92,6 @@ class GaleriController extends Controller
         // Menghapus data galeri dari database
         $galeri->delete();
         // Mengembalikan ke halaman daftar galeri dengan pesan sukses
-        return redirect('/admin/daftar/galeri')->with('success', 'Data galeri berhasil dihapus.');
+        return redirect('/admin/daftar/galeri');
     }
 }

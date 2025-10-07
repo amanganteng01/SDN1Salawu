@@ -1,37 +1,33 @@
 import { Link, usePage } from "@inertiajs/react";
 import { Users, User, Award, Newspaper, Image, School, TrendingUp, Users2, BookOpen, Activity } from "lucide-react";
 
-/**
- * Komponen Dashboard - Menampilkan statistik dan visualisasi data sekolah
- * Berisi cards statistik, grafik distribusi siswa, dan partisipasi ekskul
- * Responsif untuk desktop dan mobile
- */
+// Menampilkan statistik dan visualisasi data sekolah
 export default function Dashboard({ jumlahguru, jumlahsiswa, jumlahekskul, jumlahberita, level }) {
-    
+
     // Data statistik untuk cards utama
     const stats = [
-        { 
-            icon: User, 
-            label: 'Guru', 
-            value: jumlahguru, 
+        {
+            icon: User,
+            label: 'Guru',
+            value: jumlahguru,
             color: 'bg-blue-500',
         },
-        { 
-            icon: Users, 
-            label: 'Siswa', 
-            value: jumlahsiswa, 
+        {
+            icon: Users,
+            label: 'Siswa',
+            value: jumlahsiswa,
             color: 'bg-green-500',
         },
-        { 
-            icon: Award, 
-            label: 'Ekstrakurikuler', 
-            value: jumlahekskul, 
+        {
+            icon: Award,
+            label: 'Ekstrakurikuler',
+            value: jumlahekskul,
             color: 'bg-purple-500',
         },
-        { 
-            icon: Newspaper, 
-            label: 'Berita', 
-            value: jumlahberita, 
+        {
+            icon: Newspaper,
+            label: 'Berita',
+            value: jumlahberita,
             color: 'bg-orange-500'
         }
     ];
@@ -42,7 +38,7 @@ export default function Dashboard({ jumlahguru, jumlahsiswa, jumlahekskul, jumla
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                        {level === 'Admin' ? 'Dashboard Admin' : 'Dashboard Officer'}
+                        {level === 'Admin' ? 'Dashboard Admin' : 'Dashboard Operator'}
                     </h1>
                     <p className="text-gray-600 mt-1">Visualisasi data dan statistik sekolah</p>
                 </div>

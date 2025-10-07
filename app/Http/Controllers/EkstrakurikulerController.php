@@ -45,7 +45,7 @@ class EkstrakurikulerController extends Controller
         Ekstrakurikuler::create($validasi);
 
         // Mengembalikan ke halaman daftar ekstrakurikuler dengan pesan sukses
-        return redirect('/admin/daftar/ekstrakurikuler')->with('success', 'Data ekstrakurikuler berhasil ditambahkan.');
+        return redirect('/admin/daftar/ekstrakurikuler');
     }
 
     public function updateEkstrakurikuler(Request $request, String $id){
@@ -78,7 +78,7 @@ class EkstrakurikulerController extends Controller
         $ekstrakurikuler->update($validasi);
 
         // Mengembalikan ke halaman daftar ekstrakurikuler dengan pesan sukses
-        return redirect('/admin/daftar/ekstrakurikuler')->with('success', 'Data ekstrakurikuler berhasil diupdate.');
+        return redirect('/admin/daftar/ekstrakurikuler');
     }
 
     public function hapusEkstrakurikuler(String $id){
@@ -90,6 +90,6 @@ class EkstrakurikulerController extends Controller
         // Menghapus data ekstrakurikuler dari database
         $ekstrakurikuler->delete();
         // Mengembalikan ke halaman daftar ekstrakurikuler dengan pesan sukses
-        return redirect('/admin/daftar/ekstrakurikuler')->with('success', 'Data ekstrakurikuler berhasil dihapus.');
+        return redirect('/admin/daftar/ekstrakurikuler');
     }
 }

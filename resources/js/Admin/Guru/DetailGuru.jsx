@@ -4,10 +4,7 @@ import { useState } from "react";
 import Modal from "../Modal";
 import EditGuru from "./EditGuru";
 
-/**
- * Komponen DetailGuru - Menampilkan detail lengkap seorang guru
- * Fitur: View detail, Edit guru
- */
+// Menampilkan detail lengkap seorang guru
 export default function DetailGuru({ guru }) {
     // State untuk modal edit
     const [openEdit, setOpenEdit] = useState(false);
@@ -20,7 +17,7 @@ export default function DetailGuru({ guru }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Detail Guru</h1>
                     <p className="text-gray-600 mt-1">Profil lengkap {guru.nama}</p>
                 </div>
-                
+
                 {/* Tombol Aksi */}
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button

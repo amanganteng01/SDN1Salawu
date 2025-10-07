@@ -26,6 +26,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
     // Effect untuk reset slide ketika ukuran layar berubah
     useEffect(() => {
         if (width > 768) {
+            // Jika width lebih dari 768px maka semua Carousel yang slidenya lebih dari 1 akan ke refresh
             if (statusGaleriSlide > 1) {
                 setstatusGaleriSlide(0);
             }else if (statusEkskulSlide > 1) {
@@ -34,6 +35,7 @@ export default function Beranda({ jumlahguru, jumlahsiswa, profil, berita, galer
                 setstatusBeritaSlide(0);
             }
         } else if (width > 640) {
+            // Jika width lebih dari 640px maka semua Carousel yang slidenya lebih dari 2 akan ke refresh
             if (statusGaleriSlide > 2) {
                 setstatusGaleriSlide(0);
             }else if (statusEkskulSlide > 2) {

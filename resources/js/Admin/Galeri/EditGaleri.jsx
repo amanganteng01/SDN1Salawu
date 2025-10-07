@@ -2,10 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { Upload, Image, Video } from "lucide-react";
 
-/**
- * Komponen EditGaleri - Form untuk mengedit galeri yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk mengedit galeri yang sudah ada
 export default function EditGaleri({ galeri, onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -16,10 +13,7 @@ export default function EditGaleri({ galeri, onClose }) {
         tanggal: "",
     });
 
-    /**
-     * Effect untuk mengisi form dengan data galeri yang akan diedit
-     * Di-trigger ketika prop galeri berubah
-     */
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (galeri) {
             setData({
@@ -66,7 +60,7 @@ export default function EditGaleri({ galeri, onClose }) {
                 />
                 {/* Error message untuk judul */}
                 {errors.judul && (
-                    <div className="text-red-500 text-xs mt-1">{errors.judul}</div>
+                    <div className="text-red-500 text-xs mt-1">Judul Galeri tidak valid</div>
                 )}
             </div>
 
@@ -86,7 +80,7 @@ export default function EditGaleri({ galeri, onClose }) {
                 />
                 {/* Error message untuk keterangan */}
                 {errors.keterangan && (
-                    <div className="text-red-500 text-xs mt-1">{errors.keterangan}</div>
+                    <div className="text-red-500 text-xs mt-1">Keterangan tidak valid</div>
                 )}
             </div>
 
@@ -149,7 +143,7 @@ export default function EditGaleri({ galeri, onClose }) {
                 </div>
                 {/* Error message untuk file */}
                 {errors.file && (
-                    <div className="text-red-500 text-xs mt-1">{errors.file}</div>
+                    <div className="text-red-500 text-xs mt-1">File tidak valid</div>
                 )}
             </div>
 
@@ -168,7 +162,7 @@ export default function EditGaleri({ galeri, onClose }) {
                 />
                 {/* Error message untuk tanggal */}
                 {errors.tanggal && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>
+                    <div className="text-red-500 text-xs mt-1">Tanggal tidak valid</div>
                 )}
             </div>
 

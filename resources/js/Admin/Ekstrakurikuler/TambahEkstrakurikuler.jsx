@@ -1,10 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { Upload } from "lucide-react";
 
-/**
- * Komponen TambahEkstrakurikuler - Form untuk menambahkan ekstrakurikuler baru
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk menambahkan ekstrakurikuler baru
 export default function TambahEkstrakurikuler({ onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -21,7 +18,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint simpan
         post("/admin/simpan/ekstrakurikuler", {
             onSuccess: () => {
@@ -49,7 +46,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 />
                 {/* Error message untuk nama */}
                 {errors.nama && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nama}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Ekstrakurikuler tidak valid</div>
                 )}
             </div>
 
@@ -69,7 +66,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 />
                 {/* Error message untuk pembina */}
                 {errors.pembina && (
-                    <div className="text-red-500 text-xs mt-1">{errors.pembina}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama pembiba tidak valid</div>
                 )}
             </div>
 
@@ -89,7 +86,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 />
                 {/* Error message untuk jadwal latihan */}
                 {errors.jadwal_latihan && (
-                    <div className="text-red-500 text-xs mt-1">{errors.jadwal_latihan}</div>
+                    <div className="text-red-500 text-xs mt-1">Jadwal latihan tidak valid</div>
                 )}
             </div>
 
@@ -109,7 +106,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 />
                 {/* Error message untuk deskripsi */}
                 {errors.deskripsi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.deskripsi}</div>
+                    <div className="text-red-500 text-xs mt-1">Dekripsi tidak valid</div>
                 )}
             </div>
 
@@ -137,7 +134,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 </div>
                 {/* Error message untuk gambar */}
                 {errors.gambar && (
-                    <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>
+                    <div className="text-red-500 text-xs mt-1">Gambar tidak valid</div>
                 )}
             </div>
 
@@ -147,7 +144,7 @@ export default function TambahEkstrakurikuler({ onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal

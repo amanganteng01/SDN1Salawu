@@ -2,10 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { Upload } from "lucide-react";
 
-/**
- * Komponen EditEkstrakurikuler - Form untuk mengedit ekstrakurikuler yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk mengedit ekstrakurikuler yang sudah ada
 export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -16,10 +13,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
         gambar: null,
     });
 
-    /**
-     * Effect untuk mengisi form dengan data ekstrakurikuler yang akan diedit
-     * Di-trigger ketika prop ekstrakurikuler berubah
-     */
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (ekstrakurikuler) {
             setData({
@@ -38,7 +32,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint update
         post(`/admin/update/ekstrakurikuler/${ekstrakurikuler.id}`, {
             onSuccess: () => {
@@ -59,14 +53,14 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                     type="text"
                     value={data.nama}
                     onChange={(e) => setData("nama", e.target.value)}
-                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm 
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                transition-colors"
                     placeholder="Masukkan nama ekstrakurikuler"
                 />
                 {/* Error message untuk judul */}
                 {errors.nama && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nama}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Ekstrakurikuler tidak valid</div>
                 )}
             </div>
 
@@ -86,7 +80,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 />
                 {/* Error message untuk pembina */}
                 {errors.pembina && (
-                    <div className="text-red-500 text-xs mt-1">{errors.pembina}</div>
+                    <div className="text-red-500 text-xs mt-1">Pembina tidak valid</div>
                 )}
             </div>
 
@@ -106,7 +100,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 />
                 {/* Error message untuk jadwal latihan */}
                 {errors.jadwal_latihan && (
-                    <div className="text-red-500 text-xs mt-1">{errors.jadwal_latihan}</div>
+                    <div className="text-red-500 text-xs mt-1">Jadwal latihan tidak valid</div>
                 )}
             </div>
 
@@ -125,7 +119,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 />
                 {/* Error message untuk deskripsi */}
                 {errors.deskripsi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.deskripsi}</div>
+                    <div className="text-red-500 text-xs mt-1">Deskripsi tidak valid</div>
                 )}
             </div>
 
@@ -153,7 +147,7 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 </div>
                 {/* Error message untuk gambar */}
                 {errors.gambar && (
-                    <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>
+                    <div className="text-red-500 text-xs mt-1">Gambar tidak valid</div>
                 )}
             </div>
 
@@ -163,12 +157,12 @@ export default function EditEkstrakurikuler({ ekstrakurikuler, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 {/* Tombol Submit */}
                 <button
                     type="submit"

@@ -1,10 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { User, IdCard, Calendar } from "lucide-react";
 
-/**
- * Komponen TambahSiswa - Form untuk menambahkan siswa baru
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk menambahkan siswa baru
 export default function TambahSiswa({ onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -20,7 +17,7 @@ export default function TambahSiswa({ onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint simpan
         post("/admin/simpan/siswa", {
             onSuccess: () => {
@@ -51,7 +48,7 @@ export default function TambahSiswa({ onClose }) {
                 </div>
                 {/* Error message untuk NISN */}
                 {errors.nisn && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nisn}</div>
+                    <div className="text-red-500 text-xs mt-1">Nisn sudah dipakai atau tidak valid</div>
                 )}
             </div>
 
@@ -74,7 +71,7 @@ export default function TambahSiswa({ onClose }) {
                 </div>
                 {/* Error message untuk nama siswa */}
                 {errors.nama_siswa && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nama_siswa}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Siswa tidak valid</div>
                 )}
             </div>
 
@@ -111,7 +108,7 @@ export default function TambahSiswa({ onClose }) {
                 </div>
                 {/* Error message untuk jenis kelamin */}
                 {errors.jenis_kelamin && (
-                    <div className="text-red-500 text-xs mt-1">{errors.jenis_kelamin}</div>
+                    <div className="text-red-500 text-xs mt-1">Jenis Kelamin tidak valid</div>
                 )}
             </div>
 
@@ -136,7 +133,7 @@ export default function TambahSiswa({ onClose }) {
                 </div>
                 {/* Error message untuk tahun masuk */}
                 {errors.tahun_masuk && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tahun_masuk}</div>
+                    <div className="text-red-500 text-xs mt-1">Tahun Masuk tidak valid</div>
                 )}
             </div>
 
@@ -146,7 +143,7 @@ export default function TambahSiswa({ onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal

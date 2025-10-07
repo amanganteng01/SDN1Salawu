@@ -10,7 +10,7 @@ import { Plus, Eye, Edit, Trash2, MoreVertical } from "lucide-react";
 export default function DaftarBerita({ berita }) {
     // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -31,7 +31,7 @@ export default function DaftarBerita({ berita }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Berita</h1>
                     <p className="text-gray-600 mt-1">Kelola berita dan informasi sekolah</p>
                 </div>
-                
+
                 {/* Tombol Tambah Berita */}
                 <button
                     onClick={() => setOpenTambah(true)}

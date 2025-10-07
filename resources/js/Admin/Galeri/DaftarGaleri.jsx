@@ -6,15 +6,11 @@ import EditGaleri from "./EditGaleri";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 import { Plus, Eye, Edit, Trash2, MoreVertical, Image, Video } from "lucide-react";
 
-/**
- * Komponen DaftarGaleri - Menampilkan tabel daftar galeri foto dan video
- * Fitur: Tambah, Edit, Hapus, Detail galeri
- * Responsif untuk desktop dan mobile
- */
+// Menampilkan tabel daftar galeri foto dan video
 export default function DaftarGaleri({ galeri }) {
     // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -35,7 +31,7 @@ export default function DaftarGaleri({ galeri }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Galeri</h1>
                     <p className="text-gray-600 mt-1">Kelola galeri foto dan video sekolah</p>
                 </div>
-                
+
                 {/* Tombol Tambah Galeri */}
                 <button
                     onClick={() => setOpenTambah(true)}
@@ -88,8 +84,8 @@ export default function DaftarGaleri({ galeri }) {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
-                                                item.kategori === "foto" 
-                                                    ? "bg-blue-100 text-blue-800" 
+                                                item.kategori === "foto"
+                                                    ? "bg-blue-100 text-blue-800"
                                                     : "bg-purple-100 text-purple-800"
                                             }`}>
                                                 {item.kategori === "foto" ? (

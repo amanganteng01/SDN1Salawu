@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-/**
- * Komponen Modal - Menampilkan konten dalam pop-up dialog
- * Responsif untuk desktop dan mobile
- * Fitur: Overlay backdrop, scrollable content, close button
- */
+// Menampilkan konten dalam pop-up dialog
 export default function Modal({ isOpen, onClose, title, children }) {
     // Jika modal tidak terbuka, return null (tidak render apapun)
     if (!isOpen) return null;
@@ -60,7 +56,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
     }, [isOpen, onClose]);
 
     return (
-        <div 
+        <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={handleOverlayClick}
         >
@@ -68,11 +64,11 @@ export default function Modal({ isOpen, onClose, title, children }) {
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
 
             {/* Modal Container */}
-            <div 
+            <div
                 className={`
-                    relative bg-white rounded-xl shadow-2xl w-full max-h-[90vh] 
+                    relative bg-white rounded-xl shadow-2xl w-full max-h-[90vh]
                     flex flex-col transform transition-all duration-300
-                    ${isDesktop 
+                    ${isDesktop
                         ? 'max-w-lg'  // Desktop size
                         : 'max-w-md'  // Mobile size
                     }
@@ -84,7 +80,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
                     <h2 className="text-xl font-semibold text-slate-800">
                         {title}
                     </h2>
-                    
+
                     {/* Close Button */}
                     <button
                         onClick={onClose}

@@ -10,20 +10,24 @@ use App\Models\Guru;
 use App\Models\PencapaianDanPrestasi;
 use App\Models\ProfilSekolah;
 use App\Models\Siswa;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Inertia\Inertia;
 
 class ViewController extends Controller
 {
     public function beranda(){
+        // Membuat variabel yang berisi angka 3 tahun lalu dari sekarang
+        $dapatkantigatahun = Date::now()->subYears(3)->format('Y');
         // Mengambil data profil sekolah, guru, siswa, galeri, ekstrakurikuler, dan berita
         $profil = ProfilSekolah::first();
         $guru = Guru::all();
-        $siswa = Siswa::all();
+        $siswa = Siswa::whereYear('tahun_masuk', '>=', $dapatkantigatahun)->get();
         $galeri = Galeri::orderBy("created_at", "desc")->take(6)->get();
         $ekskul = Ekstrakurikuler::orderBy("created_at","desc")->get();
-        $berita = Berita::orderBy("created_at","desc")->take(6)->get();
+        $berita = Berita::orderBy("tanggal","desc")->take(6)->get();
         // Mengembalikan ke halaman beranda dengan data yang telah diambil
         return Inertia::render("Beranda", ['jumlahguru'=> $guru->count(), 'jumlahsiswa' => $siswa->count(), 'profil' => $profil, 'galeri' => $galeri, 'ekskul' => $ekskul, 'berita' => $berita ]);
     }
@@ -49,6 +53,15 @@ class ViewController extends Controller
         return Inertia::render('Guru', ['guru' => $guru]);
     }
 
+    public function siswa(){
+
+        $tigatahun = Date::now()->subYears(3)->format('Y');
+
+        $siswa = Siswa::whereYear('tahun_masuk', '>=', $tigatahun)->orderBy('tahun_masuk', 'desc')->get();
+
+        return inertia::render('Siswa', ['siswa' => $siswa]);
+    }
+    
     public function detailguru($id){
         // Mengambil data guru sesuai dengan id
         $guru = Guru::findOrFail($id);

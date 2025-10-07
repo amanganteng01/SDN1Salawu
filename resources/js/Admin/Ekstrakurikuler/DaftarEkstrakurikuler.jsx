@@ -6,15 +6,11 @@ import EditEkstrakurikuler from "./EditEkstrakurikuler";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 import { Plus, Eye, Edit, Trash2, MoreVertical, Users } from "lucide-react";
 
-/**
- * Komponen DaftarEkstrakurikuler - Menampilkan tabel daftar ekstrakurikuler
- * Fitur: Tambah, Edit, Hapus, Detail ekstrakurikuler
- * Responsif untuk desktop dan mobile
- */
+// Menampilkan tabel daftar ekstrakurikuler
 export default function DaftarEkstrakurikuler({ ekstrakurikuler }) {
     // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -35,7 +31,7 @@ export default function DaftarEkstrakurikuler({ ekstrakurikuler }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Ekstrakurikuler</h1>
                     <p className="text-gray-600 mt-1">Kelola kegiatan ekstrakurikuler sekolah</p>
                 </div>
-                
+
                 {/* Tombol Tambah Ekstrakurikuler */}
                 <button
                     onClick={() => setOpenTambah(true)}
@@ -67,8 +63,8 @@ export default function DaftarEkstrakurikuler({ ekstrakurikuler }) {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 {item.gambar ? (
-                                                    <img 
-                                                        src={`/storage/ekstrakurikuler/${item.gambar}`} 
+                                                    <img
+                                                        src={`/storage/ekstrakurikuler/${item.gambar}`}
                                                         alt={item.nama}
                                                         className="w-10 h-10 object-cover rounded-lg"
                                                     />

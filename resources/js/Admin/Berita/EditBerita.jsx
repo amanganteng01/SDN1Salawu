@@ -1,10 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-/**
- * Komponen EditBerita - Form untuk mengedit berita yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk mengedit berita yang sudah ada
 export default function EditBerita({ berita, onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,10 +11,7 @@ export default function EditBerita({ berita, onClose }) {
         gambar: null,
     });
 
-    /**
-     * Effect untuk mengisi form dengan data berita yang akan diedit
-     * Di-trigger ketika prop berita berubah
-     */
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (berita) {
             setData({
@@ -35,7 +29,7 @@ export default function EditBerita({ berita, onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint update
         post(`/admin/update/berita/${berita.id}`, {
             onSuccess: () => {
@@ -56,14 +50,14 @@ export default function EditBerita({ berita, onClose }) {
                     type="text"
                     value={data.judul}
                     onChange={(e) => setData("judul", e.target.value)}
-                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm 
+                    className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                transition-colors"
                     placeholder="Masukkan judul berita"
                 />
                 {/* Error message untuk judul */}
                 {errors.judul && (
-                    <div className="text-red-500 text-xs mt-1">{errors.judul}</div>
+                    <div className="text-red-500 text-xs mt-1">Judul tidak valid</div>
                 )}
             </div>
 
@@ -82,7 +76,7 @@ export default function EditBerita({ berita, onClose }) {
                 />
                 {/* Error message untuk isi berita */}
                 {errors.isi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.isi}</div>
+                    <div className="text-red-500 text-xs mt-1">Isi berita tidak valid</div>
                 )}
             </div>
 
@@ -101,7 +95,7 @@ export default function EditBerita({ berita, onClose }) {
                 />
                 {/* Error message untuk tanggal */}
                 {errors.tanggal && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>
+                    <div className="text-red-500 text-xs mt-1">Tanggal tidak valid</div>
                 )}
             </div>
 
@@ -124,7 +118,7 @@ export default function EditBerita({ berita, onClose }) {
                 </p>
                 {/* Error message untuk gambar */}
                 {errors.gambar && (
-                    <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>
+                    <div className="text-red-500 text-xs mt-1">Gambar tidak valid</div>
                 )}
             </div>
 
@@ -134,12 +128,12 @@ export default function EditBerita({ berita, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 {/* Tombol Submit */}
                 <button
                     type="submit"

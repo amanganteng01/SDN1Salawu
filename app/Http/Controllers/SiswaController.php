@@ -18,7 +18,7 @@ class SiswaController extends Controller
     public function simpanSiswa(Request $request){
         // Validasi inputan dari form tambah siswa
         $validasi = $request->validate([
-            'nisn' => 'required|string|max:20',
+            'nisn' => 'required|string|max:20|unique:siswas,nisn|min:11|max:11',
             'nama_siswa' => 'required|string|max:40',
             'jenis_kelamin' => 'required|string|max:10',
             'tahun_masuk' => 'required|integer',
@@ -29,13 +29,13 @@ class SiswaController extends Controller
         Siswa::create($validasi);
 
         // Mengembalikan ke halaman daftar siswa dengan pesan sukses
-        return redirect('/admin/daftar/siswa')->with('success', 'Data siswa berhasil ditambahkan.');
+        return redirect('/admin/daftar/siswa');
     }
 
     public function updateSiswa(Request $request, String $id){
         // Validasi inputan dari form edit siswa
         $validasi = $request->validate([
-            'nisn' => 'nullable|string|max:20',
+            'nisn' => 'nullable|string|max:20|unique:siswas,nisn|min:11|max:11',
             'nama_siswa' => 'nullable|string|max:40',
             'jenis_kelamin' => 'nullable|string|max:10',
             'tahun_masuk' => 'nullable|integer',
@@ -44,10 +44,15 @@ class SiswaController extends Controller
 
         // Mendapatkan data siswa berdasarkan id
         $siswa = Siswa::findOrFail($id);
+
+        if (!$validasi['nisn']) {
+            $validasi['nisn'] = $siswa->nisn;
+        }
+
         // Memperbarui data siswa
         $siswa->update($validasi);
         // Mengembalikan ke halaman daftar siswa dengan pesan sukses
-        return redirect('/admin/daftar/siswa')->with('success', 'Data siswa berhasil diperbarui.');
+        return redirect('/admin/daftar/siswa');
     }
 
     public function hapusSiswa(String $id){
@@ -56,6 +61,6 @@ class SiswaController extends Controller
         // Menghapus data siswa dari database
         $siswa->delete();
         // Mengembalikan ke halaman daftar siswa dengan pesan sukses
-        return redirect('/admin/daftar/siswa')->with('success', 'Data siswa berhasil dihapus.');
+        return redirect('/admin/daftar/siswa');
     }
 }

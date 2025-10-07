@@ -27,9 +27,9 @@ class GuruController extends Controller
         // Validasi inputan dari form tambah guru
         $validasi = $request->validate([
             'nama' => 'required|string|max:40',
-            'nip' => 'required|string|max:20',
+            'nip' => 'required|string|max:20|unique:gurus,nip|min:10|max:10',
             'mapel' => 'required|string|max:30',
-            'foto' => 'required|image|mimes:png,jpg,jpeg|max:5120'
+            'foto' => 'required|image|mimes:png,jpg,jpeg,webp|max:5120'
         ]);
         // upload foto
         $foto = $request->file('foto');
@@ -44,21 +44,25 @@ class GuruController extends Controller
         Guru::create($validasi);
 
         // Mengembalikan ke halaman daftar guru
-        return redirect('/admin/daftar/guru')->with('success', 'Data guru berhasil ditambahkan.');
+        return redirect('/admin/daftar/guru');
     }
 
     public function updateGuru(Request $request, String $id){
         // Validasi inputan dari form edit guru
         $validasi = $request->validate([
             'nama' => 'nullable|string|max:40',
-            'nip' => 'nullable|string|max:20',
+            'nip' => 'nullable|string|max:20|unique:gurus,nip|min:10|max:10',
             'mapel' => 'nullable|string|max:30',
-            'foto' => 'nullable|image|mimes:png,jpg,jpeg|max:5120'
+            'foto' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:5120'
         ]);
+
 
         // Mendapatkan data guru berdasarkan id
         $guru = Guru::findOrFail($id);
 
+        if (!$validasi['nip']) {
+            $validasi['nip'] = $guru->nip;
+        }
         //upload foto baru jika ada
         if ($request->hasFile('foto')) {
             if (Storage::exists('guru/'.$guru->foto)) {
@@ -77,7 +81,7 @@ class GuruController extends Controller
         // Menyimpan data guru ke database
         $guru->update($validasi);
         // Mengembalikan ke halaman daftar guru
-        return redirect('/admin/daftar/guru')->with('success', 'Data guru berhasil diperbarui.');
+        return redirect('/admin/daftar/guru');
     }
 
     public function hapusGuru(String $id){

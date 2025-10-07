@@ -2,7 +2,9 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { Upload, School, User, MapPin, Phone, Info, Calendar, FileText, Target, Heart } from "lucide-react";
 
+// Form untuk mengedit profil sekolah
 export default function EditProfilSekolah({ profil, onClose }) {
+    // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
         nama_sekolah: "",
         kepala_sekolah: "",
@@ -18,6 +20,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
         nilai_budaya: "",
     });
 
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (profil) {
             setData({
@@ -39,7 +42,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
 
     const submit = (e) => {
         e.preventDefault();
-        
+
         // PERBAIKAN: Gunakan post dengan forceFormData untuk file upload
         post(`/admin/update/profil/sekolah/${profil.id}`, {
             forceFormData: true, // PENTING untuk upload file
@@ -60,10 +63,10 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <School className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                        type="text" 
-                        value={data.nama_sekolah} 
-                        onChange={(e) => setData("nama_sekolah", e.target.value)} 
+                    <input
+                        type="text"
+                        value={data.nama_sekolah}
+                        onChange={(e) => setData("nama_sekolah", e.target.value)}
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
@@ -71,7 +74,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.nama_sekolah && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nama_sekolah}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Sekolah tidak valid</div>
                 )}
             </div>
 
@@ -82,10 +85,10 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                        type="text" 
-                        value={data.kepala_sekolah} 
-                        onChange={(e) => setData("kepala_sekolah", e.target.value)} 
+                    <input
+                        type="text"
+                        value={data.kepala_sekolah}
+                        onChange={(e) => setData("kepala_sekolah", e.target.value)}
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
@@ -93,7 +96,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.kepala_sekolah && (
-                    <div className="text-red-500 text-xs mt-1">{errors.kepala_sekolah}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Kepala Sekolah tidak valid</div>
                 )}
             </div>
 
@@ -102,17 +105,17 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                     NPSN
                 </label>
-                <input 
-                    type="text" 
-                    value={data.npsn} 
-                    onChange={(e) => setData("npsn", e.target.value)} 
+                <input
+                    type="text"
+                    value={data.npsn}
+                    onChange={(e) => setData("npsn", e.target.value)}
                     className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                transition-colors"
                     placeholder="Masukkan NPSN sekolah"
                 />
                 {errors.npsn && (
-                    <div className="text-red-500 text-xs mt-1">{errors.npsn}</div>
+                    <div className="text-red-500 text-xs mt-1">nspn tidak valid</div>
                 )}
             </div>
 
@@ -123,9 +126,9 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                    <textarea 
-                        value={data.alamat} 
-                        onChange={(e) => setData("alamat", e.target.value)} 
+                    <textarea
+                        value={data.alamat}
+                        onChange={(e) => setData("alamat", e.target.value)}
                         rows="3"
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -134,7 +137,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.alamat && (
-                    <div className="text-red-500 text-xs mt-1">{errors.alamat}</div>
+                    <div className="text-red-500 text-xs mt-1">Alamat tidak valid</div>
                 )}
             </div>
 
@@ -145,10 +148,10 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                        type="text" 
-                        value={data.kontak} 
-                        onChange={(e) => setData("kontak", e.target.value)} 
+                    <input
+                        type="text"
+                        value={data.kontak}
+                        onChange={(e) => setData("kontak", e.target.value)}
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
@@ -156,7 +159,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.kontak && (
-                    <div className="text-red-500 text-xs mt-1">{errors.kontak}</div>
+                    <div className="text-red-500 text-xs mt-1">Kontak tidak valid</div>
                 )}
             </div>
 
@@ -167,10 +170,10 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                        type="number" 
-                        value={data.tahun_berdiri} 
-                        onChange={(e) => setData("tahun_berdiri", e.target.value)} 
+                    <input
+                        type="number"
+                        value={data.tahun_berdiri}
+                        onChange={(e) => setData("tahun_berdiri", e.target.value)}
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
@@ -180,7 +183,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.tahun_berdiri && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tahun_berdiri}</div>
+                    <div className="text-red-500 text-xs mt-1">Tahun berdiri tidak valid</div>
                 )}
             </div>
 
@@ -191,9 +194,9 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <Target className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                    <textarea 
-                        value={data.visi} 
-                        onChange={(e) => setData("visi", e.target.value)} 
+                    <textarea
+                        value={data.visi}
+                        onChange={(e) => setData("visi", e.target.value)}
                         rows="3"
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -202,7 +205,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.visi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.visi}</div>
+                    <div className="text-red-500 text-xs mt-1">Visi tidak valid</div>
                 )}
             </div>
 
@@ -213,9 +216,9 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <Info className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                    <textarea 
-                        value={data.misi} 
-                        onChange={(e) => setData("misi", e.target.value)} 
+                    <textarea
+                        value={data.misi}
+                        onChange={(e) => setData("misi", e.target.value)}
                         rows="4"
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -224,7 +227,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.misi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.misi}</div>
+                    <div className="text-red-500 text-xs mt-1">Misi tidak valid</div>
                 )}
             </div>
 
@@ -235,9 +238,9 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <FileText className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                    <textarea 
-                        value={data.deskripsi} 
-                        onChange={(e) => setData("deskripsi", e.target.value)} 
+                    <textarea
+                        value={data.deskripsi}
+                        onChange={(e) => setData("deskripsi", e.target.value)}
                         rows="4"
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -246,7 +249,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.deskripsi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.deskripsi}</div>
+                    <div className="text-red-500 text-xs mt-1">Deskripsi tidak valid</div>
                 )}
             </div>
 
@@ -257,9 +260,9 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 </label>
                 <div className="relative">
                     <Heart className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                    <textarea 
-                        value={data.nilai_budaya} 
-                        onChange={(e) => setData("nilai_budaya", e.target.value)} 
+                    <textarea
+                        value={data.nilai_budaya}
+                        onChange={(e) => setData("nilai_budaya", e.target.value)}
                         rows="4"
                         className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -268,7 +271,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     />
                 </div>
                 {errors.nilai_budaya && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nilai_budaya}</div>
+                    <div className="text-red-500 text-xs mt-1">Nilai Budaya tidak valid</div>
                 )}
             </div>
 
@@ -295,7 +298,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     </label>
                 </div>
                 {errors.logo && (
-                    <div className="text-red-500 text-xs mt-1">{errors.logo}</div>
+                    <div className="text-red-500 text-xs mt-1">Logo tidak valid</div>
                 )}
             </div>
 
@@ -322,7 +325,7 @@ export default function EditProfilSekolah({ profil, onClose }) {
                     </label>
                 </div>
                 {errors.foto && (
-                    <div className="text-red-500 text-xs mt-1">{errors.foto}</div>
+                    <div className="text-red-500 text-xs mt-1">Foto tidak valid</div>
                 )}
             </div>
 
@@ -331,12 +334,12 @@ export default function EditProfilSekolah({ profil, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 <button
                     type="submit"
                     disabled={processing}

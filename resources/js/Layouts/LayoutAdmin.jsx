@@ -34,7 +34,7 @@ export default function LayoutAdmin({ children }) {
         {/* Header Section - Fixed di atas */}
         <header className={`${headerBg} fixed top-0 left-0 w-full z-50 h-16 flex items-center px-6 shadow-sm`}>
           <h1 className="text-xl md:text-2xl font-semibold flex-1">
-            Admin SMA Negeri 4 Tasikmalaya
+            Admin SMAN 1 Pasirsalam
           </h1>
 
           {/* Tombol Login/Logout berdasarkan status user */}
@@ -64,7 +64,6 @@ export default function LayoutAdmin({ children }) {
                   Login
               </Link>
           )}
-
         </header>
 
         {/* Conditional rendering berdasarkan status login user */}
@@ -84,7 +83,7 @@ export default function LayoutAdmin({ children }) {
                           <li key={i}>
                             <Link
                               href={menu.href}
-                              className="block py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors text-blue-100 hover:text-white"
+                              className="active:text-black block py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors text-blue-100 hover:text-white"
                             >
                               {menu.label}
                             </Link>
@@ -129,7 +128,7 @@ export default function LayoutAdmin({ children }) {
       {/* Footer Section */}
       <footer className={`${footerBg} text-center py-4 ml-0 md:ml-64`}>
         <div className="text-blue-200">
-          &copy; {new Date().getFullYear()} SDN 1 Salawu. Admin Panel.
+          &copy; {new Date().getFullYear()} SMAN 1 Pasirsalam. Admin Panel.
         </div>
       </footer>
     </div>

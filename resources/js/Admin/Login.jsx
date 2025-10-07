@@ -1,10 +1,6 @@
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
-/**
- * Komponen Login - Halaman autentikasi untuk admin dan officer
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- * Responsif untuk desktop dan mobile
- */
+// Halaman autentikasi untuk admin dan officer
 export default function Login() {
     // Hook useForm untuk meng-handle data form login (username & password)
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -23,9 +19,6 @@ export default function Login() {
         });
     };
 
-    // Mengambil flash message (pesan sukses/gagal) dari props Inertia
-    const { flash } = usePage().props;
-
     return (
         <div className="min-h-screen bg-blue-50 flex items-center justify-center p-6">
             {/* Card Login */}
@@ -33,43 +26,12 @@ export default function Login() {
                 {/* Header Login */}
                 <div className="text-center mb-8">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                        SDN 1 Salawu
+                        SMAN 1 Pasirsalam
                     </h1>
                     {/* <h2 className="text-lg font-semibold text-gray-600">
                         Admin/Officer Panel
                     </h2> */}
                 </div>
-
-                {/* Flash Messages */}
-                {flash?.success && (
-                    <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
-                        <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                            <div className="ml-3">
-                                <p className="text-sm font-medium">{flash.success}</p>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                
-                {errors.login && (
-                    <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
-                        <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                            <div className="ml-3">
-                                <p className="text-sm font-medium">{errors.login}</p>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {/* Form Login */}
                 <form onSubmit={submit} className="space-y-6">
@@ -95,7 +57,7 @@ export default function Login() {
                                 <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                 </svg>
-                                {errors.username}
+                                Username tidak valid
                             </p>
                         )}
                     </div>
@@ -122,7 +84,7 @@ export default function Login() {
                                 <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                 </svg>
-                                {errors.password}
+                                Password tidak valid
                             </p>
                         )}
                     </div>
@@ -131,8 +93,8 @@ export default function Login() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg 
-                                   font-semibold shadow-md hover:from-blue-700 hover:to-blue-800 
+                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg
+                                   font-semibold shadow-md hover:from-blue-700 hover:to-blue-800
                                    disabled:from-blue-400 disabled:to-blue-500 disabled:cursor-not-allowed
                                    transition-all duration-200"
                     >
@@ -153,7 +115,7 @@ export default function Login() {
                 {/* Footer Login */}
                 <div className="mt-8 pt-6 border-t border-slate-200">
                     <p className="text-center text-sm text-slate-500">
-                        &copy; {new Date().getFullYear()} SDN 1 Salawu. All rights reserved.
+                        &copy; {new Date().getFullYear()} SMAN 1 Pasirsalam. All rights reserved.
                     </p>
                 </div>
             </div>

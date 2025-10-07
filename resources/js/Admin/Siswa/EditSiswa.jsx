@@ -2,10 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { User, IdCard, Calendar } from "lucide-react";
 
-/**
- * Komponen EditSiswa - Form untuk mengedit siswa yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk mengedit siswa yang sudah ada
 export default function EditSiswa({ siswa, onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -15,14 +12,11 @@ export default function EditSiswa({ siswa, onClose }) {
         tahun_masuk: "",
     });
 
-    /**
-     * Effect untuk mengisi form dengan data siswa yang akan diedit
-     * Di-trigger ketika prop siswa berubah
-     */
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (siswa) {
             setData({
-                nisn: siswa.nisn || "",
+                nisn: "",
                 nama_siswa: siswa.nama_siswa || "",
                 jenis_kelamin: siswa.jenis_kelamin || "L",
                 tahun_masuk: siswa.tahun_masuk || "",
@@ -36,7 +30,7 @@ export default function EditSiswa({ siswa, onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint update
         post(`/admin/update/siswa/${siswa.id}`, {
             onSuccess: () => {
@@ -59,15 +53,15 @@ export default function EditSiswa({ siswa, onClose }) {
                         type="text"
                         value={data.nisn}
                         onChange={(e) => setData("nisn", e.target.value)}
-                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm 
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
-                        placeholder="Masukkan NISN siswa"
+                        placeholder="Masukkan NISN siswa (jika ingin merubah nisn)"
                     />
                 </div>
                 {/* Error message untuk NISN */}
                 {errors.nisn && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nisn}</div>
+                    <div className="text-red-500 text-xs mt-1">Nisn sudah dipakai atau tidak valid</div>
                 )}
             </div>
 
@@ -90,7 +84,7 @@ export default function EditSiswa({ siswa, onClose }) {
                 </div>
                 {/* Error message untuk nama siswa */}
                 {errors.nama_siswa && (
-                    <div className="text-red-500 text-xs mt-1">{errors.nama_siswa}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Siswa tidak valid</div>
                 )}
             </div>
 
@@ -127,7 +121,7 @@ export default function EditSiswa({ siswa, onClose }) {
                 </div>
                 {/* Error message untuk jenis kelamin */}
                 {errors.jenis_kelamin && (
-                    <div className="text-red-500 text-xs mt-1">{errors.jenis_kelamin}</div>
+                    <div className="text-red-500 text-xs mt-1">Jenis Kelamin tidak valid</div>
                 )}
             </div>
 
@@ -152,7 +146,7 @@ export default function EditSiswa({ siswa, onClose }) {
                 </div>
                 {/* Error message untuk tahun masuk */}
                 {errors.tahun_masuk && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tahun_masuk}</div>
+                    <div className="text-red-500 text-xs mt-1">Tahun Masuk tidak valid</div>
                 )}
             </div>
 
@@ -162,12 +156,12 @@ export default function EditSiswa({ siswa, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 {/* Tombol Submit */}
                 <button
                     type="submit"

@@ -1,4 +1,4 @@
-import { Link, router } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import Modal from "../Modal";
 import TambahUser from "./TambahUser";
@@ -6,15 +6,11 @@ import EditUser from "./EditUser";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 import { Plus, Edit, Trash2, MoreVertical, Users, User, Shield } from "lucide-react";
 
-/**
- * Komponen DaftarUser - Menampilkan tabel daftar user
- * Fitur: Tambah, Edit, Hapus user (hanya untuk Admin)
- * Responsif untuk desktop dan mobile
- */
+// Menampilkan tabel daftar user
 export default function DaftarUser({ users, role }) {
     // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -35,7 +31,7 @@ export default function DaftarUser({ users, role }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar User</h1>
                     <p className="text-gray-600 mt-1">Kelola akun pengguna sistem</p>
                 </div>
-                
+
                 {/* Hanya Admin yang bisa menambah user */}
                 {role === 'Admin' && (
                     <button
@@ -84,8 +80,8 @@ export default function DaftarUser({ users, role }) {
                                         <td className="px-6 py-4 text-sm text-slate-600">{item.username}</td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                                item.role === 'Admin' 
-                                                    ? 'bg-purple-100 text-purple-800' 
+                                                item.role === 'Admin'
+                                                    ? 'bg-purple-100 text-purple-800'
                                                     : 'bg-green-100 text-green-800'
                                             }`}>
                                                 <Shield className="w-3 h-3 mr-1" />
@@ -176,8 +172,8 @@ export default function DaftarUser({ users, role }) {
                                             <Users className="w-12 h-12 mx-auto mb-2 text-slate-300" />
                                             <p className="text-sm">Tidak ada data user</p>
                                             <p className="text-xs mt-1">
-                                                {role === 'Admin' 
-                                                    ? 'Klik "Tambah User" untuk menambahkan data pertama' 
+                                                {role === 'Admin'
+                                                    ? 'Klik "Tambah User" untuk menambahkan data pertama'
                                                     : 'Tidak ada user terdaftar'
                                                 }
                                             </p>

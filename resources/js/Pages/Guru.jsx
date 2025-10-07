@@ -14,7 +14,7 @@ export default function Guru({ guru }) {
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Guru & Staff</h1>
                     <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
                     <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-                        Kenali tenaga pendidik profesional yang membimbing siswa-siswi SDN 1 Salawu
+                        Kenali tenaga pendidik profesional yang membimbing siswa-siswi SMAN 1 Pasirsalam
                     </p>
                 </div>
 
@@ -61,8 +61,8 @@ export default function Guru({ guru }) {
                                     </div>
 
                                     {/* Badge Status */}
-                                    <Link 
-                                    href={`guru/${guru.id}`} 
+                                    <Link
+                                    href={`guru/${guru.id}`}
                                     className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                         Aktif Mengajar
                                     </Link>

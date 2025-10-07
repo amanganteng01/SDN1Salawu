@@ -37,7 +37,7 @@ class UserController extends Controller
         // Menyimpan data user ke database
         User::create($validasi);
         // Mengembalikan ke halaman daftar user
-        return redirect('/admin/daftar/user')->with('success', 'Data user berhasil ditambahkan.');
+        return redirect('/admin/daftar/user');
     }
 
     public function updateUser(Request $request, $id)
@@ -62,7 +62,7 @@ class UserController extends Controller
         // Memperbarui data user
         User::where('id', $id)->update($validasi);
         // Mengembalikan ke halaman daftar user
-        return redirect('/admin/daftar/user')->with('success', 'Data user berhasil diupdate.');
+        return redirect('/admin/daftar/user');
     }
 
     public function hapusUser(Request $request, $id)
@@ -70,6 +70,6 @@ class UserController extends Controller
         // Menghapus data user berdasarkan id
         User::where('id', $id)->delete();
         // Mengembalikan ke halaman daftar user
-        return redirect('/admin/daftar/user')->with('success', 'Data user berhasil dihapus.');
+        return redirect('/admin/daftar/user');
     }
 }

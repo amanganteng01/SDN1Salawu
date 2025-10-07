@@ -1,10 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { Upload, Image, Video } from "lucide-react";
 
-/**
- * Komponen TambahGaleri - Form untuk menambahkan galeri baru
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk menambahkan galeri baru
 export default function TambahGaleri({ onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -49,7 +46,7 @@ export default function TambahGaleri({ onClose }) {
                 />
                 {/* Error message untuk judul */}
                 {errors.judul && (
-                    <div className="text-red-500 text-xs mt-1">{errors.judul}</div>
+                    <div className="text-red-500 text-xs mt-1">Judul Galeri tidak valid</div>
                 )}
             </div>
 
@@ -69,7 +66,7 @@ export default function TambahGaleri({ onClose }) {
                 />
                 {/* Error message untuk keterangan */}
                 {errors.keterangan && (
-                    <div className="text-red-500 text-xs mt-1">{errors.keterangan}</div>
+                    <div className="text-red-500 text-xs mt-1">Keterangan tidak valid</div>
                 )}
             </div>
 
@@ -134,7 +131,7 @@ export default function TambahGaleri({ onClose }) {
                 </div>
                 {/* Error message untuk file */}
                 {errors.file && (
-                    <div className="text-red-500 text-xs mt-1">{errors.file}</div>
+                    <div className="text-red-500 text-xs mt-1">File tidak valid</div>
                 )}
             </div>
 
@@ -153,7 +150,7 @@ export default function TambahGaleri({ onClose }) {
                 />
                 {/* Error message untuk tanggal */}
                 {errors.tanggal && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>
+                    <div className="text-red-500 text-xs mt-1">Tanggal tidak valid</div>
                 )}
             </div>
 

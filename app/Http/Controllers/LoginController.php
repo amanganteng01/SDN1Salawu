@@ -35,6 +35,6 @@ class LoginController extends Controller
         // Melakukan proses logout
         Auth::logout();
         // Mengembalikan ke halaman login dengan pesan sukses
-        return redirect('/login')->with('success','Logout Berhasil');
+        return redirect('/login');
     }
 }

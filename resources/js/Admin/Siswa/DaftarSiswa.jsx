@@ -6,15 +6,11 @@ import EditSiswa from "./EditSiswa";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 import { Plus, Edit, Trash2, MoreVertical, Users, User, Calendar } from "lucide-react";
 
-/**
- * Komponen DaftarSiswa - Menampilkan tabel daftar siswa
- * Fitur: Tambah, Edit, Hapus siswa
- * Responsif untuk desktop dan mobile
- */
+// Menampilkan tabel daftar siswa
 export default function DaftarSiswa({ siswa }) {
     // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -35,7 +31,7 @@ export default function DaftarSiswa({ siswa }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Siswa</h1>
                     <p className="text-gray-600 mt-1">Kelola data siswa sekolah</p>
                 </div>
-                
+
                 {/* Tombol Tambah Siswa */}
                 <button
                     onClick={() => setOpenTambah(true)}
@@ -87,8 +83,8 @@ export default function DaftarSiswa({ siswa }) {
                                         <td className="px-6 py-4 text-sm text-slate-600">{item.nisn}</td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                                item.jenis_kelamin === "L" 
-                                                    ? "bg-blue-100 text-blue-800" 
+                                                item.jenis_kelamin === "L"
+                                                    ? "bg-blue-100 text-blue-800"
                                                     : "bg-pink-100 text-pink-800"
                                             }`}>
                                                 {item.jenis_kelamin === "L" ? "Laki-laki" : "Perempuan"}

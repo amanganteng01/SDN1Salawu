@@ -4,10 +4,7 @@ import { useState } from "react";
 import Modal from "../Modal";
 import EditEkstrakurikuler from "./EditEkstrakurikuler";
 
-/**
- * Komponen DetailEkstrakurikuler - Menampilkan detail lengkap sebuah ekstrakurikuler
- * Fitur: View detail, Edit ekstrakurikuler
- */
+// Menampilkan detail lengkap sebuah ekstrakurikuler
 export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
     // State untuk modal edit
     const [openEdit, setOpenEdit] = useState(false);
@@ -20,7 +17,7 @@ export default function DetailEkstrakurikuler({ ekstrakurikuler }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Detail Ekstrakurikuler</h1>
                     <p className="text-gray-600 mt-1">Informasi lengkap tentang {ekstrakurikuler.nama}</p>
                 </div>
-                
+
                 {/* Tombol Aksi */}
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button

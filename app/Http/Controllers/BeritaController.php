@@ -37,6 +37,7 @@ class BeritaController extends Controller
 
         //upload gambar
         $file = $request->file('gambar');
+        // Memberi nama file degan time
         $filename = time().".".$file->getClientOriginalExtension();
         $file->storeAs('berita', $filename);
 
@@ -47,7 +48,7 @@ class BeritaController extends Controller
         Berita::create($validasi);
 
         // Mengembalikan ke halaman daftar berita dengan pesan sukses
-        return redirect('/admin/daftar/berita')->with('success', 'Data berita berhasil ditambahkan.');
+        return redirect('/admin/daftar/berita');
     }
 
     public function updateBerita(Request $request, String $id){
@@ -79,7 +80,7 @@ class BeritaController extends Controller
         $berita->update($validasi);
 
         // Mengembalikan ke halaman daftar berita dengan pesan sukses
-        return redirect('/admin/daftar/berita')->with('success', 'Data berita berhasil diupdate.');
+        return redirect('/admin/daftar/berita');
     }
 
     public function hapusBerita(String $id){
@@ -91,6 +92,6 @@ class BeritaController extends Controller
         // Menghapus data berita dari database
         $berita->delete();
         // Mengembalikan ke halaman daftar berita dengan pesan sukses
-        return redirect('/admin/daftar/berita')->with('success', 'Data berita berhasil dihapus.');
+        return redirect('/admin/daftar/berita');
     }
 }

@@ -4,10 +4,7 @@ import Modal from "../Modal";
 import EditGaleri from "./EditGaleri";
 import { Edit2, ArrowLeft, Calendar, FileText, Image, Video, Tag } from "lucide-react";
 
-/**
- * Komponen DetailGaleri - Menampilkan detail lengkap sebuah galeri
- * Fitur: View detail, Edit galeri
- */
+// Menampilkan detail lengkap sebuah galeri
 export default function DetailGaleri({ galeri }) {
     // State untuk modal edit
     const [openEdit, setOpenEdit] = useState(false);
@@ -20,7 +17,7 @@ export default function DetailGaleri({ galeri }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Detail Galeri</h1>
                     <p className="text-gray-600 mt-1">Informasi lengkap tentang {galeri.judul}</p>
                 </div>
-                
+
                 {/* Tombol Aksi */}
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button
@@ -52,8 +49,8 @@ export default function DetailGaleri({ galeri }) {
                             className="max-w-full max-h-96 object-contain rounded-lg shadow-md"
                         />
                     ) : (
-                        <video 
-                            controls 
+                        <video
+                            controls
                             className="max-w-full max-h-96 rounded-lg shadow-md"
                         >
                             <source src={`/storage/galeri/${galeri.file}`} type="video/mp4" />
@@ -82,8 +79,8 @@ export default function DetailGaleri({ galeri }) {
                                 <div>
                                     <h3 className="text-sm font-semibold text-slate-500 mb-1">Kategori</h3>
                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
-                                        galeri.kategori === "foto" 
-                                            ? "bg-blue-100 text-blue-800" 
+                                        galeri.kategori === "foto"
+                                            ? "bg-blue-100 text-blue-800"
                                             : "bg-purple-100 text-purple-800"
                                     }`}>
                                         {galeri.kategori === "foto" ? (

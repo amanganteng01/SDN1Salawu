@@ -4,10 +4,7 @@ import { useState } from "react";
 import Modal from "../Modal";
 import EditBerita from "./EditBerita";
 
-/**
- * Komponen DetailBerita - Menampilkan detail lengkap sebuah berita
- * Fitur: View detail, Edit berita
- */
+// Menampilkan detail lengkap sebuah berita
 export default function DetailBerita({ berita }) {
     // State untuk modal edit
     const [openEdit, setOpenEdit] = useState(false);
@@ -20,7 +17,7 @@ export default function DetailBerita({ berita }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Detail Berita</h1>
                     <p className="text-gray-600 mt-1">Informasi lengkap tentang berita</p>
                 </div>
-                
+
                 {/* Tombol Aksi */}
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button

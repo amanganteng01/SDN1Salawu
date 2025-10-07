@@ -4,10 +4,7 @@ import { useState } from "react";
 import Modal from "../Modal";
 import EditProfilSekolah from "./EditProfilSekolah";
 
-/**
- * Komponen DetailProfilSekolah - Menampilkan detail lengkap profil sekolah
- * Fitur: View detail, Edit profil sekolah dengan dashboard style
- */
+// Menampilkan detail lengkap profil sekolah
 export default function DetailProfilSekolah({ profil }) {
     const [openEdit, setOpenEdit] = useState(false);
 

@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Images, Video, Calendar, Filter, Play, X } from "lucide-react";
 
-/**
- * Komponen Galeri - Menampilkan galeri foto dan video sekolah
- * Dengan filter kategori dan lightbox preview
- */
+// Menampilkan galeri foto dan video sekolah
 export default function Galeri({ galeri }) {
     // State untuk filter kategori
     const [kategoriAktif, setKategoriAktif] = useState('semua');
@@ -210,11 +207,11 @@ export default function Galeri({ galeri }) {
 
                 {/* LIGHTBOX MODAL - DIPERBAIKI */}
                 {lightboxTerbuka && itemAktif && (
-                    <div 
+                    <div
                         className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
                         onClick={tutupLightbox} // Tutup ketika klik di background
                     >
-                        <div 
+                        <div
                             className="relative max-w-4xl w-full max-h-full"
                             onClick={(e) => e.stopPropagation()} // Mencegah tutup ketika klik di konten
                         >

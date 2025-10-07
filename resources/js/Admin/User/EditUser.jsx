@@ -2,10 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { User, UserCircle, Lock } from "lucide-react";
 
-/**
- * Komponen EditUser - Form untuk mengedit user yang sudah ada
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk mengedit user yang sudah ada
 export default function EditUser({ user, onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -15,10 +12,7 @@ export default function EditUser({ user, onClose }) {
         role: "Officer",
     });
 
-    /**
-     * Effect untuk mengisi form dengan data user yang akan diedit
-     * Di-trigger ketika prop user berubah
-     */
+    // Untuk mengisi form jika data dalam database sudah ada
     useEffect(() => {
         if (user) {
             setData({
@@ -36,7 +30,7 @@ export default function EditUser({ user, onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint update
         post(`/admin/update/user/${user.id}`, {
             onSuccess: () => {
@@ -59,7 +53,7 @@ export default function EditUser({ user, onClose }) {
                         type="text"
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
-                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm 
+                        className="w-full border border-slate-300 rounded-lg pl-10 pr-4 py-2 text-sm
                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                    transition-colors"
                         placeholder="Masukkan nama lengkap"
@@ -67,7 +61,7 @@ export default function EditUser({ user, onClose }) {
                 </div>
                 {/* Error message untuk nama */}
                 {errors.name && (
-                    <div className="text-red-500 text-xs mt-1">{errors.name}</div>
+                    <div className="text-red-500 text-xs mt-1">Nama Lengkap tidak valid</div>
                 )}
             </div>
 
@@ -90,7 +84,7 @@ export default function EditUser({ user, onClose }) {
                 </div>
                 {/* Error message untuk username */}
                 {errors.username && (
-                    <div className="text-red-500 text-xs mt-1">{errors.username}</div>
+                    <div className="text-red-500 text-xs mt-1">Username tidak valid</div>
                 )}
             </div>
 
@@ -113,7 +107,7 @@ export default function EditUser({ user, onClose }) {
                 </div>
                 {/* Error message untuk password */}
                 {errors.password && (
-                    <div className="text-red-500 text-xs mt-1">{errors.password}</div>
+                    <div className="text-red-500 text-xs mt-1">Password tidak valid</div>
                 )}
             </div>
 
@@ -123,12 +117,12 @@ export default function EditUser({ user, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
                 </button>
-                
+
                 {/* Tombol Submit */}
                 <button
                     type="submit"

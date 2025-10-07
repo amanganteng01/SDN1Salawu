@@ -6,15 +6,11 @@ import EditGuru from "./EditGuru";
 import GunakanWidthWindows from "../GunakanWidthWindows";
 import { Plus, Eye, Edit, Trash2, MoreVertical, User, BookOpen } from "lucide-react";
 
-/**
- * Komponen DaftarGuru - Menampilkan tabel daftar guru
- * Fitur: Tambah, Edit, Hapus, Detail guru
- * Responsif untuk desktop dan mobile
- */
+// Menampilkan tabel daftar guru
 export default function DaftarGuru({ guru }) {
     // Mengambil lebar window untuk responsive design
     const width = GunakanWidthWindows();
-    
+
     // State untuk modal dan aksi
     const [openTambah, setOpenTambah] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
@@ -35,7 +31,7 @@ export default function DaftarGuru({ guru }) {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Daftar Guru</h1>
                     <p className="text-gray-600 mt-1">Kelola data guru dan staff pengajar</p>
                 </div>
-                
+
                 {/* Tombol Tambah Guru */}
                 <button
                     onClick={() => setOpenTambah(true)}
@@ -59,16 +55,16 @@ export default function DaftarGuru({ guru }) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-200">
+                            {/* loop data guru */}
                             {guru.length > 0 ? (
-                                // Loop data guru
                                 guru.map((item, i) => (
                                     <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                                         <td className="px-6 py-4 text-sm text-slate-600">{i + 1}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 {item.foto ? (
-                                                    <img 
-                                                        src={`/storage/guru/${item.foto}`} 
+                                                    <img
+                                                        src={`/storage/guru/${item.foto}`}
                                                         alt={item.nama}
                                                         className="w-10 h-10 object-cover rounded-full"
                                                     />

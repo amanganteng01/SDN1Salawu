@@ -13,7 +13,7 @@ class ProfilSekolahController extends Controller
     {
         $id = 1;
         $profil = ProfilSekolah::findOrFail($id);
-        
+
         // Tambahkan URL lengkap untuk foto dan logo
         if ($profil->foto) {
             $profil->foto_url = Storage::url('foto/' . $profil->foto);
@@ -21,7 +21,7 @@ class ProfilSekolahController extends Controller
         if ($profil->logo) {
             $profil->logo_url = Storage::url('logo/' . $profil->logo);
         }
-        
+
         return Inertia::render('ProfilSekolah/DetailProfilSekolah', ['profil' => $profil]);
     }
 
@@ -51,10 +51,10 @@ class ProfilSekolahController extends Controller
             if ($profil->foto && Storage::exists('foto/' . $profil->foto)) {
                 Storage::delete('foto/' . $profil->foto);
             }
-            
+
             $foto = $request->file('foto');
             $fotoName = 'foto_' . time() . '.' . $foto->getClientOriginalExtension();
-            
+
             // Simpan ke storage - Gunakan putFileAs untuk lebih reliable
             $foto->storeAs('foto', $fotoName);
             $validasi['foto'] = $fotoName;
@@ -69,10 +69,10 @@ class ProfilSekolahController extends Controller
             if ($profil->logo && Storage::exists('logo/' . $profil->logo)) {
                 Storage::delete('logo/' . $profil->logo);
             }
-            
+
             $logo = $request->file('logo');
             $logoName = 'logo_' . time() . '.' . $logo->getClientOriginalExtension();
-            
+
             // Simpan ke storage
             $logo->storeAs('logo', $logoName);
             $validasi['logo'] = $logoName;
@@ -83,7 +83,7 @@ class ProfilSekolahController extends Controller
 
         // Update data
         $profil->update($validasi);
-        
-        return redirect('/admin/show/profil/sekolah')->with('success', 'Data profil sekolah berhasil diperbarui.');
+
+        return redirect('/admin/show/profil/sekolah');
     }
 }

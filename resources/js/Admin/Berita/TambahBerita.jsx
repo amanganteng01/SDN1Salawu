@@ -1,14 +1,11 @@
 import { useForm } from "@inertiajs/react";
 
-/**
- * Komponen TambahBerita - Form untuk menambahkan berita baru
- * Menggunakan useForm dari Inertia untuk handle form state dan submission
- */
+// Form untuk menambahkan berita baru
 export default function TambahBerita({ onClose }) {
     // Inisialisasi form dengan useForm hook
     const { data, setData, post, processing, errors, reset } = useForm({
         judul: "",   // Input judul berita
-        isi: "",     // Input isi berita  
+        isi: "",     // Input isi berita
         tanggal: "", // Input tanggal berita
         gambar: null // Input file gambar berita
     });
@@ -19,7 +16,7 @@ export default function TambahBerita({ onClose }) {
      */
     const submit = (e) => {
         e.preventDefault(); // Mencegah reload halaman
-        
+
         // Kirim data ke endpoint simpan
         post("/admin/simpan/berita", {
             onSuccess: () => {
@@ -47,7 +44,7 @@ export default function TambahBerita({ onClose }) {
                 />
                 {/* Error message untuk judul */}
                 {errors.judul && (
-                    <div className="text-red-500 text-xs mt-1">{errors.judul}</div>
+                    <div className="text-red-500 text-xs mt-1">Judul tidak valid</div>
                 )}
             </div>
 
@@ -66,7 +63,7 @@ export default function TambahBerita({ onClose }) {
                 />
                 {/* Error message untuk tanggal */}
                 {errors.tanggal && (
-                    <div className="text-red-500 text-xs mt-1">{errors.tanggal}</div>
+                    <div className="text-red-500 text-xs mt-1">Tanggal tidak valid</div>
                 )}
             </div>
 
@@ -86,7 +83,7 @@ export default function TambahBerita({ onClose }) {
                 />
                 {/* Error message untuk isi berita */}
                 {errors.isi && (
-                    <div className="text-red-500 text-xs mt-1">{errors.isi}</div>
+                    <div className="text-red-500 text-xs mt-1">Isi berita tidak valid</div>
                 )}
             </div>
 
@@ -105,7 +102,7 @@ export default function TambahBerita({ onClose }) {
                 />
                 {/* Error message untuk gambar */}
                 {errors.gambar && (
-                    <div className="text-red-500 text-xs mt-1">{errors.gambar}</div>
+                    <div className="text-red-500 text-xs mt-1">Gambar tidak valid</div>
                 )}
             </div>
 
@@ -115,7 +112,7 @@ export default function TambahBerita({ onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 
+                    className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800
                                hover:bg-slate-100 rounded-lg transition-colors"
                 >
                     Batal
